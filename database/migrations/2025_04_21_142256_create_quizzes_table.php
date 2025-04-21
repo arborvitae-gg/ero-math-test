@@ -11,14 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $table->id();
-        $table->foreignId('user_id')->constrained();
-        $table->foreignId('category_id')->constrained();
-        $table->enum('status', ['in_progress', 'completed'])->default('in_progress');
-        $table->timestamp('started_at')->useCurrent();
-        $table->timestamp('completed_at')->nullable();
-        $table->unsignedInteger('total_score')->nullable();
-        $table->timestamps();
+        Schema::create('quizzes', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('category_id')->constrained();
+            $table->enum('status', ['in_progress', 'completed'])->default('in_progress');
+            $table->timestamp('started_at')->useCurrent();
+            $table->timestamp('completed_at')->nullable();
+            $table->unsignedInteger('total_score')->nullable();
+            $table->timestamps();
+        });
     }
 
     /**
