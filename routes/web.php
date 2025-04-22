@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\User\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\QuizController;
-use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\QuizController;
+use App\Http\Controllers\Admin\QuestionController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -21,8 +22,17 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    // User
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::patch('/users/{user}', [UserController::class, 'update'])->name('users.update');
+
+    // Question
     Route::resource('questions', QuestionController::class)->except(['show']);
+
+
 });
+
 
 // Placeholder, not yet final
 // Route::middleware(['auth', 'role:user'])->group(function () {

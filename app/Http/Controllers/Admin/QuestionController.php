@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Models\Question;
 use App\Models\Category;
 use App\Models\QuestionChoice;
-use App\Http\Requests\StoreQuestionRequest;
+use App\Http\Requests\Admin\StoreQuestionRequest;
 use App\Services\QuestionService;
 
-class QuestionController extends Controller
+class QuestionController
 {
     protected $service;
 
