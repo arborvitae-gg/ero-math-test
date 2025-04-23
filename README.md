@@ -6,7 +6,7 @@
 
 -   PHP 8.4.5
 -   Apache 2.4.63
--   Database may be disabled in Laragon preferences (Settings/Services & Ports)
+-   Database may be disabled in Laragon preferences since Supabase would be used instead (Settings/Services & Ports)
 
 ### Install the following PHP extensions: (Menu/PHP/Extensions)
 
