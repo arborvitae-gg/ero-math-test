@@ -17,7 +17,7 @@
                     <a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a>
 
                     @if (Auth::user()->role === 'admin')
-                        {{-- <a href="{{ route('admin.users') }}">{{ __('Users') }}</a> --}}
+                        <a href="{{ route('admin.users.index') }}">{{ __('Users') }}</a>
                         <a href="{{ route('admin.questions.index') }}">{{ __('Questions') }}</a>
                     @endif
                 </div>

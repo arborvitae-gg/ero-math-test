@@ -26,23 +26,10 @@ class QuestionController
         return view('admin.questions', compact('questions', 'categories'));
     }
 
-    public function create()
-    {
-        $categories = Category::all();
-        return view('admin.create-question', compact('categories'));
-    }
-
     public function store(StoreQuestionRequest $request)
     {
         $this->service->store($request->validated());
         return redirect()->route('admin.questions.index')->with('status', 'Question created!');
-    }
-
-    public function edit(Question $question)
-    {
-        $question->load('choices');
-        $categories = Category::all();
-        return view('admin.edit-question', compact('question', 'categories'));
     }
 
     public function update(StoreQuestionRequest $request, Question $question)

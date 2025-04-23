@@ -14,7 +14,7 @@ class Question extends Model
 
     public function choices()
     {
-        return $this->hasMany(QuestionChoice::class);
+        return $this->hasMany(QuestionChoice::class)->orderBy('id'); // maintain choice position order
     }
 
     public function category()

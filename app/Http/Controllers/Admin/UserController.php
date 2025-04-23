@@ -23,11 +23,6 @@ class UserController
         return view('admin.users', compact('users'));
     }
 
-    public function edit(User $user)
-    {
-        return view('admin.edit-user', compact('user'));
-    }
-
     public function update(UserUpdateRequest $request, User $user)
     {
         $this->service->update($user, $request->validated());

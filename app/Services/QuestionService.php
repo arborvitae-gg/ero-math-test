@@ -20,7 +20,7 @@ class QuestionService
                 'question_id' => $question->id,
                 'choice_content' => $choice['choice_content'],
                 'choice_type' => $choice['choice_type'],
-                'is_correct' => $index == $data['correct_choice_index'],
+                'is_correct' => $index == 0,
             ]);
         }
 
@@ -35,12 +35,15 @@ class QuestionService
         ]);
 
         foreach ($data['choices'] as $index => $choice) {
-            $qChoice = $question->choices[$index];
-            $qChoice->update([
-                'choice_content' => $choice['choice_content'],
-                'choice_type' => $choice['choice_type'],
-                'is_correct' => $index == $data['correct_choice_index'],
-            ]);
+            $qChoice = $question->choices[$index] ?? null;
+
+            if ($qChoice) {
+                $qChoice->update([
+                    'choice_content' => $choice['choice_content'],
+                    'choice_type' => $choice['choice_type'],
+                    'is_correct' => $index === 0,
+                ]);
+            }
         }
 
         return $question;

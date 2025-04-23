@@ -27,7 +27,6 @@ class StoreQuestionRequest extends FormRequest
             'question_content' => ['required', 'string'],
             'choices.*.choice_content' => ['required', 'string'],
             'choices.*.choice_type' => ['required', 'in:text,image'],
-            'correct_choice_index' => ['required', 'integer', 'between:0,3'],
         ];
     }
 }
