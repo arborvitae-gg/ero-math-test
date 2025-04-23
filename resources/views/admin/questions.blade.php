@@ -5,7 +5,12 @@
 
     @php $defaultCategory = $categories->first(); @endphp
 
-    <div x-data="{ categoryId: '{{ $defaultCategory->id }}' }">
+    <div x-data="{
+        categoryId: localStorage.getItem('categoryId') || '{{ $defaultCategory->id }}',
+        init() {
+            this.$watch('categoryId', value => localStorage.setItem('categoryId', value))
+        }
+    }">
         <!-- Filter by Category -->
         <div>
             <label>Filter by Category:</label>
