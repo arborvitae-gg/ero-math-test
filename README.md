@@ -22,6 +22,8 @@ Create a Supabase Account, then send your Supabase email to get an invitation to
 -   Make sure to have a '.env' file (Copy '.env.example' and rename it to '.env')
 -   In '.env', change database details to the ones in Supabase (needs to be invited to Supabase Project First)
 -   Generate an APK Key using the command: php artisan key:generate
+-   use command: composer install (install dependencies from composer.json)
+-   use command: npm install (install node modules)
 -   activate Alpine.js(used in add/edit question model) using the command: npm run dev (refresh the webpage afterwards)
 -   disable Classless CSS styling pages (when starting to style the page)
 
