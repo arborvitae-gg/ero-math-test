@@ -14,7 +14,7 @@
 
     <!-- Question -->
     <div>
-        <label>Question Content</label>
+        <h4>Question Content</h4>
         <textarea name="question_content" required>{{ old('question_content', $question->question_content ?? '') }}</textarea>
         <select name="question_type" required>
             <option value="text"

@@ -7,6 +7,7 @@
 
     <div>
         <table>
+            {{-- table head --}}
             <thead>
                 <tr>
                     <th>{{ __('Name') }}</th>
@@ -16,6 +17,8 @@
                     <th>{{ __('Coach') }}</th>
                 </tr>
             </thead>
+
+            {{-- table body --}}
             <tbody>
                 @foreach ($users as $user)
                     <tr>
