@@ -23,7 +23,7 @@ Create a Supabase Account, then send your Supabase email to get an invitation to
 -   In '.env', change database details to the ones in Supabase (needs to be invited to Supabase Project First)
 -   Generate an APK Key using the command: php artisan key:generate
 -   activate Alpine.js(used in add/edit question model) using the command: npm run dev (refresh the webpage afterwards)
--   disable Classless CSS styling pages
+-   disable Classless CSS styling pages (when starting to style the page)
 
 ## Authentication
 
