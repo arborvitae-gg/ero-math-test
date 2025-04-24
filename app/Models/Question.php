@@ -12,14 +12,19 @@ class Question extends Model
         'question_content',
     ];
 
-    public function choices()
+    public function quiz()
     {
-        return $this->hasMany(QuestionChoice::class)->orderBy('id'); // maintain choice position order
+        return $this->belongsTo(Quiz::class);
     }
 
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function choices()
+    {
+        return $this->hasMany(QuestionChoice::class)->orderBy('id'); // maintain choice position order
     }
 
     public function attempts()

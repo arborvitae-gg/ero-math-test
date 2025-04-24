@@ -52,8 +52,8 @@ class User extends Authenticatable
         ];
     }
 
-    public function quizzes()
+    public function quizSessions()
     {
-        return $this->hasMany(Quiz::class);
+        return $this->hasMany(QuizUser::class);
     }
 }

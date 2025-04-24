@@ -6,6 +6,10 @@
         @method('PATCH')
     @endif
 
+    @if ($quiz)
+        <input type="hidden" name="quiz_id" value="{{ $quiz->id }}">
+    @endif
+
     @if ($question)
         <input type="hidden" name="category_id" value="{{ $question->category_id }}">
     @else
