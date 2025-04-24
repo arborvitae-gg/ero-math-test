@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('quizzes', function (Blueprint $table) {
-            $table->boolean('can_view_score')->default(FALSE);
+        Schema::table('questions', function (Blueprint $table) {
+            $table->foreignId('quiz_id')->constrained()->onDelete('cascade');
         });
     }
 

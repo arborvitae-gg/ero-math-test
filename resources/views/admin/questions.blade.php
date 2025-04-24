@@ -3,12 +3,15 @@
         <h2>{{ __('Questions') }}</h2>
     </x-slot>
 
-    @php $defaultCategory = $categories->first(); @endphp
+    @php
+        $defaultCategory = $categories->first();
+        $localStorageKey = 'categoryId_quiz_' . $quiz->id;
+    @endphp
 
     <div x-data="{
-        categoryId: localStorage.getItem('categoryId') || '{{ $defaultCategory->id }}',
+        categoryId: localStorage.getItem('{{ $localStorageKey }}') || '{{ $defaultCategory->id }}',
         init() {
-            this.$watch('categoryId', value => localStorage.setItem('categoryId', value))
+            this.$watch('categoryId', value => localStorage.setItem('{{ $localStorageKey }}', value))
         }
     }">
         <!-- Filter by Category -->
@@ -25,13 +28,14 @@
         <!-- Toggle Button -->
         <div x-data="{ showCreate: false }">
             <button @click="showCreate = !showCreate">
-                + Add Question
+                + Add Question Popup Modal Toggle
             </button>
 
             <!-- Add Question Form -->
             <div x-show="showCreate">
                 @include('admin.partials.question-form', [
-                    'action' => route('admin.questions.store'),
+                    'quiz' => $quiz,
+                    'action' => route('admin.quizzes.questions.store', $quiz),
                     'method' => 'POST',
                 ])
             </div>
@@ -64,19 +68,20 @@
 
                     <div>
                         <div x-data="{ editing: false }">
-                            <button @click="editing = !editing">Edit</button>
+                            <button @click="editing = !editing">Edit Popup Modal Toggle</button>
 
                             <div x-show="editing">
                                 @include('admin.partials.question-form', [
+                                    // 'quiz' => $quiz,
                                     'question' => $question,
-                                    'action' => route('admin.questions.update', $question),
+                                    'action' => route('admin.quizzes.questions.store', $quiz),
                                     'method' => 'PATCH',
                                 ])
                             </div>
                         </div>
 
-                        <form action="{{ route('admin.questions.destroy', $question) }}" method="POST"
-                            onsubmit="return confirm('Are you sure?');">
+                        <form action="{{ route('admin.quizzes.questions.destroy', [$quiz, $question]) }}"
+                            method="POST" onsubmit="return confirm('Are you sure?');">
                             @csrf
                             @method('DELETE')
                             <button type="submit">Delete</button>

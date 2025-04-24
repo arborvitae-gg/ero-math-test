@@ -7,29 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 class Quiz extends Model
 {
     protected $fillable = [
-        'user_id',
-        'category_id',
-        'status',
-        'started_at',
-        'completed_at',
-        'total_score',
+        'title',
+        'is_posted',
+        'timer'
     ];
 
-    protected $dates = ['started_at', 'completed_at'];
-
-    public function user()
+    public function users()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(QuizUser::class);
     }
 
-    public function category()
+    public function questions()
     {
-        return $this->belongsTo(Category::class);
+        return $this->hasMany(Question::class);
     }
-
-    public function attempts()
-    {
-        return $this->hasMany(QuizAttempt::class);
-    }
-
 }

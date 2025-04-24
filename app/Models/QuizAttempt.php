@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class QuizAttempt extends Model
 {
     protected $fillable = [
-        'quiz_id',
+        'quiz_user_id',
         'question_id',
         'question_choice_id',
         'is_correct',
@@ -16,9 +16,9 @@ class QuizAttempt extends Model
 
     protected $dates = ['answered_at'];
 
-    public function quiz()
+    public function quizUser()
     {
-        return $this->belongsTo(Quiz::class);
+        return $this->belongsTo(QuizUser::class);
     }
 
     public function question()
