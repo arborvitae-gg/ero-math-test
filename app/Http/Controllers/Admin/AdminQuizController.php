@@ -5,9 +5,18 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Quiz;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Services\AdminQuizService;
+use App\Http\Requests\Admin\AdminQuizRequest;
 
 class AdminQuizController
 {
+    protected $service;
+
+    public function __construct(AdminQuizService $service)
+    {
+        $this->service = $service;
+    }
+
     public function index()
     {
         $quizzes = Quiz::with('questions')->get();
@@ -16,39 +25,23 @@ class AdminQuizController
         return view('admin.quizzes', compact('quizzes', 'categories'));
     }
 
-    public function store(Request $request)
+    public function store(AdminQuizRequest $request)
     {
-        $data = $request->validate([
-            'title' => ['required', 'string'],
-            'timer' => ['nullable', 'integer'],
-            'is_posted' => ['nullable', 'boolean'],
-        ]);
-
-        $data['is_posted'] = $request->has('is_posted');
-
-        Quiz::create($data);
+        $this->service->store($request->validated());
 
         return redirect()->route('admin.quizzes.index')->with('status', 'Quiz created!');
     }
 
-    public function update(Request $request, Quiz $quiz)
+    public function update(AdminQuizRequest $request, Quiz $quiz)
     {
-        $data = $request->validate([
-            'title' => ['required', 'string'],
-            'timer' => ['nullable', 'integer'],
-            'is_posted' => ['nullable', 'boolean'],
-        ]);
-
-        $data['is_posted'] = $request->has('is_posted');
-
-        $quiz->update($data);
+        $this->service->update($quiz, $request->validated());
 
         return redirect()->route('admin.quizzes.index')->with('status', 'Quiz updated!');
     }
 
     public function destroy(Quiz $quiz)
     {
-        $quiz->delete();
+        $this->service->delete($quiz);
 
         return redirect()->route('admin.quizzes.index')->with('status', 'Quiz deleted!');
     }

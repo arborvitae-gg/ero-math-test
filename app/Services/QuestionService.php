@@ -10,6 +10,7 @@ class QuestionService
     public function store(array $data): Question
     {
         $question = Question::create([
+            'quiz_id' => $data['quiz_id'],
             'category_id' => $data['category_id'],
             'question_type' => $data['question_type'],
             'question_content' => $data['question_content'],
@@ -47,5 +48,10 @@ class QuestionService
         }
 
         return $question;
+    }
+
+    public function delete(Question $question): void
+    {
+        $question->delete();
     }
 }

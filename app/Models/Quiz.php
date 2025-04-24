@@ -12,6 +12,11 @@ class Quiz extends Model
         'timer'
     ];
 
+    // public function getRouteKeyName()
+    // {
+    //     return 'slug'; // or 'title' if you slugify it later
+    // }
+
     public function users()
     {
         return $this->hasMany(QuizUser::class);

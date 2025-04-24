@@ -72,9 +72,9 @@
 
                             <div x-show="editing">
                                 @include('admin.partials.question-form', [
-                                    // 'quiz' => $quiz,
+                                    'quiz' => $quiz,
                                     'question' => $question,
-                                    'action' => route('admin.quizzes.questions.store', $quiz),
+                                    'action' => route('admin.quizzes.questions.update', [$quiz, $question]),
                                     'method' => 'PATCH',
                                 ])
                             </div>

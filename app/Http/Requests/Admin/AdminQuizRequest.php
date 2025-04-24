@@ -4,7 +4,7 @@ namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreQuestionRequest extends FormRequest
+class AdminQuizRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +22,16 @@ class StoreQuestionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'category_id' => ['required', 'exists:categories,id'],
-            'question_type' => ['required', 'in:text,image'],
-            'question_content' => ['required', 'string'],
-            'choices.*.choice_content' => ['required', 'string'],
-            'choices.*.choice_type' => ['required', 'in:text,image'],
+            'title' => ['required', 'string'],
+            'timer' => ['nullable', 'integer'],
+            'is_posted' => ['nullable', 'boolean'],
         ];
+    }
+
+    public function validated($key = null, $default = null)
+    {
+        $data = parent::validated($key, $default);
+        $data['is_posted'] = $this->has('is_posted');
+        return $data;
     }
 }
