@@ -1,9 +1,9 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
-    <!-- Primary Navigation Menu -->
+<nav x-data="{ open: false }">
+    {{-- Primary Navigation Menu --}}
     <div>
         <div>
             <div>
-                <!-- Logo -->
+                {{-- Logo --}}
                 <div>
                     <a href="{{ route('dashboard') }}">
                         Logo
@@ -11,21 +11,25 @@
                     </a>
                 </div>
 
-                <!-- Navigation Links -->
+                {{-- Navigation Links --}}
                 <div>
                     {{-- active="request()->routeIs('dashboard') --}}
                     <a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a>
 
+                    {{-- Admin Navigation Links --}}
                     @if (Auth::user()->role === 'admin')
                         <a href="{{ route('admin.users.index') }}">{{ __('Users') }}</a>
                         <a href="{{ route('admin.quizzes.index') }}">{{ __('Quizzes') }}</a>
                     @endif
+
+                    {{-- User Navigation Links --}}
+
                 </div>
             </div>
 
-            <!-- Settings -->
+            {{-- Profile edit and logout --}}
             <div>
-                <p>{{ Auth::user()->name }}</p>
+                <p>{{ Auth::user()->first_name }}</p>
 
                 <a href="{{ route('profile.edit') }}">{{ __('Profile') }}</a>
 

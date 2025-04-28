@@ -5,18 +5,21 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Ero-Math Competition</title>
+    <title>
+        Ero-Math Competition
+    </title>
 
-    <!-- Styles / Scripts -->
+    {{-- Styles / Scripts --}}
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-        {{-- Classless CSS script, remove if you want to start styling --}}
+        {{-- Classless CSS script, remove or comment out if you want to start styling --}}
         {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/digitallytailored/classless@latest/classless.min.css"> --}}
     @endif
 </head>
 
 <body>
+
     <header>
         @if (Route::has('login'))
             <nav>
@@ -31,10 +34,12 @@
             </nav>
         @endif
     </header>
+
     <main>
         <h1>Welcome to Ero-Math Competition</h1>
         <p>You're home.</p>
     </main>
+
 </body>
 
 </html>

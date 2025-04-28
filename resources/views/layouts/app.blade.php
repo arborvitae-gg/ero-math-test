@@ -6,12 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>
+        {{ config('app.name', 'Laravel') }}
+    </title>
 
-    <!-- Scripts -->
+    {{-- Styles / Scripts --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    {{-- Classless CSS script, remove if you want to start styling --}}
+    {{-- Classless CSS script, remove or comment out if you want to start styling --}}
     {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/digitallytailored/classless@latest/classless.min.css"> --}}
 </head>
 
@@ -19,7 +21,7 @@
     <div>
         @include('layouts.navigation')
 
-        <!-- Page Heading -->
+        {{-- Page Heading --}}
         @isset($header)
             <header>
                 <div>
@@ -28,7 +30,7 @@
             </header>
         @endisset
 
-        <!-- Page Content -->
+        {{-- Page Content --}}
         <main>
             {{ $slot }}
         </main>

@@ -1,4 +1,5 @@
 <x-app-layout>
+
     <x-slot name="header">
         <h2>
             {{ __('Users') }}
@@ -7,7 +8,7 @@
 
     <div>
         <table>
-            {{-- table head --}}
+            {{-- thead = table head --}}
             <thead>
                 <tr>
                     <th>{{ __('Name') }}</th>
@@ -18,8 +19,9 @@
                 </tr>
             </thead>
 
-            {{-- table body --}}
+            {{-- tbody = table body --}}
             <tbody>
+                {{-- foreach loops through all the users in the database --}}
                 @foreach ($users as $user)
                     <tr>
                         <td>{{ $user->first_name }} {{ $user->last_name }}</td>
@@ -30,6 +32,8 @@
                     </tr>
                 @endforeach
             </tbody>
+
         </table>
     </div>
+
 </x-app-layout>
