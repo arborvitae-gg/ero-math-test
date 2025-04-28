@@ -33,14 +33,14 @@ Login using the following information:
 
 # User Role
 
-User can access the quiz page (not yet functional)
+User can access the userQuiz(where users take the quiz) page (not yet functional)
 
 -   Email: admin@example.com
 -   Password: password
 
 # Admin Role
 
-Admin can access the user and question pages
+Admin can access the user and adminQuiz(list of quizzes) pages
 
 -   Email: user@example.com
 -   Password: password
