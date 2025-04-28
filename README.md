@@ -24,8 +24,7 @@ Create a Supabase Account, then send your Supabase email to get an invitation to
 -   Generate an APK Key using the command: php artisan key:generate
 -   use command: composer install (install dependencies from composer.json)
 -   use command: npm install (install node modules)
--   activate Alpine.js(used in add/edit question model) using the command: npm run dev (refresh the webpage afterwards)
--   disable Classless CSS styling pages (when starting to style the page)
+-   use command: npm run dev (activates Alpinejs toggleable button modals) (refresh webpage afterwards)
 
 ## Authentication
 
@@ -33,14 +32,14 @@ Login using the following information:
 
 # User Role
 
-User can access the quiz page (not yet functional)
+User can access the userQuiz(where users take the quiz) page (not yet functional)
 
 -   Email: admin@example.com
 -   Password: password
 
 # Admin Role
 
-Admin can access the user and question pages
+Admin can access the user and adminQuiz(list of quizzes) pages
 
 -   Email: user@example.com
 -   Password: password
