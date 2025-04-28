@@ -24,8 +24,7 @@ Create a Supabase Account, then send your Supabase email to get an invitation to
 -   Generate an APK Key using the command: php artisan key:generate
 -   use command: composer install (install dependencies from composer.json)
 -   use command: npm install (install node modules)
--   activate Alpine.js(used in add/edit question model) using the command: npm run dev (refresh the webpage afterwards)
--   disable Classless CSS styling pages (when starting to style the page)
+-   use command: npm run dev (activates Alpinejs toggleable button modals) (refresh webpage afterwards)
 
 ## Authentication
 
