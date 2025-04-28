@@ -20,7 +20,6 @@ return new class extends Migration
             $table->timestamp('answered_at')->useCurrent();
             $table->timestamps();
         });
-
     }
 
     /**

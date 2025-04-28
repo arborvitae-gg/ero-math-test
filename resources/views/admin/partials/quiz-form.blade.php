@@ -18,6 +18,7 @@
 
     <div>
         <label>
+            {{-- is_posted checks if the quiz will be accessible by normal users  --}}
             <input type="checkbox" name="is_posted" value="1"
                 {{ old('is_posted', $quiz->is_posted ?? false) ? 'checked' : '' }} />
             Post Now?

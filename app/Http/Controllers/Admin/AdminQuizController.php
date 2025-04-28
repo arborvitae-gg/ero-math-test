@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Quiz;
 use App\Models\Category;
-use Illuminate\Http\Request;
 use App\Services\AdminQuizService;
 use App\Http\Requests\Admin\AdminQuizRequest;
 
