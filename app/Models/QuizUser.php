@@ -9,7 +9,9 @@ class QuizUser extends Model
     protected $fillable = [
         'quiz_id', 'user_id', 'category_id',
         'status', 'total_score', 'started_at',
-        'completed_at', 'can_view_score'
+        'completed_at', 'can_view_score',
+        'current_question', // ???
+        'question_order' // ???
     ];
 
     protected $dates = ['started_at', 'completed_at'];

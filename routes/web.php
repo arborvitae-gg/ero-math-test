@@ -39,4 +39,14 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->grou
     });
 });
 
+// Route::prefix('user')->middleware(['auth', 'role:user'])->name('user.')->group(function () {
+//     Route::get('/dashboard', [UserQuizController::class, 'index'])->name('dashboard');
+//     Route::post('/quizzes/{quiz}/start', [UserQuizController::class, 'start'])->name('quizzes.start');
+//     Route::get('/quizzes/{quizUser}', [UserQuizController::class, 'show'])->name('quizzes.show');
+//     Route::post('/quizzes/{quizUser}/questions/{question}/save', [UserQuizController::class, 'saveAnswer'])->name('quizzes.saveAnswer');
+//     Route::post('/quizzes/{quizUser}/submit', [UserQuizController::class, 'submit'])->name('quizzes.submit');
+//     Route::get('/quizzes/{quizUser}/completed', [UserQuizController::class, 'completed'])->name('quizzes.completed');
+//     Route::get('/quizzes/{quizUser}/results', [UserQuizController::class, 'results'])->name('quizzes.results');
+// });
+
 require __DIR__.'/auth.php';

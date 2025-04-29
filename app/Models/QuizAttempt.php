@@ -12,6 +12,7 @@ class QuizAttempt extends Model
         'question_choice_id',
         'is_correct',
         'answered_at',
+        'choice_order', // ???
     ];
 
     protected $dates = ['answered_at'];
