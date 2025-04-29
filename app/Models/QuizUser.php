@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class QuizUser extends Model
 {
@@ -14,7 +15,13 @@ class QuizUser extends Model
         'uuid',
     ];
 
-    protected $dates = ['started_at', 'completed_at'];
+    protected $casts = [
+        'question_order' => 'array',
+        'started_at' => 'datetime',
+        'completed_at' => 'datetime',
+    ];
+
+    // protected $dates = ['started_at', 'completed_at'];
 
     protected static function booted()
     {

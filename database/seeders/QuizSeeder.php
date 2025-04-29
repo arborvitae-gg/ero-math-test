@@ -4,10 +4,12 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 use App\Models\Quiz;
 use App\Models\Category;
 use App\Models\Question;
 use App\Models\QuestionChoice;
+
 
 class QuizSeeder extends Seeder
 {
