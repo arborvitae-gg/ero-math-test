@@ -8,14 +8,22 @@ class Quiz extends Model
 {
     protected $fillable = [
         'title',
+        'slug',
         'is_posted',
         'timer'
     ];
 
-    // public function getRouteKeyName()
-    // {
-    //     return 'slug'; // or 'title' if you slugify it later
-    // }
+    protected static function booted()
+    {
+        static::creating(function ($quiz) {
+            $quiz->slug = Str::slug($quiz->title);
+        });
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
     public function users()
     {

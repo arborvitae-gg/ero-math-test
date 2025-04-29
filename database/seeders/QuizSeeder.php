@@ -18,8 +18,8 @@ class QuizSeeder extends Seeder
     {
         $quiz = Quiz::create([
             'title' => 'Math Quiz 2025',
-            'is_posted' => true,
-            'timer' => 600, // 10 mins
+            'slug' => Str::slug('Math Quiz 2025'), // explicitly added in case seeding bypasses model events
+            'is_posted' => false,
         ]);
 
         $categories = Category::all();
@@ -39,7 +39,6 @@ class QuizSeeder extends Seeder
                     'question_content' => "What is $questionText?",
                 ]);
 
-                // First = correct
                 QuestionChoice::create([
                     'question_id' => $question->id,
                     'choice_content' => (string)$correctAnswer,
@@ -47,7 +46,6 @@ class QuizSeeder extends Seeder
                     'is_correct' => true,
                 ]);
 
-                // Three wrong answers
                 for ($j = 0; $j < 3; $j++) {
                     QuestionChoice::create([
                         'question_id' => $question->id,

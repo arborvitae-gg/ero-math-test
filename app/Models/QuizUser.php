@@ -10,13 +10,20 @@ class QuizUser extends Model
         'quiz_id', 'user_id', 'category_id',
         'status', 'total_score', 'started_at',
         'completed_at', 'can_view_score',
-        'question_order',
-        'current_question',
+        'question_order', 'current_question',
+        'uuid',
     ];
 
     protected $dates = ['started_at', 'completed_at'];
 
-    public function getRouteKeyName() // for 404 not found when starting quizzes
+    protected static function booted()
+    {
+        static::creating(function ($quizUser) {
+            $quizUser->uuid = (string) Str::uuid();
+        });
+    }
+
+    public function getRouteKeyName()
     {
         return 'uuid';
     }

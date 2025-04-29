@@ -32,7 +32,7 @@ class UserQuizController
         $user = Auth::user();
         $quizUser = $this->quizService->startQuiz($quiz, $user);
 
-        return redirect()->route('user.quizzes.show', $quizUser);
+        return redirect()->route('user.quizzes.show', ['quizUser' => $quizUser->uuid]);
     }
 
     public function show(QuizUser $quizUser)
