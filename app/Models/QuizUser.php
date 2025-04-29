@@ -10,11 +10,16 @@ class QuizUser extends Model
         'quiz_id', 'user_id', 'category_id',
         'status', 'total_score', 'started_at',
         'completed_at', 'can_view_score',
-        'current_question', // ???
-        'question_order' // ???
+        'question_order',
+        'current_question',
     ];
 
     protected $dates = ['started_at', 'completed_at'];
+
+    public function getRouteKeyName() // for 404 not found when starting quizzes
+    {
+        return 'uuid';
+    }
 
     public function quiz()
     {

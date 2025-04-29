@@ -13,16 +13,16 @@
 
                 {{-- Navigation Links --}}
                 <div>
-                    {{-- active="request()->routeIs('dashboard') --}}
-                    <a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a>
-
                     {{-- Admin Navigation Links --}}
                     @if (Auth::user()->role === 'admin')
+                        <a href="{{ route('admin.dashboard') }}">{{ __('Dashboard') }}</a>
                         <a href="{{ route('admin.users.index') }}">{{ __('Users') }}</a>
                         <a href="{{ route('admin.quizzes.index') }}">{{ __('Quizzes') }}</a>
-                    @endif
 
-                    {{-- User Navigation Links --}}
+                        {{-- User Navigation Links --}}
+                    @else
+                        <a href="{{ route('user.dashboard') }}">{{ __('Dashboard') }}</a>
+                    @endif
 
                 </div>
             </div>

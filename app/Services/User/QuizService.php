@@ -3,6 +3,7 @@
 namespace App\Services\User;
 
 use App\Models\Quiz;
+use App\Models\Category;
 use App\Models\QuizUser;
 use App\Models\Question;
 use App\Models\QuizAttempt;
@@ -12,12 +13,18 @@ class QuizService
 {
     public function startQuiz(Quiz $quiz, $user)
     {
+        $category = Category::findCategoryForGrade($user->grade_level);
+
+        if (!$category) {
+            abort(403, 'No quiz available for your grade level.');
+        }
+
         $quizUser = QuizUser::firstOrCreate([
             'quiz_id' => $quiz->id,
             'user_id' => $user->id,
         ],
         [
-            'category_id' => $user->category_id,
+            'category_id' => $category->id,
             'status' => 'in_progress',
             'current_question' => 1,
             'started_at' => now(),
@@ -27,10 +34,10 @@ class QuizService
         return $quizUser;
     }
 
-    protected function generateRandomQuestionOrder(Quiz $quiz, $user)
+    protected function generateRandomQuestionOrder(Quiz $quiz, $category)
     {
         return $quiz->questions()
-            ->where('category_id', $user->category_id)
+            ->where('category_id', $category->id)
             ->inRandomOrder()
             ->pluck('id')
             ->toArray();
