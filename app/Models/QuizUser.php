@@ -3,16 +3,37 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class QuizUser extends Model
 {
     protected $fillable = [
         'quiz_id', 'user_id', 'category_id',
         'status', 'total_score', 'started_at',
-        'completed_at', 'can_view_score'
+        'completed_at', 'can_view_score',
+        'question_order', 'current_question',
+        'uuid',
     ];
 
-    protected $dates = ['started_at', 'completed_at'];
+    protected $casts = [
+        'question_order' => 'array',
+        'started_at' => 'datetime',
+        'completed_at' => 'datetime',
+    ];
+
+    // protected $dates = ['started_at', 'completed_at'];
+
+    protected static function booted()
+    {
+        static::creating(function ($quizUser) {
+            $quizUser->uuid = (string) Str::uuid();
+        });
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'uuid';
+    }
 
     public function quiz()
     {
