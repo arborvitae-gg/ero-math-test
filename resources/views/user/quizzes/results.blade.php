@@ -3,20 +3,35 @@
         <h2>{{ __('Quiz Results') }}</h2>
     </x-slot>
 
-    <div>
-        @foreach ($attempts as $attempt)
-            <div>
-                <h3>{{ $attempt->question->question_content }}</h3>
+    <div class="quiz-results">
+        <h2>Quiz Results: {{ $quizUser->quiz->title }}</h2>
+        <p>Score: {{ $quizUser->total_score }} / {{ count($quizUser->question_order) }}</p>
 
-                <p>Your answer: {{ $attempt->selectedChoice->choice_content }}</p>
+        @foreach ($questions as $index => $question)
+            <div class="question-result">
+                <h4>Question {{ $index + 1 }}: {{ $question->question_content }}</h4>
 
-                @if ($attempt->is_correct)
-                    <p>Correct!</p>
-                @else
-                    <p>Incorrect.</p>
-                @endif
+                @php
+                    $attempt = $quizUser->attempts->firstWhere('question_id', $question->id);
+                    $userChoice = $attempt ? $attempt->question_choice_id : null;
+                    $correctChoice = $question->choices->firstWhere('is_correct', true)->id;
+                @endphp
+
+                <ul>
+                    @foreach ($question->choices as $choice)
+                        <li
+                            @if ($choice->id == $userChoice) class="{{ $choice->id == $correctChoice ? 'correct' : 'incorrect' }}" @endif>
+                            {{ $choice->choice_content }}
+                            @if ($choice->id == $correctChoice)
+                                <strong>(Correct Answer)</strong>
+                            @endif
+                            @if ($choice->id == $userChoice)
+                                <em>(Your Answer)</em>
+                            @endif
+                        </li>
+                    @endforeach
+                </ul>
             </div>
-            <hr>
         @endforeach
     </div>
 

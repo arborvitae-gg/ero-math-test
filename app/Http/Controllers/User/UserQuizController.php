@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Requests\User\StartQuizRequest;
 use App\Http\Requests\User\SaveAnswerRequest;
 use App\Models\Quiz;
 use App\Models\QuizUser;
@@ -12,32 +11,56 @@ use Illuminate\Support\Facades\Auth;
 
 class UserQuizController
 {
-    protected $quizService;
+    protected QuizService $quizService;
 
     public function __construct(QuizService $quizService)
     {
         $this->quizService = $quizService;
     }
 
+    /**
+     * Display list of quizzes available to the user.
+     */
+    // public function index()
+    // {
+    //     $user = Auth::user();
+
+    //     // Only show posted quizzes
+    //     $quizzes = Quiz::where('is_posted', true)->with('questions')->get();
+
+    //     return view('user.quizzes.index', compact('quizzes', 'user', 'quizUsers'));
+    // }
     public function index()
     {
         $user = Auth::user();
+
+        // Fetch all posted quizzes with their questions
         $quizzes = Quiz::where('is_posted', true)->with('questions')->get();
 
-        return view('user.quizzes.index', compact('quizzes', 'user'));
+        // Fetch all attempts by the current user, keyed by quiz_id
+        $quizUsers = $user->quizSessions()->with('category')->get()->keyBy('quiz_id');
+
+        return view('user.quizzes.index', compact('quizzes', 'user', 'quizUsers'));
     }
 
-    public function start(StartQuizRequest $request, Quiz $quiz)
+    /**
+     * Start a quiz — creates or resumes a QuizUser record.
+     */
+    public function start(Quiz $quiz)
     {
         $user = Auth::user();
+
         $quizUser = $this->quizService->startQuiz($quiz, $user);
 
-        return redirect()->route('user.quizzes.show', ['quizUser' => $quizUser->uuid]);
+        return redirect()->route('user.quizzes.attempts.show', [$quiz, $quizUser]);
     }
 
-    public function show(QuizUser $quizUser)
+    /**
+     * Show current question during quiz.
+     */
+    public function show(Quiz $quiz, QuizUser $quizUser)
     {
-        $this->authorizeAccess($quizUser);
+        $this->authorizeQuizAccess($quiz, $quizUser);
 
         $currentQuestionId = $quizUser->question_order[$quizUser->current_question - 1] ?? null;
 
@@ -46,19 +69,28 @@ class UserQuizController
         }
 
         $question = Question::with('choices')->findOrFail($currentQuestionId);
-        $choices = $question->choices->shuffle(); // This shuffling will only be shown first time
+        $choices = $question->choices->shuffle(); // only visually; order saved on submit
 
-        return view('user.quizzes.take', compact('quizUser', 'question', 'choices'));
+        // dd([
+        //     'quiz' => $quiz->slug,
+        //     'quizUser' => $quizUser->uuid,
+        //     'route' => route('user.quizzes.attempts.submit', [$quiz, $quizUser])
+        // ]);
+
+        return view('user.quizzes.take', compact('quizUser', 'quiz', 'question', 'choices'));
     }
 
-    public function saveAnswer(SaveAnswerRequest $request, QuizUser $quizUser, Question $question)
+    /**
+     * Save or update a single answer and move to next/previous question.
+     */
+    public function saveAnswer(SaveAnswerRequest $request, Quiz $quiz, QuizUser $quizUser, Question $question)
     {
-        $this->authorizeAccess($quizUser);
+        $this->authorizeQuizAccess($quiz, $quizUser);
 
         $this->quizService->saveAnswer($quizUser, $question, $request->validated());
 
-        // Handle direction
-        $direction = request()->query('direction');
+        // Determine navigation direction
+        $direction = $request->input('direction');
         $total = count($quizUser->question_order);
         $current = $quizUser->current_question;
 
@@ -70,35 +102,53 @@ class UserQuizController
 
         $quizUser->save();
 
-        return redirect()->route('user.quizzes.show', $quizUser);
+        return redirect()->route('user.quizzes.attempts.show', [$quiz, $quizUser]);
     }
 
-    public function submit(QuizUser $quizUser)
+    /**
+     * Submit the quiz and mark as complete.
+     */
+    public function submit(Quiz $quiz, QuizUser $quizUser)
     {
-        $this->authorizeAccess($quizUser);
+        $this->authorizeQuizAccess($quiz, $quizUser);
 
         $this->quizService->submitQuiz($quizUser);
 
-        return redirect()->route('user.quizzes.completed');
+        return redirect()->route('user.quizzes.attempts.completed', [$quiz, $quizUser]);
     }
 
-    public function completed()
+    /**
+     * Show congratulations and certificate download button.
+     */
+    public function completed(Quiz $quiz, QuizUser $quizUser)
     {
-        return view('user.quizzes.completed');
+        $this->authorizeQuizAccess($quiz, $quizUser);
+
+        return view('user.quizzes.completed', compact('quizUser', 'quiz'));
     }
 
-    public function results(QuizUser $quizUser)
+    /**
+     * Show results — if user has permission.
+     */
+    public function results(Quiz $quiz, QuizUser $quizUser)
     {
-        $this->authorizeAccess($quizUser);
+        $this->authorizeQuizAccess($quiz, $quizUser);
+
+        if (!$quizUser->can_view_score) {
+            return view('user.quizzes.results-waiting', compact('quizUser', 'quiz'));
+        }
 
         $attempts = $quizUser->attempts()->with(['question', 'selectedChoice'])->get();
 
-        return view('user.quizzes.results', compact('quizUser', 'attempts'));
+        return view('user.quizzes.results', compact('quizUser', 'quiz', 'attempts'));
     }
 
-    protected function authorizeAccess(QuizUser $quizUser)
+    /**
+     * Prevent user from accessing someone else's quiz.
+     */
+    protected function authorizeQuizAccess(Quiz $quiz, QuizUser $quizUser): void
     {
-        if ($quizUser->user_id !== Auth::id()) {
+        if ($quizUser->user_id !== Auth::id() || $quizUser->quiz_id !== $quiz->id) {
             abort(403);
         }
     }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
@@ -12,20 +13,20 @@ class Category extends Model
         'max_grade'
         ];
 
-    public static function findCategoryForGrade($gradeLevel)
-    {
-        return self::where('min_grade', '<=', $gradeLevel)
-                ->where('max_grade', '>=', $gradeLevel)
-                ->first();
-    }
+        public function questions()
+        {
+            return $this->hasMany(Question::class);
+        }
 
-    public function questions()
-    {
-        return $this->hasMany(Question::class);
-    }
+        public function quizzes()
+        {
+            return $this->hasManyThrough(Quiz::class, Question::class);
+        }
 
-    public function quizzes()
-    {
-        return $this->hasMany(Quiz::class);
-    }
+        public static function findCategoryForGrade($gradeLevel)
+        {
+            return self::where('min_grade', '<=', $gradeLevel)
+                       ->where('max_grade', '>=', $gradeLevel)
+                       ->first();
+        }
 }

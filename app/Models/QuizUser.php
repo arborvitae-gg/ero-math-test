@@ -8,20 +8,25 @@ use Illuminate\Support\Str;
 class QuizUser extends Model
 {
     protected $fillable = [
-        'quiz_id', 'user_id', 'category_id',
-        'status', 'total_score', 'started_at',
-        'completed_at', 'can_view_score',
-        'question_order', 'current_question',
-        'uuid',
+        'quiz_id',
+        'user_id',
+        'category_id',
+        'status',
+        'current_question',
+        'started_at',
+        'completed_at',
+        'total_score',
+        'can_view_score',
+        'question_order',
+        'uuid'
     ];
 
     protected $casts = [
         'question_order' => 'array',
         'started_at' => 'datetime',
         'completed_at' => 'datetime',
+        'can_view_score' => 'boolean'
     ];
-
-    // protected $dates = ['started_at', 'completed_at'];
 
     protected static function booted()
     {

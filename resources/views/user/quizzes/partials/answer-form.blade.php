@@ -1,7 +1,8 @@
-<form id="answer-form" method="POST" action="{{ route('user.quizzes.saveAnswer', [$quizUser, $question]) }}">
+<form id="answer-form" method="POST"
+    action="{{ route('user.quizzes.attempts.saveAnswer', [$quizUser->quiz, $quizUser, $question]) }}">
     @csrf
 
-    <div>
+    <div class="question">
         <h3>{{ $question->question_content }}</h3>
 
         @foreach ($choices as $choice)
@@ -16,13 +17,17 @@
         <input type="hidden" name="choice_order" value="{{ json_encode($choices->pluck('id')->toArray()) }}">
     </div>
 
-    <div>
+    <div class="navigation">
         @if ($quizUser->current_question > 1)
-            <button type="button" @click="previousQuestion()">← Previous</button>
+            <button type="submit" name="direction" value="previous">← Previous</button>
         @endif
 
         @if ($quizUser->current_question < count($quizUser->question_order))
-            <button type="button" @click="nextQuestion()">Next →</button>
+            <button type="submit" name="direction" value="next">Next →</button>
+        @else
+            <button type="submit"
+                formaction="{{ route('user.quizzes.attempts.submit', [$quizUser->quiz, $quizUser]) }}">Submit
+                Quiz</button>
         @endif
     </div>
 </form>

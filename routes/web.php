@@ -62,14 +62,27 @@ Route::prefix('admin')
     });
 });
 
-Route::prefix('user')->middleware(['auth', 'role:user'])->name('user.')->group(function () {
+// Route::prefix('user')->middleware(['auth', 'role:user'])->name('user.')->group(function () {
+//     Route::get('/dashboard', [UserQuizController::class, 'index'])->name('dashboard');
+//     Route::post('/quizzes/{quiz}/start', [UserQuizController::class, 'start'])->name('quizzes.start');
+//     Route::get('/quizzes/{quizUser}', [UserQuizController::class, 'show'])->name('quizzes.show');
+//     Route::post('/quizzes/{quizUser}/questions/{question}/save', [UserQuizController::class, 'saveAnswer'])->name('quizzes.saveAnswer');
+//     Route::post('/quizzes/{quizUser}/submit', [UserQuizController::class, 'submit'])->name('quizzes.submit');
+//     Route::get('/quizzes/{quizUser}/completed', [UserQuizController::class, 'completed'])->name('quizzes.completed');
+//     Route::get('/quizzes/{quizUser}/results', [UserQuizController::class, 'results'])->name('quizzes.results');
+// });
+
+Route::middleware(['auth', 'role:user'])->prefix('user')->name('user.')->group(function () {
     Route::get('/dashboard', [UserQuizController::class, 'index'])->name('dashboard');
     Route::post('/quizzes/{quiz}/start', [UserQuizController::class, 'start'])->name('quizzes.start');
-    Route::get('/quizzes/{quizUser}', [UserQuizController::class, 'show'])->name('quizzes.show');
-    Route::post('/quizzes/{quizUser}/questions/{question}/save', [UserQuizController::class, 'saveAnswer'])->name('quizzes.saveAnswer');
-    Route::post('/quizzes/{quizUser}/submit', [UserQuizController::class, 'submit'])->name('quizzes.submit');
-    Route::get('/quizzes/{quizUser}/completed', [UserQuizController::class, 'completed'])->name('quizzes.completed');
-    Route::get('/quizzes/{quizUser}/results', [UserQuizController::class, 'results'])->name('quizzes.results');
+
+    Route::prefix('quizzes/{quiz}/attempts')->name('quizzes.attempts.')->group(function () {
+        Route::get('/{quizUser}', [UserQuizController::class, 'show'])->name('show');
+        Route::post('/{quizUser}/questions/{question}/save', [UserQuizController::class, 'saveAnswer'])->name('saveAnswer');
+        Route::post('/{quizUser}/submit', [UserQuizController::class, 'submit'])->name('submit');
+        Route::get('/{quizUser}/completed', [UserQuizController::class, 'completed'])->name('completed');
+        Route::get('/{quizUser}/results', [UserQuizController::class, 'results'])->name('results');
+    });
 });
 
 require __DIR__.'/auth.php';

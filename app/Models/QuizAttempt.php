@@ -2,20 +2,28 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class QuizAttempt extends Model
 {
+    use HasFactory;
+
+    public $timestamps = false;
+
     protected $fillable = [
         'quiz_user_id',
         'question_id',
         'question_choice_id',
         'is_correct',
         'answered_at',
-        'choice_order', // ???
+        'choice_order'
     ];
 
-    protected $dates = ['answered_at'];
+    protected $casts = [
+        'answered_at' => 'datetime',
+        'choice_order' => 'array'
+    ];
 
     public function quizUser()
     {
