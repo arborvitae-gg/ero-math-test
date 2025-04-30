@@ -57,7 +57,20 @@ class UserQuizController
 
         $this->quizService->saveAnswer($quizUser, $question, $request->validated());
 
-        return response()->json(['success' => true]);
+        // Handle direction
+        $direction = request()->query('direction');
+        $total = count($quizUser->question_order);
+        $current = $quizUser->current_question;
+
+        if ($direction === 'next' && $current < $total) {
+            $quizUser->current_question += 1;
+        } elseif ($direction === 'previous' && $current > 1) {
+            $quizUser->current_question -= 1;
+        }
+
+        $quizUser->save();
+
+        return redirect()->route('user.quizzes.show', $quizUser);
     }
 
     public function submit(QuizUser $quizUser)

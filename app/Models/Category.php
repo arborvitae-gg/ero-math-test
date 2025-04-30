@@ -6,7 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    protected $fillable = ['name', 'min_grade', 'max_grade'];
+    protected $fillable = [
+        'name',
+        'min_grade',
+        'max_grade'
+        ];
 
     public static function findCategoryForGrade($gradeLevel)
     {

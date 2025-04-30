@@ -17,7 +17,12 @@
     </div>
 
     <div>
-        <button type="button" @click="previousQuestion()">← Previous</button>
-        <button type="button" @click="nextQuestion()">Next →</button>
+        @if ($quizUser->current_question > 1)
+            <button type="button" @click="previousQuestion()">← Previous</button>
+        @endif
+
+        @if ($quizUser->current_question < count($quizUser->question_order))
+            <button type="button" @click="nextQuestion()">Next →</button>
+        @endif
     </div>
 </form>
