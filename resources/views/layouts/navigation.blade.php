@@ -1,45 +1,18 @@
-<nav x-data="{ open: false }">
-    {{-- Primary Navigation Menu --}}
-    <div>
-        <div>
-            <div>
-                {{-- Logo --}}
-                <div>
-                    <a href="{{ route('dashboard') }}">
-                        Logo
-                        {{-- <x-application-logo /> --}}
-                    </a>
-                </div>
+<nav x-data="{ open: false }" class="nav-container">
+    <!-- Navigation Links -->
+        {{-- active="request()->routeIs('dashboard') --}}
+        <img src="{{ asset('images/Erovoutika_logo.png') }}" alt="Logo">
+        <a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a>
+        @if (Auth::user()->role === 'admin')
+            <a href="{{ route('admin.users.index') }}">{{ __('Users') }}</a>
+            <a href="{{ route('admin.quizzes.index') }}">{{ __('Quizzes') }}</a>
+        @endif
 
-                {{-- Navigation Links --}}
-                <div>
-                    {{-- Admin Navigation Links --}}
-                    @if (Auth::user()->role === 'admin')
-                        <a href="{{ route('admin.dashboard') }}">{{ __('Dashboard') }}</a>
-                        <a href="{{ route('admin.users.index') }}">{{ __('Users') }}</a>
-                        <a href="{{ route('admin.quizzes.index') }}">{{ __('Quizzes') }}</a>
-
-                        {{-- User Navigation Links --}}
-                    @else
-                        <a href="{{ route('user.dashboard') }}">{{ __('Dashboard') }}</a>
-                    @endif
-
-                </div>
-            </div>
-
-            {{-- Profile edit and logout --}}
-            <div>
-                <p>{{ Auth::user()->first_name }}</p>
-
-                <a href="{{ route('profile.edit') }}">{{ __('Profile') }}</a>
-
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit">{{ __('Log Out') }}</button>
-                </form>
-
-            </div>
-        </div>
-    </div>
-
+    <p>{{ Auth::user()->name }}</p>
+    <a href="{{ route('profile.edit') }}"><i class="fa-solid fa-circle-user"></i></a>
+    <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <button type="submit"><i class="fa-solid fa-right-from-bracket"></i>
+        </button>
+    </form>
 </nav>
