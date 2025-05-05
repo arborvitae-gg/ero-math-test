@@ -8,7 +8,7 @@
             <p>Question {{ $quizUser->current_question }} of {{ count($quizUser->question_order) }}</p>
         </div>
 
-        {{-- Form moved to a partial --}}
+        {{-- partials/answer-form.blade.php --}}
         @include('user.quizzes.partials.answer-form', [
             'quizUser' => $quizUser,
             'question' => $question,

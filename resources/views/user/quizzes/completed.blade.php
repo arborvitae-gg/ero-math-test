@@ -11,8 +11,8 @@
             <a href="{{ route('user.quizzes.attempts.results', [$quizUser->quiz, $quizUser]) }}"
                 class="btn btn-secondary">View
                 Results</a>
-            <a href="{{ route('user.quizzes.certificate', [$quizUser->quiz, $quizUser]) }}"
-                class="btn btn-success">Download Certificate</a>
+            {{-- <a href="{{ route('user.quizzes.certificate', [$quizUser->quiz, $quizUser]) }}"
+                class="btn btn-success">Download Certificate</a> --}}
         </div>
 
     </div>

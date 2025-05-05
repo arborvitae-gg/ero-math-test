@@ -20,8 +20,7 @@
                 <p>Questions available: {{ $questionsInCategory }}</p>
 
                 <div>
-                    {{-- @if (!$quizUser) --}}
-                    @if ($quizUser->status === 'not_started')
+                    @if (!$quizUser)
                         <form method="POST" action="{{ route('user.quizzes.start', $quiz) }}">
                             @csrf
                             <button type="submit">Start Quiz</button>

@@ -28,7 +28,7 @@ class SaveAnswerRequest extends FormRequest
     {
         return [
             'choice_id' => ['required', 'exists:question_choices,id'],
-            'choice_order' => ['nullable', 'array'], // to store shuffled order
+            'choice_order' => ['nullable', 'string'], // to store shuffled order
         ];
     }
 

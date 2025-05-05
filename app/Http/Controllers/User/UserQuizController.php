@@ -50,11 +50,25 @@ class UserQuizController
     {
         $user = Auth::user();
 
-        $quizUser = $this->quizService->startQuiz($quiz, $user);
+        $quizUser = QuizUser::firstOrCreate(
+            ['user_id' => $user->id, 'quiz_id' => $quiz->id],
+            [
+                'question_order' => $quiz->questions()->pluck('id')->shuffle()->toArray(),
+                'current_question' => 1,
+            ]
+        );
+
+        // Save choice orders per question
+        $choiceOrders = [];
+        foreach ($quiz->questions as $question) {
+            $choiceOrders[$question->id] = $question->choices->pluck('id')->shuffle()->toArray();
+        }
+
+        $quizUser->choice_orders = $choiceOrders;
+        $quizUser->save();
 
         return redirect()->route('user.quizzes.attempts.show', [$quiz, $quizUser]);
     }
-
     /**
      * Show current question during quiz.
      */
@@ -87,9 +101,23 @@ class UserQuizController
     {
         $this->authorizeQuizAccess($quiz, $quizUser);
 
-        $this->quizService->saveAnswer($quizUser, $question, $request->validated());
+        $validated = $request->validated();
 
-        // Determine navigation direction
+        if (isset($validated['choice_order']) && is_string($validated['choice_order'])) {
+            $validated['choice_order'] = json_decode($validated['choice_order'], true);
+        }
+
+        // Check if an answer was selected
+        if (isset($validated['choice_id'])) {
+            $existingAttempt = $quizUser->attempts()->where('question_id', $question->id)->first();
+
+            if (!$existingAttempt || $existingAttempt->question_choice_id !== (int)$validated['choice_id']) {
+                // Only save if no attempt yet or if the choice has changed
+                $this->quizService->saveAnswer($quizUser, $question, $validated);
+            }
+        }
+
+        // Always update navigation, even if no answer
         $direction = $request->input('direction');
         $total = count($quizUser->question_order);
         $current = $quizUser->current_question;
@@ -101,6 +129,7 @@ class UserQuizController
         }
 
         $quizUser->save();
+        $quizUser->refresh();
 
         return redirect()->route('user.quizzes.attempts.show', [$quiz, $quizUser]);
     }
