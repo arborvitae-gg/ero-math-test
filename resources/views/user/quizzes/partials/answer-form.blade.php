@@ -4,11 +4,11 @@
 
     <div class="question">
         <h3>{{ $question->question_content }}</h3>
-
         @foreach ($choices as $choice)
             <div>
                 <label>
-                    <input type="radio" name="choice_id" value="{{ $choice->id }}">
+                    <input type="radio" name="choice_id" value="{{ $choice->id }}"
+                        {{ $existingAttempt && $existingAttempt->question_choice_id === $choice->id ? 'checked' : '' }}>
                     {{ $choice->choice_content }}
                 </label>
             </div>
@@ -25,9 +25,7 @@
         @if ($quizUser->current_question < count($quizUser->question_order))
             <button type="submit" name="direction" value="next">Next →</button>
         @else
-            <button type="submit"
-                formaction="{{ route('user.quizzes.attempts.submit', [$quizUser->quiz, $quizUser]) }}">Submit
-                Quiz</button>
+            <button type="submit" name="direction" value="submit">Submit Quiz</button>
         @endif
     </div>
 </form>

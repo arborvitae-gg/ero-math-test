@@ -17,12 +17,10 @@ class QuizAttempt extends Model
         'question_choice_id',
         'is_correct',
         'answered_at',
-        'choice_order'
     ];
 
     protected $casts = [
         'answered_at' => 'datetime',
-        'choice_order' => 'array'
     ];
 
     public function quizUser()

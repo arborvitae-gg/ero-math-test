@@ -12,19 +12,44 @@ use Illuminate\Support\Facades\DB;
 
 class QuizService
 {
-    /**
-     * Start or resume a quiz attempt for a user.
-     */
+    protected function generateQuestionOrder(Quiz $quiz, Category $category): array
+    {
+        return Question::where('quiz_id', $quiz->id)
+                       ->where('category_id', $category->id)
+                       ->inRandomOrder()
+                       ->pluck('id')
+                       ->toArray();
+    }
+
+    public function getCurrentQuestionData(QuizUser $quizUser)
+    {
+        $currentQuestionId = $quizUser->question_order[$quizUser->current_question - 1] ?? null;
+
+        if (!$currentQuestionId) {
+            abort(404, 'No more questions available.');
+        }
+
+        $question = Question::findOrFail($currentQuestionId);
+
+        $choiceOrder = $quizUser->choice_orders[$question->id] ?? $question->choices->pluck('id')->toArray();
+
+        $choices = QuestionChoice::whereIn('id', $choiceOrder)
+            ->orderByRaw('array_position(ARRAY[' . implode(',', $choiceOrder) . '], id)')
+            ->get();
+
+        $existingAttempt = $quizUser->attempts->firstWhere('question_id', $question->id);
+
+        return [$question, $choices, $existingAttempt];
+    }
+
     public function startQuiz(Quiz $quiz, $user): QuizUser
     {
-        // Identify category based on user's grade level
         $category = Category::findCategoryForGrade($user->grade_level);
 
         if (!$category) {
             abort(403, 'No quiz available for your grade level.');
         }
 
-        // Prevent multiple attempts
         $quizUser = QuizUser::firstOrCreate([
             'quiz_id' => $quiz->id,
             'user_id' => $user->id,
@@ -36,24 +61,64 @@ class QuizService
             'question_order' => $this->generateQuestionOrder($quiz, $category),
         ]);
 
+        // Save fixed choice order per question
+        $choiceOrders = [];
+        foreach ($quiz->questions as $question) {
+            $choiceOrders[$question->id] = $question->choices->pluck('id')->shuffle()->toArray();
+        }
+        $quizUser->choice_orders = $choiceOrders;
+        $quizUser->save();
+
         return $quizUser;
     }
 
-    /**
-     * Get randomized list of question IDs for the quiz + category.
-     */
-    protected function generateQuestionOrder(Quiz $quiz, Category $category): array
+    protected function saveSkippedAnswer(QuizUser $quizUser, Question $question): void
     {
-        return Question::where('quiz_id', $quiz->id)
-                       ->where('category_id', $category->id)
-                       ->inRandomOrder()
-                       ->pluck('id')
-                       ->toArray();
+        QuizAttempt::create([
+            'quiz_user_id' => $quizUser->id,
+            'question_id' => $question->id,
+            'question_choice_id' => null,
+            'is_correct' => false,
+            'answered_at' => now(),
+        ]);
     }
 
-    /**
-     * Save or update a quiz answer.
-     */
+    public function processAnswerNavigation(QuizUser $quizUser, Question $question, $request): void
+    {
+        $validated = $request->validated();
+
+        $existingAttempt = $quizUser->attempts()->where('question_id', $question->id)->first();
+
+        // Handle answer changes or new answers
+        if (isset($validated['choice_id'])) {
+            if (!$existingAttempt || $existingAttempt->question_choice_id !== (int)$validated['choice_id']) {
+                $this->saveAnswer($quizUser, $question, $validated);
+            }
+        }
+        // Handle skipped questions (no answer selected)
+        else {
+            if (!$existingAttempt) {
+                $this->saveSkippedAnswer($quizUser, $question);
+            }
+        }
+
+        $this->updateNavigation($quizUser, $request->input('direction'));
+    }
+
+    protected function updateNavigation(QuizUser $quizUser, $direction): void
+    {
+        $total = count($quizUser->question_order);
+        $current = $quizUser->current_question;
+
+        if ($direction === 'next' && $current < $total) {
+            $quizUser->current_question += 1;
+        } elseif ($direction === 'previous' && $current > 1) {
+            $quizUser->current_question -= 1;
+        }
+
+        $quizUser->save();
+    }
+
     public function saveAnswer(QuizUser $quizUser, Question $question, array $data): void
     {
         QuizAttempt::updateOrCreate(
@@ -65,14 +130,10 @@ class QuizService
                 'question_choice_id' => $data['choice_id'],
                 'is_correct' => QuestionChoice::findOrFail($data['choice_id'])->is_correct,
                 'answered_at' => now(),
-                'choice_order' => $data['choice_order'] ?? [],
             ]
         );
     }
 
-    /**
-     * Final submission: calculate score and mark quiz as complete.
-     */
     public function submitQuiz(QuizUser $quizUser): void
     {
         DB::transaction(function () use ($quizUser) {
@@ -87,4 +148,5 @@ class QuizService
             ]);
         });
     }
+
 }

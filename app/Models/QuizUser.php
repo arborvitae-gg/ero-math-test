@@ -23,6 +23,7 @@ class QuizUser extends Model
 
     protected $casts = [
         'question_order' => 'array',
+        'choice_orders' => 'array',
         'started_at' => 'datetime',
         'completed_at' => 'datetime',
         'can_view_score' => 'boolean'

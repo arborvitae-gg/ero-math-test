@@ -27,20 +27,8 @@ class SaveAnswerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'choice_id' => ['required', 'exists:question_choices,id'],
-            'choice_order' => ['nullable', 'string'], // to store shuffled order
+            'choice_id' => ['nullable', 'exists:question_choices,id'],
+            'question_choice_id' => ['nullable'],
         ];
-    }
-
-    public function validated($key = null, $default = null)
-    {
-        $data = parent::validated($key, $default);
-
-        // Optionally decode choice_order if passed as string
-        if (is_string($data['choice_order'] ?? null)) {
-            $data['choice_order'] = json_decode($data['choice_order'], true);
-        }
-
-        return $data;
     }
 }
