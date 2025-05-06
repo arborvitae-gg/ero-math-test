@@ -51,8 +51,9 @@
                                 @endforeach
                             </td>
                             <td>
-                                {{-- View quiz questions, added line break on line 48 for better UI placement, remove when styling --}}
+                                {{-- added line break on line 48 for better UI placement, remove when styling --}}
                                 <a href="{{ route('admin.quizzes.questions.index', $quiz) }}">View</a><br>
+                                <a href="{{ route('admin.quizzes.results.index', $quiz) }}">Results</a><br>
 
                                 {{-- Toggleable Pop-up modal Edit Quiz button (form below the delete quiz button) --}}
                                 <button @click="edit = !edit">
