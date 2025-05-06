@@ -1,12 +1,16 @@
 <x-app-layout>
-
     <x-slot name="header">
+    <div class="top-container">
+        <h1>
+            ADMIN |
+        </h1>
         <h2>
             {{ __('Users') }}
         </h2>
+    </div>
     </x-slot>
-
-    <div>
+    <div class="mid-container">
+    <div class="table-container">
         <table>
             {{-- thead = table head --}}
             <thead>
@@ -18,7 +22,6 @@
                     <th>{{ __('Coach') }}</th>
                 </tr>
             </thead>
-
             {{-- tbody = table body --}}
             <tbody>
                 {{-- foreach loops through all the users in the database --}}
@@ -32,8 +35,7 @@
                     </tr>
                 @endforeach
             </tbody>
-
         </table>
     </div>
-
+</div>
 </x-app-layout>
