@@ -21,7 +21,7 @@ class AdminQuizController
         $quizzes = Quiz::with('questions')->get();
         $categories = Category::all();
 
-        return view('admin.quizzes', compact('quizzes', 'categories'));
+        return view('admin.quizzes.index', compact('quizzes', 'categories'));
     }
 
     public function store(AdminQuizRequest $request)

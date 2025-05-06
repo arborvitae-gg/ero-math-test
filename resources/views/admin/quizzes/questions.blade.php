@@ -35,7 +35,7 @@
 
             {{-- Model add question form, form blade file located in views/admin/partials/question-form.blade.php --}}
             <div x-show="showCreate">
-                @include('admin.partials.question-form', [
+                @include('admin.quizzes.partials.question-form', [
                     'quiz' => $quiz,
                     'action' => route('admin.quizzes.questions.store', $quiz),
                     'method' => 'POST',
@@ -79,7 +79,7 @@
 
                             {{-- Model edit question form, form blade file located in views/admin/partials/question-form.blade.php --}}
                             <div x-show="editing">
-                                @include('admin.partials.question-form', [
+                                @include('admin.quizzes.partials.question-form', [
                                     'quiz' => $quiz,
                                     'question' => $question,
                                     'action' => route('admin.quizzes.questions.update', [$quiz, $question]),

@@ -19,7 +19,7 @@ class UserController
     public function index()
     {
         $users = User::where('role', 'user')->get();
-        return view('admin.users', compact('users'));
+        return view('admin.users.index', compact('users'));
     }
 
     public function update(UserUpdateRequest $request, User $user)

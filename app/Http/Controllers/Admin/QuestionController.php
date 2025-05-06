@@ -24,7 +24,7 @@ class QuestionController
         $categories = Category::all();
         $questions = $quiz->questions()->with('choices')->get();
 
-        return view('admin.questions', compact('quiz', 'questions', 'categories'));
+        return view('admin.quizzes.questions', compact('quiz', 'questions', 'categories'));
     }
 
     public function store(QuestionRequest $request, Quiz $quiz)

@@ -15,7 +15,7 @@
 
         {{-- Model add quiz form, form blade file located in views/admin/partials/quiz-form.blade.php --}}
         <div x-show="showCreate">
-            @include('admin.partials.quiz-form', [
+            @include('admin.quizzes.partials.quiz-form', [
                 'action' => route('admin.quizzes.store'),
                 'method' => 'POST',
             ])
@@ -51,7 +51,7 @@
                                 @endforeach
                             </td>
                             <td>
-                                {{-- added line break on line 48 for better UI placement, remove when styling --}}
+                                {{-- View quiz questions, added line break on line 48 for better UI placement, remove when styling --}}
                                 <a href="{{ route('admin.quizzes.questions.index', $quiz) }}">View</a><br>
 
                                 {{-- Toggleable Pop-up modal Edit Quiz button (form below the delete quiz button) --}}
@@ -72,7 +72,7 @@
                         {{-- Model edit quiz form, form blade file located in views/admin/partials/quiz-form.blade.php --}}
                         <tr x-show="edit" class="bg-gray-50">
                             <td colspan="5">
-                                @include('admin.partials.quiz-form', [
+                                @include('admin.quizzes.partials.quiz-form', [
                                     'quiz' => $quiz,
                                     'action' => route('admin.quizzes.update', $quiz),
                                     'method' => 'PATCH',
