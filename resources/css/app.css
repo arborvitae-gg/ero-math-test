@@ -1,1 +1,9 @@
-
+*, html{
+    margin: 0;
+    padding: 0;
+    box-sizing: 0;
+    font-family: 'Poppins', 'Arial', sans-serif;
+}
+body{
+    background-color: rgb(216, 216, 255);
+}
