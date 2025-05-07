@@ -45,7 +45,7 @@
         </div>
 
 
-        {{-- List of questions table --}}
+        {{-- List of questions --}}
         <div>
             {{-- loops through all the questions in the database --}}
             @foreach ($questions as $index => $question)

@@ -25,9 +25,14 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')
 ->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile', [ProfileController::class, 'edit'])
+    ->name('profile.edit');
+
+    Route::patch('/profile', [ProfileController::class, 'update'])
+    ->name('profile.update');
+
+    Route::delete('/profile', [ProfileController::class, 'destroy'])
+    ->name('profile.destroy');
 });
 
 Route::prefix('admin')
@@ -56,20 +61,32 @@ Route::prefix('admin')
     Route::prefix('quizzes/{quiz}/questions')
     ->name('quizzes.questions.')
     ->group(function () {
-        Route::get('/', [QuestionController::class, 'index'])->name('index');
-        Route::post('/', [QuestionController::class, 'store'])->name('store');
-        Route::patch('/{question}', [QuestionController::class, 'update'])->name('update');
-        Route::delete('/{question}', [QuestionController::class, 'destroy'])->name('destroy');
+        Route::get('/', [QuestionController::class, 'index'])
+        ->name('index');
+
+        Route::post('/', [QuestionController::class, 'store'])
+        ->name('store');
+
+        Route::patch('/{question}', [QuestionController::class, 'update'])
+        ->name('update');
+
+        Route::delete('/{question}', [QuestionController::class, 'destroy'])
+        ->name('destroy');
     });
 
     // Quiz Results
-    // Route::prefix('quizzes/{quiz}/results')
-    // ->name('quizzes.results.')
-    // ->group(function () {
-    //     Route::get('/', [AdminQuizResultsController::class, 'index'])->name('index');
-    //     Route::get('/{quizUser}', [AdminQuizResultsController::class, 'show'])->name('show');
-    //     Route::post('/{quizUser}/toggle-visibility', [AdminQuizResultsController::class, 'toggleVisibility'])->name('toggleVisibility');
-    // });
+    Route::prefix('quizzes/{quiz}/results')
+    ->name('quizzes.results.')
+    ->group(function () {
+        Route::get('/', [AdminQuizResultsController::class, 'index'])
+        ->name('index');
+
+        Route::get('/{quizUser}', [AdminQuizResultsController::class, 'show'])
+        ->name('show');
+
+        Route::post('/{quizUser}/toggle-visibility', [AdminQuizResultsController::class, 'toggle-visibility'])
+        ->name('toggle-visibility');
+    });
 });
 
 Route::middleware(['auth', 'role:user'])
@@ -77,16 +94,28 @@ Route::middleware(['auth', 'role:user'])
 ->name('user.')
 ->group(function () {
     // User Dashboard
-    Route::get('/dashboard', [UserQuizController::class, 'index'])->name('dashboard');
-    Route::post('/quizzes/{quiz}/start', [UserQuizController::class, 'start'])->name('quizzes.start');
+    Route::get('/dashboard', [UserQuizController::class, 'index'])
+    ->name('dashboard');
+
+    Route::post('/quizzes/{quiz}/start', [UserQuizController::class, 'start'])
+    ->name('quizzes.start');
 
     // Quiz Attempts
     Route::prefix('quizzes/{quiz}/attempts')->name('quizzes.attempts.')->group(function () {
-        Route::get('/{quizUser}', [UserQuizController::class, 'show'])->name('show');
-        Route::post('/{quizUser}/questions/{question}/save', [UserQuizController::class, 'saveAnswer'])->name('saveAnswer');
-        Route::post('/{quizUser}/submit', [UserQuizController::class, 'submit'])->name('submit');
-        Route::get('/{quizUser}/completed', [UserQuizController::class, 'completed'])->name('completed');
-        Route::get('/{quizUser}/results', [UserQuizController::class, 'results'])->name('results');
+        Route::get('/{quizUser}', [UserQuizController::class, 'show'])
+        ->name('show');
+
+        Route::post('/{quizUser}/questions/{question}/save', [UserQuizController::class, 'saveAnswer'])
+        ->name('saveAnswer');
+
+        Route::post('/{quizUser}/submit', [UserQuizController::class, 'submit'])
+        ->name('submit');
+
+        Route::get('/{quizUser}/completed', [UserQuizController::class, 'completed'])
+        ->name('completed');
+
+        Route::get('/{quizUser}/results', [UserQuizController::class, 'results'])
+        ->name('results');
     });
 });
 
