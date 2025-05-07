@@ -26,8 +26,7 @@
                         <td>
                             <a href="{{ route('admin.quizzes.results.show', [$quiz, $quizUser]) }}">View Details</a>
                             <form method="POST"
-                                action="{{ route('admin.quizzes.results.toggle-visibility', [$quiz, $quizUser]) }}"
-                                style="display:inline;">
+                                action="{{ route('admin.quizzes.results.toggle-visibility', [$quiz, $quizUser]) }}">
                                 @csrf
                                 <button type="submit">
                                     {{ $quizUser->can_view_score ? 'Revoke User Access' : 'Allow User to View Score' }}
