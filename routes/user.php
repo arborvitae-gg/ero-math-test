@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\UserQuizController;
 
-Route::middleware(['auth', 'role:user'])
+Route::middleware(['auth', 'verified','role:user'])
 ->prefix('user')
 ->name('user.')
 ->group(function () {

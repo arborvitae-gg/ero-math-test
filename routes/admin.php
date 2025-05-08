@@ -8,7 +8,7 @@ use App\Http\Controllers\Admin\AdminQuizResultsController;
 use App\Http\Controllers\Admin\QuestionController;
 
 Route::prefix('admin')
-->middleware(['auth', 'role:admin'])
+->middleware(['auth', 'verified', 'role:admin'])
 ->name('admin.')
 ->group(function () {
 
