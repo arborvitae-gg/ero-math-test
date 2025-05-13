@@ -3,7 +3,6 @@
         <h2>{{ __('Questions') }}</h2>
     </x-slot>
 
-    {{-- delete quiz form and button --}}
     @php
         $defaultCategory = $categories->first();
         $localStorageKey = 'categoryId_quiz_' . $quiz->id;
@@ -16,7 +15,28 @@
         }
     }">
 
-        {{-- Category filter radio buttons --}}
+        {{-- ✅ Disable add question if quiz is posted --}}
+        @if (!$quiz->is_posted)
+            <div x-data="{ showCreate: false }">
+                <button @click="showCreate = !showCreate">
+                    + Add Question Popup Modal Toggle
+                </button>
+
+                <div x-show="showCreate">
+                    @include('admin.quizzes.partials.question-form', [
+                        'quiz' => $quiz,
+                        'action' => route('admin.quizzes.questions.store', $quiz),
+                        'method' => 'POST',
+                    ])
+                </div>
+            </div>
+        @else
+            <div>
+                <p><em>This quiz has been posted. Questions cannot be added, edited, or deleted.</em></p>
+            </div>
+        @endif
+
+        {{-- ✅ Category filter --}}
         <div>
             <label>Filter by Category:</label>
             @foreach ($categories as $category)
@@ -27,44 +47,22 @@
             @endforeach
         </div>
 
-        {{-- Toggleable Pop-up modal Add Question button --}}
-        <div x-data="{ showCreate: false }">
-            <button @click="showCreate = !showCreate">
-                + Add Question Popup Modal Toggle
-            </button>
-
-            {{-- Model add question form, form blade file located in views/admin/partials/question-form.blade.php --}}
-            <div x-show="showCreate">
-                @include('admin.quizzes.partials.question-form', [
-                    'quiz' => $quiz,
-                    'action' => route('admin.quizzes.questions.store', $quiz),
-                    'method' => 'POST',
-                ])
-            </div>
-
-        </div>
-
-
-        {{-- List of questions --}}
+        {{-- ✅ List of questions --}}
         <div>
-            {{-- loops through all the questions in the database --}}
             @foreach ($questions as $index => $question)
-                <div x-show="categoryId == '{{ $question->category_id }}' ">
+                <div x-show="categoryId == '{{ $question->category_id }}'">
                     <h3>
                         {{ $question->question_type === 'text' ? $question->question_content : '[Image Question]' }}
                     </h3>
 
                     <ul>
-                        {{-- loops through all the choices per question in the database --}}
                         @foreach ($question->choices as $idx => $choice)
-                            <li class="{{ $choice->is_correct }}">
+                            <li class="{{ $choice->is_correct ? 'correct' : '' }}">
                                 @if ($choice->choice_type === 'text')
                                     {{ $choice->choice_content }}
                                 @else
                                     <img src="{{ asset('storage/' . $choice->choice_content) }}" alt="Choice">
                                 @endif
-
-                                {{-- adds check mark if choice is correct --}}
                                 @if ($choice->is_correct)
                                     <span>✔</span>
                                 @endif
@@ -72,12 +70,11 @@
                         @endforeach
                     </ul>
 
-                    <div>
-                        {{-- Toggleable Pop-up modal Edit Question button --}}
+                    {{-- ✅ Only show edit/delete if not posted --}}
+                    @if (!$quiz->is_posted)
                         <div x-data="{ editing: false }">
                             <button @click="editing = !editing">Edit Popup Modal Toggle</button>
 
-                            {{-- Model edit question form, form blade file located in views/admin/partials/question-form.blade.php --}}
                             <div x-show="editing">
                                 @include('admin.quizzes.partials.question-form', [
                                     'quiz' => $quiz,
@@ -88,16 +85,13 @@
                             </div>
                         </div>
 
-                        {{-- delete question form and button --}}
                         <form action="{{ route('admin.quizzes.questions.destroy', [$quiz, $question]) }}"
                             method="POST" onsubmit="return confirm('Are you sure?');">
                             @csrf
                             @method('DELETE')
                             <button type="submit">Delete</button>
                         </form>
-
-                    </div>
-
+                    @endif
                 </div>
             @endforeach
         </div>
