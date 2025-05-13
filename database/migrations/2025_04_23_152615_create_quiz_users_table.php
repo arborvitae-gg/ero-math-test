@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('quiz_users', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique();
             $table->foreignId('quiz_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('category_id')->constrained()->onDelete('cascade'); // determined by grade level
@@ -23,6 +24,9 @@ return new class extends Migration
             $table->boolean('can_view_score')->default(false);
             $table->timestamps();
             $table->unique(['quiz_id', 'user_id']); // Prevent multiple sessions of same quiz by same user
+            $table->unsignedInteger('current_question')->default(1);
+            $table->json('question_order')->nullable();
+            $table->json('choice_orders')->nullable();
         });
     }
 

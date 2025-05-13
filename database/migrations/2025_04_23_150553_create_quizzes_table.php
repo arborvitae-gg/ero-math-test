@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('quizzes', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('slug')->unique();
             $table->boolean('is_posted')->default(false);
             $table->unsignedInteger('timer')->nullable(); // seconds/minutes, if applicable
             $table->timestamps();
