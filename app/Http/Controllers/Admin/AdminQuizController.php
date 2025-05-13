@@ -44,4 +44,15 @@ class AdminQuizController
 
         return redirect()->route('admin.quizzes.index')->with('status', 'Quiz deleted!');
     }
+
+    public function post(Quiz $quiz)
+    {
+        if ($quiz->is_posted) {
+            return back()->with('status', 'Quiz is already posted.');
+        }
+
+        $quiz->update(['is_posted' => true]);
+
+        return back()->with('status', 'Quiz has been posted. Editing and deleting are now disabled.');
+    }
 }
