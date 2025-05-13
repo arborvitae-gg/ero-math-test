@@ -87,7 +87,7 @@ class UserQuizController
             return view('user.quizzes.results-waiting', compact('quizUser', 'quiz'));
         }
 
-        $attempts = $quizUser->attempts()->with(['question', 'selectedChoice'])->get();
+        $attempts = $quizUser->attempts()->with(['question', 'choice'])->get();
 
         return view('user.quizzes.results', compact('quizUser', 'quiz', 'attempts'));
     }

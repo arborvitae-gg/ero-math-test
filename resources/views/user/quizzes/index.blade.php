@@ -28,6 +28,7 @@
                     @elseif ($quizUser->status === 'completed')
                         <p>Completed</p>
                         @if ($quizUser->can_view_score)
+                            <p>Your Score: {{ $quizUser->total_score }}</p>
                             <a href="{{ route('user.quizzes.attempts.results', [$quiz, $quizUser]) }}">View Results</a>
                         @else
                             <p>Waiting for results...</p>

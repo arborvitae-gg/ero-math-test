@@ -3,31 +3,49 @@
         <h2>{{ __('Quiz Results') }}</h2>
     </x-slot>
 
-    <div class="quiz-results">
-        <h2>Quiz Results: {{ $quizUser->quiz->title }}</h2>
-        <p>Score: {{ $quizUser->total_score }} / {{ count($quizUser->question_order) }}</p>
+    <div id="quiz-results">
+        @foreach ($quizUser->attempts as $attempt)
+            <div class="question-block" id="question-{{ $attempt->question->id }}">
+                <h4 class="question-text">
+                    {{ $attempt->question->question_content }}
+                </h4>
 
-        @foreach ($questions as $index => $question)
-            <div class="question-result">
-                <h4>Question {{ $index + 1 }}: {{ $question->question_content }}</h4>
+                <ul class="choices-list">
+                    @foreach ($attempt->question->choices as $choice)
+                        @php
+                            $isUserChoice = $attempt->choice && $attempt->choice->id === $choice->id;
+                            $isCorrectChoice = $choice->is_correct;
+                            $choiceClass = '';
 
-                @php
-                    $attempt = $quizUser->attempts->firstWhere('question_id', $question->id);
-                    $userChoice = $attempt ? $attempt->question_choice_id : null;
-                    $correctChoice = $question->choices->firstWhere('is_correct', true)->id;
-                @endphp
+                            if ($isCorrectChoice && $isUserChoice) {
+                                $choiceClass = 'choice-correct-user'; // green outline, "your answer is correct"
+                            } elseif ($isCorrectChoice) {
+                                $choiceClass = 'choice-correct'; // green outline, "correct answer"
+                            } elseif ($isUserChoice) {
+                                $choiceClass = 'choice-wrong-user'; // red outline, "your answer"
+                            } else {
+                                $choiceClass = 'choice-default';
+                            }
+                        @endphp
 
-                <ul>
-                    @foreach ($question->choices as $choice)
-                        <li
-                            @if ($choice->id == $userChoice) class="{{ $choice->id == $correctChoice ? 'correct' : 'incorrect' }}" @endif>
-                            {{ $choice->choice_content }}
-                            @if ($choice->id == $correctChoice)
-                                <strong>(Correct Answer)</strong>
-                            @endif
-                            @if ($choice->id == $userChoice)
-                                <em>(Your Answer)</em>
-                            @endif
+                        <li class="choice-item {{ $choiceClass }}" data-choice-id="{{ $choice->id }}">
+                            <div class="choice-content">
+                                @if ($choice->choice_type === 'text')
+                                    {{ $choice->choice_content }}
+                                @else
+                                    <img src="{{ asset('storage/' . $choice->choice_content) }}" alt="Choice Image">
+                                @endif
+                            </div>
+
+                            <div class="choice-label">
+                                @if ($isCorrectChoice && $isUserChoice)
+                                    <span class="label label-success">✔ Your answer is correct</span>
+                                @elseif ($isCorrectChoice)
+                                    <span class="label label-success">✔ Correct answer</span>
+                                @elseif ($isUserChoice)
+                                    <span class="label label-error">✖ Your answer</span>
+                                @endif
+                            </div>
                         </li>
                     @endforeach
                 </ul>
