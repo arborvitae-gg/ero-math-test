@@ -1,6 +1,6 @@
 @props(['question' => null, 'action', 'method'])
 
-<form method="POST" action="{{ $action }}">
+<form method="POST" action="{{ $action }}" enctype="multipart/form-data">
     @csrf
     @if ($method === 'PATCH')
         @method('PATCH')

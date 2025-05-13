@@ -52,16 +52,19 @@
             @foreach ($questions as $index => $question)
                 <div x-show="categoryId == '{{ $question->category_id }}'">
                     <h3>
-                        {{ $question->question_type === 'text' ? $question->question_content : '[Image Question]' }}
+                        {{ $question->question_text }}
                     </h3>
-
+                    @if ($question->question_image)
+                        <img src="https://uzdlycbrrlcncxznzmen.supabase.co/storage/v1/object/public/quiz-assets/{{ $question->question_image }}"
+                            alt="Question Image">
+                    @endif
                     <ul>
                         @foreach ($question->choices as $idx => $choice)
                             <li class="{{ $choice->is_correct ? 'correct' : '' }}">
-                                @if ($choice->choice_type === 'text')
-                                    {{ $choice->choice_content }}
-                                @else
-                                    <img src="{{ asset('storage/' . $choice->choice_content) }}" alt="Choice">
+                                {{ $choice->choice_text }}
+                                @if ($choice->choice_image)
+                                    <img src="https://uzdlycbrrlcncxznzmen.supabase.co/storage/v1/object/public/quiz-assets/{{ $choice->choice_image }}"
+                                        alt="Choice Image">
                                 @endif
                                 @if ($choice->is_correct)
                                     <span>✔</span>
@@ -70,7 +73,7 @@
                         @endforeach
                     </ul>
 
-                    {{-- ✅ Only show edit/delete if not posted --}}
+                    {{-- Only show edit/delete if not posted --}}
                     @if (!$quiz->is_posted)
                         <div x-data="{ editing: false }">
                             <button @click="editing = !editing">Edit Popup Modal Toggle</button>
