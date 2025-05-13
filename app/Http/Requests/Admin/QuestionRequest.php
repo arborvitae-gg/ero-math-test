@@ -23,10 +23,10 @@ class QuestionRequest extends FormRequest
     {
         return [
             'category_id' => ['required', 'exists:categories,id'],
-            'question_type' => ['required', 'in:text,image'],
-            'question_content' => ['required', 'string'],
-            'choices.*.choice_content' => ['required', 'string'],
-            'choices.*.choice_type' => ['required', 'in:text,image'],
+            'question_text' => ['nullable', 'string'],
+            'question_image' => ['nullable', 'image', 'max:2048'],
+            'choices.*.choice_text' => ['nullable', 'string'],
+            'choices.*.choice_image' => ['nullable', 'image', 'max:2048'],
         ];
     }
 

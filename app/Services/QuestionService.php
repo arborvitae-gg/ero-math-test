@@ -12,15 +12,15 @@ class QuestionService
         $question = Question::create([
             'quiz_id' => $data['quiz_id'],
             'category_id' => $data['category_id'],
-            'question_type' => $data['question_type'],
-            'question_content' => $data['question_content'],
+            'question_text' => $data['question_text'],
+            'question_image' => $questionImage,
         ]);
 
         foreach ($data['choices'] as $index => $choice) {
             QuestionChoice::create([
                 'question_id' => $question->id,
-                'choice_content' => $choice['choice_content'],
-                'choice_type' => $choice['choice_type'],
+                'choice_text' => $choice['choice_text'],
+                'choice_image' => $choiceImage,
                 'is_correct' => $index == 0,
             ]);
         }
@@ -32,7 +32,8 @@ class QuestionService
     {
         $question->update([
             'question_content' => $data['question_content'],
-            'question_type' => $data['question_type'],
+            'question_image' => $data['question_image'],
+
         ]);
 
         foreach ($data['choices'] as $index => $choice) {
@@ -41,7 +42,7 @@ class QuestionService
             if ($qChoice) {
                 $qChoice->update([
                     'choice_content' => $choice['choice_content'],
-                    'choice_type' => $choice['choice_type'],
+                    'choice_image' => $choice['choice_image'],
                     'is_correct' => $index === 0,
                 ]);
             }
