@@ -14,11 +14,10 @@ return new class extends Migration
         Schema::create('question_choices', function (Blueprint $table) {
             $table->id();
             $table->foreignId('question_id')->constrained()->onDelete('cascade');
-            $table->enum('choice_type', ['text', 'image']);
-            $table->text('choice_content');
+            $table->text('choice_content')->nullable(); // rename to choice_text in the future
+            $table->string('choice_image')->nullable();
             $table->boolean('is_correct')->default(false);
             $table->timestamps();
-
         });
     }
 

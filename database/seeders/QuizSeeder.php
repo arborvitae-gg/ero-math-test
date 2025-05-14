@@ -37,14 +37,12 @@ class QuizSeeder extends Seeder
                 $question = Question::create([
                     'quiz_id' => $quiz->id,
                     'category_id' => $category->id,
-                    'question_type' => 'text',
-                    'question_content' => "What is $questionText?",
+                    'question_text' => "What is $questionText?",
                 ]);
 
                 QuestionChoice::create([
                     'question_id' => $question->id,
                     'choice_content' => (string)$correctAnswer,
-                    'choice_type' => 'text',
                     'is_correct' => true,
                 ]);
 
@@ -52,7 +50,6 @@ class QuizSeeder extends Seeder
                     QuestionChoice::create([
                         'question_id' => $question->id,
                         'choice_content' => (string)($correctAnswer + rand(1, 10)),
-                        'choice_type' => 'text',
                         'is_correct' => false,
                     ]);
                 }

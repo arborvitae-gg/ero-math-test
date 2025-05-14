@@ -1,6 +1,6 @@
 @props(['question' => null, 'action', 'method'])
 
-<form method="POST" action="{{ $action }}">
+<form method="POST" action="{{ $action }}" enctype="multipart/form-data">
     @csrf
     @if ($method === 'PATCH')
         @method('PATCH')
@@ -18,29 +18,27 @@
 
     <!-- Question -->
     <div>
-        <h4>Question Content</h4>
-        <textarea name="question_content" required>{{ old('question_content', $question->question_content ?? '') }}</textarea>
-        <select name="question_type" required>
-            <option value="text"
-                {{ old('question_type', $question->question_type ?? '') == 'text' ? 'selected' : '' }}>Text</option>
-            <option value="image"
-                {{ old('question_type', $question->question_type ?? '') == 'image' ? 'selected' : '' }}>Image</option>
-        </select>
+        <h4>Question Text</h4>
+        <textarea name="question_text">{{ old('question_text', $question->question_text ?? '') }}</textarea>
+    </div>
+    <div>
+        <h4>Question Image</h4>
+        <input type="file" name="question_image">
+        @if (!empty($question->question_image))
+            <img src="{{ asset('storage/' . $question->question_image) }}" alt="Question image preview"
+                style="max-height: 100px;">
+        @endif
     </div>
 
     <!-- Correct Choice -->
     <div>
         <h4>Correct Choice</h4>
-        <input name="choices[0][choice_content]"
-            value="{{ old('choices.0.choice_content', $question->choices[0]->choice_content ?? '') }}" required />
-        <select name="choices[0][choice_type]" required>
-            <option value="text"
-                {{ old('choices.0.choice_type', $question->choices[0]->choice_type ?? '') == 'text' ? 'selected' : '' }}>
-                Text</option>
-            <option value="image"
-                {{ old('choices.0.choice_type', $question->choices[0]->choice_type ?? '') == 'image' ? 'selected' : '' }}>
-                Image</option>
-        </select>
+        <input name="choices[0][choice_text]" value="{{ old('choices.0.choice_text', $choice->choice_text ?? '') }}">
+        <input type="file" name="choices[0][choice_image]">
+        @if (!empty($choice->choice_image))
+            <img src="{{ asset('storage/' . $choice->choice_image) }}" alt="Choice image preview"
+                style="max-height: 80px;">
+        @endif
     </div>
 
     <!-- Other Choices -->
@@ -51,16 +49,14 @@
                 $choice = $question->choices[$i] ?? null;
             @endphp
             <div>
-                <input name="choices[{{ $i }}][choice_content]"
-                    value="{{ old("choices.$i.choice_content", $choice->choice_content ?? '') }}" required />
-                <select name="choices[{{ $i }}][choice_type]" required>
-                    <option value="text"
-                        {{ old("choices.$i.choice_type", $choice->choice_type ?? '') == 'text' ? 'selected' : '' }}>
-                        Text</option>
-                    <option value="image"
-                        {{ old("choices.$i.choice_type", $choice->choice_type ?? '') == 'image' ? 'selected' : '' }}>
-                        Image</option>
-                </select>
+                {{-- <h4>Choice {{ $i + 1 }}</h4> --}}
+                <input name="choices[{{ $i }}][choice_text]"
+                    value="{{ old("choices.$i.choice_text", $choice->choice_text ?? '') }}">
+                <input type="file" name="choices[{{ $i }}][choice_image]">
+                @if (!empty($choice->choice_image))
+                    <img src="{{ asset('storage/' . $choice->choice_image) }}" alt="Choice image preview"
+                        style="max-height: 80px;">
+                @endif
             </div>
         @endfor
     </div>

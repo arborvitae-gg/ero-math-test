@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('category_id')->constrained();
-            $table->enum('question_type', ['text', 'image']);
-            $table->text('question_content');
+            $table->foreignId('quiz_id')->constrained()->onDelete('cascade');
+            $table->text('question_content')->nullable(); // rename to question_text in the future
+            $table->string('question_image')->nullable();
             $table->timestamps();
         });
     }

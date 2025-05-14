@@ -8,8 +8,8 @@ class QuestionChoice extends Model
 {
     protected $fillable = [
         'question_id',
-        'choice_content',
-        'choice_type',
+        'choice_text',
+        'choice_image',
         'is_correct',
     ];
 

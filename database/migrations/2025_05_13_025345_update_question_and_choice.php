@@ -9,10 +9,13 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::table('quizzes', function (Blueprint $table) {
-            $table->string('slug')->unique()->after('title');
+        public function up(): void
+        {
+        Schema::table('questions', function (Blueprint $table) {
+            $table->string('question_image')->nullable();
+        });
+        Schema::table('question_choices', function (Blueprint $table) {
+            $table->string('choice_image')->nullable();
         });
     }
 
@@ -21,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('quizzes', function (Blueprint $table) {
-            //
-        });
+        //
     }
 };
