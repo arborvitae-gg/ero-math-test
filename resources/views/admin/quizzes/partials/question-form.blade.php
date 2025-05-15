@@ -1,4 +1,4 @@
-@props(['question' => null, 'action', 'method'])
+@props(['question' => null, 'action', 'method', 'quiz' => null])
 
 <form method="POST" action="{{ $action }}" enctype="multipart/form-data">
     @csrf
@@ -23,21 +23,23 @@
     </div>
     <div>
         <h4>Question Image</h4>
-        <input type="file" name="question_image">
-        @if (!empty($question->question_image))
-            <img src="{{ asset('storage/' . $question->question_image) }}" alt="Question image preview"
-                style="max-height: 100px;">
+        <input type="file" name="question_image" class="form-control">
+        @if (!empty($question?->question_image_url))
+            <img src="{{ $question->question_image_url }}" alt="Preview">
         @endif
     </div>
 
     <!-- Correct Choice -->
+    @php
+        $firstChoice = $question->choices[0] ?? null;
+    @endphp
     <div>
         <h4>Correct Choice</h4>
-        <input name="choices[0][choice_text]" value="{{ old('choices.0.choice_text', $choice->choice_text ?? '') }}">
-        <input type="file" name="choices[0][choice_image]">
-        @if (!empty($choice->choice_image))
-            <img src="{{ asset('storage/' . $choice->choice_image) }}" alt="Choice image preview"
-                style="max-height: 80px;">
+        <input name="choices[0][choice_text]"
+            value="{{ old('choices.0.choice_text', $firstChoice->choice_text ?? '') }}">
+        <input type="file" name="choices[0][choice_image]" class="form-control">
+        @if (!empty($firstChoice?->choice_image_url))
+            <img src="{{ $firstChoice->choice_image_url }}" alt="Preview">
         @endif
     </div>
 
@@ -49,13 +51,11 @@
                 $choice = $question->choices[$i] ?? null;
             @endphp
             <div>
-                {{-- <h4>Choice {{ $i + 1 }}</h4> --}}
                 <input name="choices[{{ $i }}][choice_text]"
                     value="{{ old("choices.$i.choice_text", $choice->choice_text ?? '') }}">
-                <input type="file" name="choices[{{ $i }}][choice_image]">
-                @if (!empty($choice->choice_image))
-                    <img src="{{ asset('storage/' . $choice->choice_image) }}" alt="Choice image preview"
-                        style="max-height: 80px;">
+                <input type="file" name="choices[{{ $i }}][choice_image]" class="form-control">
+                @if (!empty($choice?->choice_image_url))
+                    <img src="{{ $choice->choice_image_url }}" alt="Preview">
                 @endif
             </div>
         @endfor

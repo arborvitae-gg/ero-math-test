@@ -13,6 +13,15 @@ class QuestionChoice extends Model
         'is_correct',
     ];
 
+    protected $appends = ['choice_image_url'];
+
+    public function getChoiceImageUrlAttribute(): ?string
+    {
+        return $this->choice_image
+            ? env('SUPABASE_ENDPOINT')."/object/public/".env('SUPABASE_BUCKET')."/{$this->choice_image}"
+            : null;
+    }
+
     public function question()
     {
         return $this->belongsTo(Question::class);

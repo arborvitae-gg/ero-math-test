@@ -13,6 +13,15 @@ class Question extends Model
         'question_image',
     ];
 
+    protected $appends = ['question_image_url'];
+
+    public function getQuestionImageUrlAttribute(): ?string
+    {
+        return $this->question_image
+            ? env('SUPABASE_ENDPOINT')."/object/public/".env('SUPABASE_BUCKET')."/{$this->question_image}"
+            : null;
+    }
+
     public function quiz()
     {
         return $this->belongsTo(Quiz::class);
