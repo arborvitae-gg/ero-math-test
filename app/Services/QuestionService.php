@@ -4,70 +4,100 @@ namespace App\Services;
 
 use App\Models\Question;
 use App\Models\QuestionChoice;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class QuestionService
 {
-   public function store(array $data): Question
+    public function __construct(protected SupabaseService $supabase) {}
+
+    public function store(array $data): Question
     {
-        // Handle question image upload if present
-        if (isset($data['question_image']) && $data['question_image'] instanceof \Illuminate\Http\UploadedFile) {
-            $data['question_image'] = $data['question_image']->store('questions', 'supabase');
-        }
+        return DB::transaction(function () use ($data) {
+            $questionData = $this->handleQuestionData($data);
+            $question = Question::create($questionData);
 
-        $question = Question::create([
-            'quiz_id' => $data['quiz_id'],
-            'category_id' => $data['category_id'],
-            'question_text' => $data['question_text'] ?? null,
-            'question_image' => $data['question_image'] ?? null,
-        ]);
-
-        foreach ($data['choices'] as $index => $choiceData) {
-            // Handle choice image upload if present
-            if (isset($choiceData['choice_image']) && $choiceData['choice_image'] instanceof \Illuminate\Http\UploadedFile) {
-                $choiceData['choice_image'] = $choiceData['choice_image']->store('choices', 'supabase');
+            foreach ($data['choices'] as $index => $choiceData) {
+                $this->handleChoice($question, $choiceData, $index);
             }
 
-            QuestionChoice::create([
-                'question_id' => $question->id,
-                'choice_text' => $choiceData['choice_text'] ?? null,
-                'choice_image' => $choiceData['choice_image'] ?? null,
-                'is_correct' => $index == 0,
-            ]);
-        }
-
-        return $question;
+            return $question;
+        });
     }
-
 
     public function update(Question $question, array $data): Question
     {
-        // Handle question image update
-        if (isset($data['question_image']) && $data['question_image'] instanceof \Illuminate\Http\UploadedFile) {
-            $data['question_image'] = $data['question_image']->store('questions', 'supabase');
-        }
+        return DB::transaction(function () use ($question, $data) {
+            $questionData = $this->handleQuestionData($data, $question);
+            $question->update($questionData);
 
-        $question->update([
+            foreach ($data['choices'] as $index => $choiceData) {
+                $this->handleChoice($question, $choiceData, $index);
+            }
+
+            return $question;
+        });
+    }
+
+    private function handleQuestionData(array $data, ?Question $existing = null): array
+    {
+        $questionData = [
+            'quiz_id' => $data['quiz_id'],
+            'category_id' => $data['category_id'],
             'question_text' => $data['question_text'] ?? null,
-            'question_image' => $data['question_image'] ?? $question->question_image,
-        ]);
+        ];
 
-        foreach ($data['choices'] as $index => $choiceData) {
-            $qChoice = $question->choices[$index] ?? null;
+        if (isset($data['question_image'])) {
+            $questionData['question_image'] = $this->uploadFile(
+                $data['question_image'],
+                'questions'
+            );
 
-            if (isset($choiceData['choice_image']) && $choiceData['choice_image'] instanceof \Illuminate\Http\UploadedFile) {
-                $choiceData['choice_image'] = $choiceData['choice_image']->store('choices', 'supabase');
-            }
-
-            if ($qChoice) {
-                $qChoice->update([
-                    'choice_text' => $choiceData['choice_text'] ?? $qChoice->choice_text,
-                    'choice_image' => $choiceData['choice_image'] ?? $qChoice->choice_image,
-                    'is_correct' => $index === 0,
-                ]);
+            if ($existing?->question_image) {
+                $this->supabase->deleteImage($existing->question_image);
             }
         }
 
-        return $question;
+        return $questionData;
+    }
+
+    private function handleChoice(Question $question, array $choiceData, int $index): void
+    {
+        $choice = $question->choices->get($index);
+        $updateData = [
+            'choice_text' => $choiceData['choice_text'] ?? null,
+            'is_correct' => $index === 0,
+        ];
+
+        if (isset($choiceData['choice_image'])) {
+            $updateData['choice_image'] = $this->uploadFile(
+                $choiceData['choice_image'],
+                'choices'
+            );
+
+            if ($choice?->choice_image) {
+                $this->supabase->deleteImage($choice->choice_image);
+            }
+        }
+
+        if ($choice) {
+            $choice->update($updateData);
+        } else {
+            $question->choices()->create($updateData);
+        }
+    }
+
+    public function uploadFile(UploadedFile $file, string $path): string
+    {
+        $filename = Str::random(10) . '.' . $file->getClientOriginalExtension();
+        $filePath = $path . '/' . $filename;
+
+        // Only upload the file, don't return the full URL
+        $this->supabase->uploadImage($file, $filePath);
+
+        return $filePath; // Return relative path for DB storage
     }
 
 

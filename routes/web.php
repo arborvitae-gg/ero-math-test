@@ -1,7 +1,9 @@
 <?php
 
 
+use App\Http\Middleware\EncryptCookies;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AdminQuizController;

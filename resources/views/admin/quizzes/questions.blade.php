@@ -54,17 +54,15 @@
                     <h3>
                         {{ $question->question_text }}
                     </h3>
-                    @if ($question->question_image)
-                        <img src="https://uzdlycbrrlcncxznzmen.supabase.co/storage/v1/object/public/quiz-assets/{{ $question->question_image }}"
-                            alt="Question Image">
+                    @if (!empty($question->question_image))
+                        <img src="{{ $question->question_image_url }}" alt="Question Image">
                     @endif
                     <ul>
                         @foreach ($question->choices as $idx => $choice)
                             <li class="{{ $choice->is_correct ? 'correct' : '' }}">
                                 {{ $choice->choice_text }}
-                                @if ($choice->choice_image)
-                                    <img src="https://uzdlycbrrlcncxznzmen.supabase.co/storage/v1/object/public/quiz-assets/{{ $choice->choice_image }}"
-                                        alt="Choice Image">
+                                @if (!empty($choice->choice_image))
+                                    <img src="{{ $choice->choice_image_url }}" alt="Choice Image">
                                 @endif
                                 @if ($choice->is_correct)
                                     <span>✔</span>
