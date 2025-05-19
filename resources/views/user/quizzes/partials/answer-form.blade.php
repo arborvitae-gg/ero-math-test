@@ -3,13 +3,21 @@
     @csrf
 
     <div class="question">
-        <h3>{{ $question->question_content }}</h3>
+        <h3>
+            {{ $question->question_text }}
+        </h3>
+        @if (!empty($question->question_image))
+            <img src="{{ $question->question_image_url }}" alt="Question Image">
+        @endif
         @foreach ($choices as $choice)
             <div>
                 <label>
                     <input type="radio" name="choice_id" value="{{ $choice->id }}"
                         {{ $existingAttempt && $existingAttempt->question_choice_id === $choice->id ? 'checked' : '' }}>
-                    {{ $choice->choice_content }}
+                    {{ $choice->choice_text }}
+                    @if (!empty($choice->choice_image))
+                        <img src="{{ $choice->choice_image_url }}" alt="Choice Image">
+                    @endif
                 </label>
             </div>
         @endforeach
