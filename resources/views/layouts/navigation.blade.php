@@ -1,7 +1,7 @@
 <nav x-data="{ open: false }" class="nav-container">
     <!-- Navigation Links -->
         {{-- active="request()->routeIs('dashboard') --}}
-        <img src="{{ asset('images/Erovoutika_logo.png') }}" alt="Logo">
+        <img src="{{ asset('images/Erovoutika Light Logo.png') }}" alt="Logo">
         <a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a>
         @if (Auth::user()->role === 'admin')
             <a href="{{ route('admin.users.index') }}">{{ __('Users') }}</a>
