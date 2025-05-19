@@ -8,9 +8,9 @@
 
         <div class="actions">
             <a href="{{ route('user.dashboard') }}" class="btn btn-primary">Back to Dashboard</a>
-            <a href="{{ route('user.quizzes.attempts.results', [$quizUser->quiz, $quizUser]) }}"
+            {{-- <a href="{{ route('user.quizzes.attempts.results', [$quizUser->quiz, $quizUser]) }}"
                 class="btn btn-secondary">View
-                Results</a>
+                Results</a> --}}
             {{-- <a href="{{ route('user.quizzes.certificate', [$quizUser->quiz, $quizUser]) }}"
                 class="btn btn-success">Download Certificate</a> --}}
         </div>
