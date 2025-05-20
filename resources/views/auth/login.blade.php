@@ -51,16 +51,18 @@
             margin: 2rem auto;
             background: #fff;
             border-radius: 10px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.10);
             padding: 2rem 2rem 1.5rem 2rem;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
+
         .login-logo img {
             max-width: 200px;
             margin-bottom: 1.5rem;
         }
+
         .login-title {
             font-size: 2rem;
             font-weight: 500;
@@ -69,19 +71,23 @@
             width: 100%;
             text-align: left;
         }
+
         .login-form-group {
             width: 100%;
             margin-bottom: 1.2rem;
         }
+
         .login-label {
             display: block;
             font-size: 1rem;
             margin-bottom: 0.3rem;
             color: #333;
         }
+
         .login-input-wrapper {
             position: relative;
         }
+
         .login-input-icon {
             position: absolute;
             left: 12px;
@@ -90,6 +96,7 @@
             color: #888;
             font-size: 1rem;
         }
+
         .login-input {
             width: 100%;
             padding: 0.7rem;
@@ -100,19 +107,23 @@
             outline: none;
             transition: border 0.2s;
         }
+
         .login-input:focus {
             border: 1.5px solid #2d3e50;
             background: #fff;
         }
+
         .login-remember {
             display: flex;
             align-items: center;
             margin-bottom: 1.2rem;
             width: 100%;
         }
+
         .login-remember input[type="checkbox"] {
             margin-right: 0.5rem;
         }
+
         .login-actions {
             width: 100%;
             display: flex;
@@ -120,11 +131,13 @@
             align-items: center;
             margin-bottom: 1.2rem;
         }
+
         .login-actions a {
             font-size: 0.95rem;
             color: #2d3e50;
             text-decoration: underline;
         }
+
         .login-btn {
             width: 100%;
             background: #222;
@@ -138,15 +151,18 @@
             cursor: pointer;
             transition: background 0.2s;
         }
+
         .login-btn:hover {
             background: #2d3e50;
         }
+
         .login-footer {
             margin-top: 1.2rem;
             text-align: center;
             font-size: 0.9rem;
             color: #888;
         }
+
         .login-footer a {
             color: #2d3e50;
             text-decoration: underline;
@@ -185,7 +201,8 @@
                 <label for="email" class="login-label">{{ __('Email') }}</label>
                 <div class="login-input-wrapper">
                     <!-- Removed icon -->
-                    <input id="email" class="login-input" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username" />
+                    <input id="email" class="login-input" type="email" name="email" value="{{ old('email') }}"
+                        required autofocus autocomplete="username" />
                 </div>
                 <x-input-error :messages="$errors->get('email')" />
             </div>
@@ -194,7 +211,8 @@
                 <label for="password" class="login-label">{{ __('Password') }}</label>
                 <div class="login-input-wrapper">
                     <!-- Removed icon -->
-                    <input id="password" class="login-input" type="password" name="password" required autocomplete="current-password" />
+                    <input id="password" class="login-input" type="password" name="password" required
+                        autocomplete="current-password" />
                 </div>
                 <x-input-error :messages="$errors->get('password')" />
             </div>
@@ -202,6 +220,12 @@
             <div class="login-remember">
                 <input id="remember_me" type="checkbox" name="remember">
                 <label for="remember_me" style="margin: 0;">{{ __('Remember me') }}</label>
+            </div>
+
+            <div class="login-actions">
+                <a href="{{ route('register') }}">
+                    {{ __('No account yet? Register here') }}
+                </a>
             </div>
 
             <div class="login-actions">
@@ -217,9 +241,9 @@
 
         <div class="login-footer">
             By signing up you accept our
-            <a href="#">term of use</a>
+            <a href="#">Term of Use</a>
             and
-            <a href="#">policies</a>
+            <a href="#">Policies</a>
         </div>
     </div>
 </x-guest-layout>
