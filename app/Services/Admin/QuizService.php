@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Admin;
 
 use App\Models\Quiz;
 
-class AdminQuizService
+class QuizService
 {
     public function store(array $data): Quiz
     {

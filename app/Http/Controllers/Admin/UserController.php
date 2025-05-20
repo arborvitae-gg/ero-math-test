@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Validation\Rule;
 use App\Models\User;
-use App\Services\UserService;
+use App\Services\Admin\UserService;
 use App\Http\Requests\Admin\UserUpdateRequest;
+
 
 class UserController
 {

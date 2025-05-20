@@ -2,13 +2,14 @@
 
 namespace App\Services\User;
 
-use App\Models\Category;
+use Illuminate\Support\Facades\DB;
+
 use App\Models\Quiz;
+use App\Models\Category;
 use App\Models\QuizUser;
 use App\Models\Question;
-use App\Models\QuestionChoice;
 use App\Models\QuizAttempt;
-use Illuminate\Support\Facades\DB;
+use App\Models\QuestionChoice;
 
 class QuizService
 {

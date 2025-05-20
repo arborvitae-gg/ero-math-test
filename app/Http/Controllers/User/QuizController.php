@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Requests\User\SaveAnswerRequest;
+use Illuminate\Support\Facades\Auth;
+
 use App\Models\Quiz;
 use App\Models\QuizUser;
 use App\Models\Question;
 use App\Services\User\QuizService;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\User\SaveAnswerRequest;
 
-class UserQuizController
+class QuizController
 {
     protected QuizService $quizService;
 
@@ -83,9 +84,9 @@ class UserQuizController
     {
         $this->authorizeQuizAccess($quiz, $quizUser);
 
-        if (!$quizUser->can_view_score) {
-            return view('user.quizzes.results-waiting', compact('quizUser', 'quiz'));
-        }
+        // if (!$quizUser->can_view_score) {
+        //     return view('user.quizzes.results-waiting', compact('quizUser', 'quiz'));
+        // }
 
         $attempts = $quizUser->attempts()->with(['question', 'choice'])->get();
 

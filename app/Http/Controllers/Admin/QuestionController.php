@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-// use Illuminate\Http\Request;
 use App\Models\Quiz;
 use App\Models\Question;
 use App\Models\Category;
 use App\Models\QuestionChoice;
-use App\Services\QuestionService;
+use App\Services\Admin\QuestionService;
 use App\Http\Requests\Admin\QuestionRequest;
 
 class QuestionController

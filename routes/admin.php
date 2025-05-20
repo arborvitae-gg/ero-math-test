@@ -3,8 +3,8 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\AdminQuizController;
-use App\Http\Controllers\Admin\AdminQuizResultsController;
+use App\Http\Controllers\Admin\QuizController;
+use App\Http\Controllers\Admin\ResultsController;
 use App\Http\Controllers\Admin\QuestionController;
 
 Route::prefix('admin')
@@ -17,7 +17,7 @@ Route::prefix('admin')
         return view('admin.dashboard');
     })->name('dashboard');
 
-    // User
+    // Users
     Route::prefix('users')
     ->name('users.')
     ->group(function () {
@@ -35,31 +35,31 @@ Route::prefix('admin')
         ->name('quizzes.')
         ->group(function () {
         // CRUD Quiz
-        Route::get('/', [AdminQuizController::class, 'index'])
+        Route::get('/', [QuizController::class, 'index'])
         ->name('index');
 
-        Route::post('/', [AdminQuizController::class, 'store'])
+        Route::post('/', [QuizController::class, 'store'])
         ->name('store');
 
-        Route::get('/create', [AdminQuizController::class, 'create'])
+        Route::get('/create', [QuizController::class, 'create'])
         ->name('create');
 
-        Route::get('/{quiz}', [AdminQuizController::class, 'show'])
+        Route::get('/{quiz}', [QuizController::class, 'show'])
         ->name('show');
 
-        Route::get('/{quiz}/edit', [AdminQuizController::class, 'edit'])
+        Route::get('/{quiz}/edit', [QuizController::class, 'edit'])
         ->name('edit');
 
-        Route::patch('/{quiz}', [AdminQuizController::class, 'update'])
+        Route::patch('/{quiz}', [QuizController::class, 'update'])
         ->name('update');
 
-        Route::delete('/{quiz}', [AdminQuizController::class, 'destroy'])
+        Route::delete('/{quiz}', [QuizController::class, 'destroy'])
         ->name('destroy');
 
-        Route::post('/{quiz}/post', [AdminQuizController::class, 'post'])
+        Route::post('/{quiz}/post', [QuizController::class, 'post'])
         ->name('post');
 
-        // Quiz Questions
+        // Questions
         Route::prefix('{quiz}/questions')->name('questions.')->group(function () {
             Route::get('/', [QuestionController::class, 'index'])
             ->name('index');
@@ -74,15 +74,15 @@ Route::prefix('admin')
             ->name('destroy');
         });
 
-        // Quiz Results
+        // Results
         Route::prefix('{quiz}/results')->name('results.')->group(function () {
-            Route::get('/', [AdminQuizResultsController::class, 'index'])
+            Route::get('/', [ResultsController::class, 'index'])
             ->name('index');
 
-            Route::get('/{quizUser}', [AdminQuizResultsController::class, 'show'])
+            Route::get('/{quizUser}', [ResultsController::class, 'show'])
             ->name('show');
 
-            Route::post('/{quizUser}/toggle-visibility', [AdminQuizResultsController::class, 'toggleVisibility'])
+            Route::post('/{quizUser}/toggle-visibility', [ResultsController::class, 'toggleVisibility'])
             ->name('toggle-visibility');
         });
     });

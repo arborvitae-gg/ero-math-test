@@ -4,14 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Quiz;
 use App\Models\Category;
-use App\Services\AdminQuizService;
-use App\Http\Requests\Admin\AdminQuizRequest;
+use App\Services\Admin\QuizService;
+use App\Http\Requests\Admin\QuizRequest;
 
-class AdminQuizController
+class QuizController
 {
     protected $service;
 
-    public function __construct(AdminQuizService $service)
+    public function __construct(QuizService $service)
     {
         $this->service = $service;
     }
@@ -24,14 +24,14 @@ class AdminQuizController
         return view('admin.quizzes.index', compact('quizzes', 'categories'));
     }
 
-    public function store(AdminQuizRequest $request)
+    public function store(QuizRequest $request)
     {
         $this->service->store($request->validated());
 
         return redirect()->route('admin.quizzes.index')->with('status', 'Quiz created!');
     }
 
-    public function update(AdminQuizRequest $request, Quiz $quiz)
+    public function update(QuizRequest $request, Quiz $quiz)
     {
         $this->service->update($quiz, $request->validated());
 

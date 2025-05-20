@@ -42,14 +42,14 @@ class QuizSeeder extends Seeder
 
                 QuestionChoice::create([
                     'question_id' => $question->id,
-                    'choice_content' => (string)$correctAnswer,
+                    'choice_text' => (string)$correctAnswer,
                     'is_correct' => true,
                 ]);
 
                 for ($j = 0; $j < 3; $j++) {
                     QuestionChoice::create([
                         'question_id' => $question->id,
-                        'choice_content' => (string)($correctAnswer + rand(1, 10)),
+                        'choice_text' => (string)($correctAnswer + rand(1, 10)),
                         'is_correct' => false,
                     ]);
                 }

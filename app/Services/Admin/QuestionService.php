@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Admin;
+
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 use App\Models\Question;
 use App\Models\QuestionChoice;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Log;
 
 class QuestionService
 {

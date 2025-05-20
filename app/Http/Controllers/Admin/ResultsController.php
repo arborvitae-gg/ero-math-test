@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Quiz;
 use App\Models\QuizUser;
 
-class AdminQuizResultsController
+class ResultsController
 {
     public function index(Quiz $quiz)
     {
