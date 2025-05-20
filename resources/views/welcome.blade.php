@@ -9,6 +9,192 @@
         Ero-Math Competition
     </title>
 
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #222;
+            background: #fff;
+        }
+
+        header {
+            background: rgba(0, 0, 139, 0.85);
+            /* semi-transparent dark blue */
+            padding: 1rem 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            position: relative;
+            z-index: 2;
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+            display: block;
+            padding-left: 20px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            max-width: 900px;
+            padding: 0 3rem;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        nav a:hover {
+            background: #1a2533;
+        }
+
+        .hero-bg {
+            position: relative;
+            width: 100%;
+            height: 50vh;
+            min-height: 350px;
+            background: url('{{ asset('images/bg-home.png') }}') no-repeat center center;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hero-bg-carousel {
+            position: relative;
+            width: 100%;
+            height: 80vh;
+            /* Increased from 65vh to 80vh */
+            min-height: 520px;
+            /* Increased min-height for larger screens */
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            /* Move content to the bottom */
+            align-items: center;
+            color: #fff;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            height: 100%;
+            padding-bottom: 10rem;
+            /* Add space from the bottom */
+            padding-top: 2rem;
+            /* Optional: add space from the top */
+        }
+
+        .hero-content h1 {
+            color: #fff;
+            font-size: 2.5rem;
+        }
+
+        .hero-content p {
+            color: #fff;
+            font-size: 1.2rem;
+        }
+
+        .carousel-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1s;
+            z-index: 0;
+        }
+
+        .carousel-image.active {
+            opacity: 1;
+            z-index: 1;
+        }
+
+        .carousel-dots {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 40px;
+            /* Adjust this value as needed */
+            margin: 0 auto;
+            text-align: center;
+            z-index: 3;
+        }
+
+        .carousel-dots .dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            margin: 0 4px;
+            background: #fff;
+            border-radius: 50%;
+            opacity: 0.5;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .carousel-dots .dot.active {
+            opacity: 1;
+            background: #fff;
+        }
+
+        @media (max-width: 600px) {
+            .nav-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            nav {
+                flex-direction: column;
+                align-items: flex-end;
+                gap: 0.5rem;
+            }
+
+            .hero-bg {
+                min-height: 220px;
+                height: 40vh;
+            }
+
+            .hero-content h1 {
+                font-size: 1.3rem;
+            }
+
+            .hero-content p {
+                font-size: 1rem;
+            }
+
+            main {
+                margin-top: -30px;
+                padding: 1rem;
+            }
+        }
+    </style>
     {{-- Styles / Scripts --}}
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -19,27 +205,69 @@
 </head>
 
 <body>
-
     <header>
-        @if (Route::has('login'))
-            <nav>
-                @auth
-                    <a href="{{ url('/dashboard') }}">Dashboard</a>
-                @else
-                    <a href="{{ route('login') }}">Log in</a>
-                    @if (Route::has('register'))
-                        <a href="{{ route('register') }}">Register</a>
-                    @endif
-                @endauth
-            </nav>
-        @endif
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <img src="{{ asset('images/Erovoutika Light Logo.png') }}" alt="Ero-Math Logo">
+            </a>
+            @if (Route::has('login'))
+                <nav>
+                    @auth
+                        <a href="{{ url('/dashboard') }}">Dashboard</a>
+                    @else
+                        <a href="{{ route('login') }}">Log in</a>
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}">Register</a>
+                        @endif
+                    @endauth
+                </nav>
+            @endif
+        </div>
     </header>
+    <div class="hero-bg-carousel">
+        <div class="carousel-image active" style="background-image: url('{{ asset('images/bg-home1.png') }}');"></div>
+        <div class="carousel-image" style="background-image: url('{{ asset('images/bg-home2.png') }}');"></div>
+        <div class="carousel-image" style="background-image: url('{{ asset('images/bg-home3.png') }}');"></div>
+        <div class="carousel-image" style="background-image: url('{{ asset('images/bg-home4.png') }}');"></div>
+        <div class="hero-content">
+            <h1>Lorem ipsum dolor sit amet,<br>consectetur adipiscing elit</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ...</p>
+            <div class="carousel-dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+    </div>
+    <script>
+        const images = document.querySelectorAll('.carousel-image');
+        const dots = document.querySelectorAll('.carousel-dots .dot');
+        let current = 0;
+        const total = images.length;
+        let interval = setInterval(nextSlide, 4000);
 
-    <main>
-        <h1>Welcome to Ero-Math Competition</h1>
-        <p>You're home.</p>
-    </main>
+        function showSlide(idx) {
+            images.forEach((img, i) => {
+                img.classList.toggle('active', i === idx);
+                dots[i].classList.toggle('active', i === idx);
+            });
+            current = idx;
+        }
 
+        function nextSlide() {
+            let next = (current + 1) % total;
+            showSlide(next);
+        }
+
+        dots.forEach((dot, idx) => {
+            dot.addEventListener('click', () => {
+                showSlide(idx);
+                clearInterval(interval);
+                interval = setInterval(nextSlide, 4000);
+            });
+        });
+    </script>
 </body>
 
 </html>
