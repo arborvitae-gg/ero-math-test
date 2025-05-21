@@ -32,6 +32,11 @@ class Quiz extends Model
         static::creating(function ($quiz) {
             $quiz->slug = Str::slug($quiz->title);
         });
+        static::updating(function ($quiz) {
+            if ($quiz->isDirty('title')) {
+                $quiz->slug = Str::slug($quiz->title);
+            }
+        });
     }
 
     /**

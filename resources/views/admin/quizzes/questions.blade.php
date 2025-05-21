@@ -1,9 +1,8 @@
 <x-app-layout>
-        <div class="top-container">
-            <h1>ADMIN |</h1>
-            <h2>{{ __('Questions') }}</h2>
-        </div>
-    </x-slot>
+    <div class="top-container">
+        <h1>ADMIN |</h1>
+        <h2>{{ __('Questions') }}</h2>
+    </div>
 
     @php
         $defaultCategory = $categories->first();
@@ -38,7 +37,7 @@
         @endif
 
         {{-- ✅ Category filter --}}
-        <div  class="filter-category">
+        <div class="filter-category">
             <label>Filter by Category:</label>
             @foreach ($categories as $category)
                 <label>
