@@ -1,6 +1,8 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2>{{ __('Questions') }}</h2>
+        <div class="top-container">
+            <h1>ADMIN |</h1>
+            <h2>{{ __('Questions') }}</h2>
+        </div>
     </x-slot>
 
     @php
@@ -13,15 +15,14 @@
         init() {
             this.$watch('categoryId', value => localStorage.setItem('{{ $localStorageKey }}', value))
         }
-    }">
+    }" class="questions-body">
 
         {{-- ✅ Disable add question if quiz is posted --}}
         @if (!$quiz->is_posted)
             <div x-data="{ showCreate: false }">
                 <button @click="showCreate = !showCreate">
-                    + Add Question Popup Modal Toggle
+                    + Add Question
                 </button>
-
                 <div x-show="showCreate">
                     @include('admin.quizzes.partials.question-form', [
                         'quiz' => $quiz,
@@ -37,7 +38,7 @@
         @endif
 
         {{-- ✅ Category filter --}}
-        <div>
+        <div  class="filter-category">
             <label>Filter by Category:</label>
             @foreach ($categories as $category)
                 <label>
@@ -48,7 +49,7 @@
         </div>
 
         {{-- ✅ List of questions --}}
-        <div>
+        <div class="question-table">
             @foreach ($questions as $index => $question)
                 <div x-show="categoryId == '{{ $question->category_id }}'">
                     <h3>
@@ -74,7 +75,7 @@
                     {{-- Only show edit/delete if not posted --}}
                     @if (!$quiz->is_posted)
                         <div x-data="{ editing: false }">
-                            <button @click="editing = !editing">Edit Popup Modal Toggle</button>
+                            <button @click="editing = !editing">Edit</button>
 
                             <div x-show="editing">
                                 @include('admin.quizzes.partials.question-form', [
