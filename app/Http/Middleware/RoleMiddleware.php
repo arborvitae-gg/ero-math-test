@@ -23,8 +23,8 @@ class RoleMiddleware
      */
     public function handle(Request $request, Closure $next, string $role): Response
     {
-        // Use Laravel's policy for role check
-        if (auth()->check() && $request->user()->can('hasRole', [auth()->user(), $role])) {
+        // Use Laravel's policy for role check (correct argument order)
+        if (auth()->check() && $request->user()->can('hasRole', $role)) {
             return $next($request);
         }
 
