@@ -4,10 +4,17 @@ namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Request for registering a new user.
+ *
+ * @package App\Http\Requests\Auth
+ */
 class RegisterUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
+     *
+     * @return bool
      */
     public function authorize(): bool
     {

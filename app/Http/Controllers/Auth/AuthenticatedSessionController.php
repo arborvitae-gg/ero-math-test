@@ -9,10 +9,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
+/**
+ * Controller for handling user authentication sessions.
+ *
+ * @package App\Http\Controllers\Auth
+ */
 class AuthenticatedSessionController
 {
     /**
      * Display the login view.
+     *
+     * @return View
      */
     public function create(): View
     {
@@ -21,6 +28,9 @@ class AuthenticatedSessionController
 
     /**
      * Handle an incoming authentication request.
+     *
+     * @param LoginRequest $request
+     * @return RedirectResponse
      */
     public function store(LoginRequest $request): RedirectResponse
     {
@@ -33,6 +43,9 @@ class AuthenticatedSessionController
 
     /**
      * Destroy an authenticated session.
+     *
+     * @param Request $request
+     * @return RedirectResponse
      */
     public function destroy(Request $request): RedirectResponse
     {

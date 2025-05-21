@@ -8,10 +8,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\View\View;
 
+/**
+ * Controller for handling password reset link requests.
+ *
+ * @package App\Http\Controllers\Auth
+ */
 class PasswordResetLinkController
 {
     /**
      * Display the password reset link request view.
+     *
+     * @return View
      */
     public function create(): View
     {
@@ -21,6 +28,8 @@ class PasswordResetLinkController
     /**
      * Handle an incoming password reset link request.
      *
+     * @param Request $request
+     * @return RedirectResponse
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request): RedirectResponse

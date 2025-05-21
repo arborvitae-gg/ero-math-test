@@ -4,10 +4,17 @@ namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Request for creating or updating a quiz by an admin.
+ *
+ * @package App\Http\Requests\Admin
+ */
 class QuizRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
+     *
+     * @return bool
      */
     public function authorize(): bool
     {
@@ -28,6 +35,13 @@ class QuizRequest extends FormRequest
         ];
     }
 
+    /**
+     * Get the validated data from the request, with is_posted as boolean.
+     *
+     * @param string|null $key
+     * @param mixed $default
+     * @return array
+     */
     public function validated($key = null, $default = null)
     {
         $data = parent::validated($key, $default);

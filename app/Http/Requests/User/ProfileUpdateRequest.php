@@ -6,8 +6,19 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 use App\Models\User;
+
+/**
+ * Request for updating a user's profile information.
+ *
+ * @package App\Http\Requests\User
+ */
 class ProfileUpdateRequest extends FormRequest
 {
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
     public function rules(): array
     {
         return [

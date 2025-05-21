@@ -9,10 +9,17 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
+/**
+ * Request for authenticating a user (login).
+ *
+ * @package App\Http\Requests\Auth
+ */
 class LoginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
+     *
+     * @return bool
      */
     public function authorize(): bool
     {
@@ -36,6 +43,7 @@ class LoginRequest extends FormRequest
      * Attempt to authenticate the request's credentials.
      *
      * @throws \Illuminate\Validation\ValidationException
+     * @return void
      */
     public function authenticate(): void
     {

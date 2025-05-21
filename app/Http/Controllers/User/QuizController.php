@@ -10,15 +10,35 @@ use App\Models\Question;
 use App\Services\User\QuizService;
 use App\Http\Requests\User\SaveAnswerRequest;
 
+/**
+ * Controller for handling user quiz interactions.
+ *
+ * @package App\Http\Controllers\User
+ */
 class QuizController
 {
+    /**
+     * The quiz service instance.
+     *
+     * @var QuizService
+     */
     protected QuizService $quizService;
 
+    /**
+     * Inject QuizService dependency.
+     *
+     * @param QuizService $quizService
+     */
     public function __construct(QuizService $quizService)
     {
         $this->quizService = $quizService;
     }
 
+    /**
+     * Display a list of available quizzes and user attempts.
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
         $user = Auth::user();
@@ -32,6 +52,12 @@ class QuizController
         return view('user.quizzes.index', compact('quizzes', 'user', 'quizUsers'));
     }
 
+    /**
+     * Start a new quiz attempt for the user.
+     *
+     * @param Quiz $quiz
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function start(Quiz $quiz)
     {
         $user = Auth::user();
@@ -40,6 +66,13 @@ class QuizController
         return redirect()->route('user.quizzes.attempts.show', [$quiz, $quizUser]);
     }
 
+    /**
+     * Show the current quiz question for the user.
+     *
+     * @param Quiz $quiz
+     * @param QuizUser $quizUser
+     * @return \Illuminate\View\View
+     */
     public function show(Quiz $quiz, QuizUser $quizUser)
     {
         $this->authorizeQuizAccess($quiz, $quizUser);
@@ -49,6 +82,15 @@ class QuizController
         return view('user.quizzes.take', compact('quizUser', 'quiz', 'question', 'choices', 'existingAttempt'));
     }
 
+    /**
+     * Save the user's answer and handle navigation or submission.
+     *
+     * @param SaveAnswerRequest $request
+     * @param Quiz $quiz
+     * @param QuizUser $quizUser
+     * @param Question $question
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function saveAnswer(SaveAnswerRequest $request, Quiz $quiz, QuizUser $quizUser, Question $question)
     {
         $this->authorizeQuizAccess($quiz, $quizUser);
@@ -64,6 +106,13 @@ class QuizController
         return redirect()->route('user.quizzes.attempts.show', [$quiz, $quizUser]);
     }
 
+    /**
+     * Submit the quiz attempt for grading.
+     *
+     * @param Quiz $quiz
+     * @param QuizUser $quizUser
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function submit(Quiz $quiz, QuizUser $quizUser)
     {
         $this->authorizeQuizAccess($quiz, $quizUser);
@@ -73,6 +122,13 @@ class QuizController
         return redirect()->route('user.quizzes.attempts.completed', [$quiz, $quizUser]);
     }
 
+    /**
+     * Show the completed quiz summary to the user.
+     *
+     * @param Quiz $quiz
+     * @param QuizUser $quizUser
+     * @return \Illuminate\View\View
+     */
     public function completed(Quiz $quiz, QuizUser $quizUser)
     {
         $this->authorizeQuizAccess($quiz, $quizUser);
@@ -80,6 +136,13 @@ class QuizController
         return view('user.quizzes.completed', compact('quizUser', 'quiz'));
     }
 
+    /**
+     * Show the quiz results to the user.
+     *
+     * @param Quiz $quiz
+     * @param QuizUser $quizUser
+     * @return \Illuminate\View\View
+     */
     public function results(Quiz $quiz, QuizUser $quizUser)
     {
         $this->authorizeQuizAccess($quiz, $quizUser);
@@ -93,6 +156,13 @@ class QuizController
         return view('user.quizzes.results', compact('quizUser', 'quiz', 'attempts'));
     }
 
+    /**
+     * Ensure the authenticated user can access the quiz attempt.
+     *
+     * @param Quiz $quiz
+     * @param QuizUser $quizUser
+     * @return void
+     */
     protected function authorizeQuizAccess(Quiz $quiz, QuizUser $quizUser): void
     {
         if ($quizUser->user_id !== Auth::id() || $quizUser->quiz_id !== $quiz->id) {

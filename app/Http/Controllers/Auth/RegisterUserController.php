@@ -13,10 +13,17 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
+/**
+ * Controller for user registration.
+ *
+ * @package App\Http\Controllers\Auth
+ */
 class RegisterUserController
 {
     /**
      * Display the registration view.
+     *
+     * @return View
      */
     public function create(): View
     {
@@ -26,6 +33,8 @@ class RegisterUserController
     /**
      * Handle an incoming registration request.
      *
+     * @param RegisterUserRequest $request
+     * @return RedirectResponse
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(RegisterUserRequest $request): RedirectResponse
