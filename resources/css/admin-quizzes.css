@@ -1,0 +1,153 @@
+:root{
+    /* FLUID RESPONSIVE FONT SIZE BASE VALUE = 9px MIN WIDTH = 425px AND MAX VALUE = 14px MAX WIDTH = 1480px*/
+    --step--6: clamp(0.1884rem, 0.1741rem + 0.0713vw, 0.2294rem);
+    --step--5: clamp(0.2261rem, 0.205rem + 0.1055vw, 0.2867rem);
+    --step--4: clamp(0.2713rem, 0.241rem + 0.1515vw, 0.3584rem);
+    --step--3: clamp(0.3255rem, 0.2829rem + 0.213vw, 0.448rem);
+    --step--2: clamp(0.3906rem, 0.3317rem + 0.2946vw, 0.56rem);
+    --step--1: clamp(0.4688rem, 0.3883rem + 0.4022vw, 0.7rem);
+    --step-0: clamp(0.5625rem, 0.4538rem + 0.5435vw, 0.875rem);
+    --step-1: clamp(0.675rem, 0.5293rem + 0.7283vw, 1.0938rem);
+    --step-2: clamp(0.81rem, 0.6162rem + 0.969vw, 1.3672rem);
+    --step-3: clamp(0.972rem, 0.7157rem + 1.2817vw, 1.709rem);
+    --step-4: clamp(1.1664rem, 0.8291rem + 1.6867vw, 2.1362rem);
+    --step-5: clamp(1.3997rem, 0.9577rem + 2.2098vw, 2.6703rem);
+    --step-6: clamp(1.6796rem, 1.1028rem + 2.8839vw, 3.3379rem);
+}
+.add-quiz-btn{
+    /* background-color: green; */
+    display: flex;
+    align-items: center;
+    padding-block: .5rem;
+}
+.add-quiz-btn button{
+    margin-left: 1rem;
+    cursor: pointer;
+    padding-inline: 2rem;
+    padding-block: .3rem;
+    border-radius: .5rem;
+    border: 1px solid rgb(151, 151, 151);
+    font-size: var(--step-0);
+    font-weight: bold;
+    color: rgb(75, 75, 75);
+    letter-spacing: .1rem;
+    -webkit-border-radius: .5rem;
+    -moz-border-radius: .5rem;
+    -ms-border-radius: .5rem;
+    -o-border-radius: .5rem;
+}
+.add-quiz-btn button:hover{
+    background-color: #cc971b;
+    color: white;
+}
+.add-quiz-modal{
+    /* background-color: rgb(255, 123, 0); */
+    padding-block: .5rem;
+}
+.quiz-modal-container{
+    /* background-color: yellow; */
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.quiz-modal-container #quiz-input{
+    height: 1.5rem;
+    border-radius: .2rem;
+    border: 1px solid rgb(151, 151, 151);
+    background-color: rgb(231, 231, 231);
+    padding-inline: .5rem;
+}
+.quiz-modal-container label{
+    margin-right: .5rem;
+    font-size: var(--step-0);
+    font-weight: bold;
+    color: rgb(94, 94, 94);
+    letter-spacing: .2rem;
+}
+.quiz-modal-container button{
+    cursor: pointer;
+    padding-inline: 2rem;
+    padding-block: .3rem;
+    border-radius: .5rem;
+    border: 1px solid rgb(151, 151, 151);
+    font-size: var(--step-0);
+    font-weight: bold;
+    color: rgb(75, 75, 75);
+    letter-spacing: .1rem;
+    -webkit-border-radius: .5rem;
+    -moz-border-radius: .5rem;
+    -ms-border-radius: .5rem;
+    -o-border-radius: .5rem;
+}
+.quiz-modal-container button:hover{
+    background-color: #cc971b;
+    color: white;
+}
+.admin-quiz-table{
+    /* background-color: violet; */
+    margin: auto;
+    width: 90%;
+    height: 75vh;
+    padding: 1rem;
+}
+.admin-quiz-table table{
+    background-color: rgb(202, 202, 202);
+    width: 100%;
+    border-collapse: collapse;
+}
+.admin-quiz-table table thead{
+    background-color: rgb(210, 210, 210);
+    border-bottom: 3px solid #cc971b;
+    font-size: var(--step-0);
+    font-weight: 900;
+    color: rgb(51, 51, 51);
+    letter-spacing: .2rem;
+}
+.admin-quiz-table th{
+    padding: .5rem;
+}
+.admin-quiz-table td{
+    padding: 1rem;
+    text-align: center;
+    font-size: var(--step-0);
+    color: rgb(51, 51, 51);
+    letter-spacing: .1rem;
+}
+.admin-quiz-table table tbody tr:nth-of-type(odd){
+    background-color: rgb(230, 230, 230);
+}
+.admin-quiz-table table tbody tr:nth-of-type(even){
+    border-bottom: 3px solid #cc971b;
+}
+.admin-quiz-table table tbody tr a{
+    margin: 0;
+}
+.admin-quiz-table table tbody tr td.special-cell{
+    /* background-color: yellow; */
+    display: flex;
+    flex-direction: column;
+    padding: .5rem;
+}
+.admin-quiz-table table tbody tr td.special-cell button{
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: .5rem;
+    cursor: pointer;
+    padding: .5rem;
+    border: 1px solid rgb(151, 151, 151);
+    font-size: var(--step--1);
+    font-weight: bold;
+    color: rgb(75, 75, 75);
+    letter-spacing: .1rem;
+}
+.admin-quiz-table table tbody tr td.special-cell button:hover{
+    background-color: #cc971b;
+    color: white;
+}
+.admin-quiz-table table tbody tr td.special-cell a{
+    background-color: rgb(45, 83, 252);
+    margin-bottom: .5rem;
+}
+.admin-quiz-table table tbody tr td.special-cell a:hover{
+    background-color: #cc971b;
+}

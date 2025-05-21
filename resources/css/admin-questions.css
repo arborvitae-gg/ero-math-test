@@ -1,0 +1,34 @@
+:root{
+    /* FLUID RESPONSIVE FONT SIZE BASE VALUE = 9px MIN WIDTH = 425px AND MAX VALUE = 14px MAX WIDTH = 1480px*/
+    --step--6: clamp(0.1884rem, 0.1741rem + 0.0713vw, 0.2294rem);
+    --step--5: clamp(0.2261rem, 0.205rem + 0.1055vw, 0.2867rem);
+    --step--4: clamp(0.2713rem, 0.241rem + 0.1515vw, 0.3584rem);
+    --step--3: clamp(0.3255rem, 0.2829rem + 0.213vw, 0.448rem);
+    --step--2: clamp(0.3906rem, 0.3317rem + 0.2946vw, 0.56rem);
+    --step--1: clamp(0.4688rem, 0.3883rem + 0.4022vw, 0.7rem);
+    --step-0: clamp(0.5625rem, 0.4538rem + 0.5435vw, 0.875rem);
+    --step-1: clamp(0.675rem, 0.5293rem + 0.7283vw, 1.0938rem);
+    --step-2: clamp(0.81rem, 0.6162rem + 0.969vw, 1.3672rem);
+    --step-3: clamp(0.972rem, 0.7157rem + 1.2817vw, 1.709rem);
+    --step-4: clamp(1.1664rem, 0.8291rem + 1.6867vw, 2.1362rem);
+    --step-5: clamp(1.3997rem, 0.9577rem + 2.2098vw, 2.6703rem);
+    --step-6: clamp(1.6796rem, 1.1028rem + 2.8839vw, 3.3379rem);
+}
+.questions-body{
+    background-color: red;
+    height: 75vh;
+    display: flex;
+    flex-direction: column;
+}
+.questions-body .filter-category{
+    background-color: yellow;
+}
+.questions-body .add-question-btn{
+    background-color: green;
+}
+.questions-body .add-question-form{
+    background-color: blue;
+}
+.questions-body .question-table{
+    background-color: violet;
+}
