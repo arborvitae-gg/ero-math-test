@@ -7,10 +7,11 @@ use App\Http\Controllers\Admin\QuizController;
 use App\Http\Controllers\Admin\ResultsController;
 use App\Http\Controllers\Admin\QuestionController;
 
+// Admin routes for user, quiz, question, and results management
 Route::prefix('admin')
-->middleware(['auth', 'verified', 'role:admin'])
-->name('admin.')
-->group(function () {
+    ->middleware(['auth', 'verified', 'role:admin'])
+    ->name('admin.')
+    ->group(function () {
 
     // Dashboard
     Route::get('/dashboard', function () {
@@ -19,71 +20,26 @@ Route::prefix('admin')
 
     // Users
     Route::prefix('users')
-    ->name('users.')
-    ->group(function () {
-        Route::get('/', [UserController::class, 'index'])
-        ->name('index');
-
-        // Route::get('/{user}/edit', [UserController::class, 'edit'])
-        // ->name('edit');
-
-        // Route::patch('/{user}', [UserController::class, 'update'])
-        // ->name('update');
-    });
-
-    Route::prefix('quizzes')
-        ->name('quizzes.')
+        ->name('users.')
         ->group(function () {
-        // CRUD Quiz
-        Route::get('/', [QuizController::class, 'index'])
-        ->name('index');
-
-        Route::post('/', [QuizController::class, 'store'])
-        ->name('store');
-
-        Route::get('/create', [QuizController::class, 'create'])
-        ->name('create');
-
-        Route::get('/{quiz}', [QuizController::class, 'show'])
-        ->name('show');
-
-        Route::get('/{quiz}/edit', [QuizController::class, 'edit'])
-        ->name('edit');
-
-        Route::patch('/{quiz}', [QuizController::class, 'update'])
-        ->name('update');
-
-        Route::delete('/{quiz}', [QuizController::class, 'destroy'])
-        ->name('destroy');
-
-        Route::post('/{quiz}/post', [QuizController::class, 'post'])
-        ->name('post');
-
-        // Questions
-        Route::prefix('{quiz}/questions')->name('questions.')->group(function () {
-            Route::get('/', [QuestionController::class, 'index'])
-            ->name('index');
-
-            Route::post('/', [QuestionController::class, 'store'])
-            ->name('store');
-
-            Route::patch('/{question}', [QuestionController::class, 'update'])
-            ->name('update');
-
-            Route::delete('/{question}', [QuestionController::class, 'destroy'])
-            ->name('destroy');
+            Route::get('/', [UserController::class, 'index'])->name('index');
+            // Add more user management routes as needed
         });
 
-        // Results
-        Route::prefix('{quiz}/results')->name('results.')->group(function () {
-            Route::get('/', [ResultsController::class, 'index'])
-            ->name('index');
+    // Quizzes (resourceful, with custom post route)
+    Route::resource('quizzes', QuizController::class)->except(['show']);
+    // Show route (if needed)
+    Route::get('quizzes/{quiz}', [QuizController::class, 'show'])->name('quizzes.show');
+    // Post quiz (custom action)
+    Route::post('quizzes/{quiz}/post', [QuizController::class, 'post'])->name('quizzes.post');
 
-            Route::get('/{quizUser}', [ResultsController::class, 'show'])
-            ->name('show');
+    // Questions (resourceful, nested under quizzes)
+    Route::resource('quizzes.questions', QuestionController::class)->shallow()->except(['create', 'show', 'edit']);
 
-            Route::post('/{quizUser}/toggle-visibility', [ResultsController::class, 'toggleVisibility'])
-            ->name('toggle-visibility');
-        });
+    // Results (grouped under quizzes)
+    Route::prefix('quizzes/{quiz}/results')->name('quizzes.results.')->group(function () {
+        Route::get('/', [ResultsController::class, 'index'])->name('index');
+        Route::get('/{quizUser}', [ResultsController::class, 'show'])->name('show');
+        Route::post('/{quizUser}/toggle-visibility', [ResultsController::class, 'toggleVisibility'])->name('toggle-visibility');
     });
 });

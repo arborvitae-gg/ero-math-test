@@ -17,7 +17,7 @@
         </div>
 
         {{-- Model add quiz form, form blade file located in views/admin/partials/quiz-form.blade.php --}}
-        <div x-show="showCreate class="add-quiz-modal">
+        <div x-show="showCreate" class="add-quiz-modal">
             @include('admin.quizzes.partials.quiz-form', [
                 'action' => route('admin.quizzes.store'),
                 'method' => 'POST',
@@ -55,33 +55,36 @@
                             </td>
                             <td class="special-cell">
                                 {{-- added line break on line 48 for better UI placement, remove when styling --}}
-                                <a href="{{ route('admin.quizzes.questions.index', $quiz) }}">Questions</a><br>
+
 
                                 @if ($quiz->is_posted)
                                     {{-- If posted: show Results only --}}
-                                    <a href="{{ route('admin.quizzes.results.index', $quiz) }}">Results</a>
+                                    <a href="{{ route('admin.quizzes.results.index', $quiz) }}">View Quiz Results</a>
                                     <p><em>This quiz is posted and locked.</em></p>
                                 @else
                                     {{-- If not posted: show Edit/Delete/Post --}}
 
                                     {{-- Toggleable Pop-up modal Edit Quiz button (form below the delete quiz button) --}}
                                     <button @click="edit = !edit">
-                                        Edit
+                                        Edit Quiz Details
                                     </button>
+
+                                    <a href="{{ route('admin.quizzes.questions.index', $quiz) }}">Add/Edit
+                                        Questions</a><br>
 
                                     {{-- Delete quiz form and button --}}
                                     <form method="POST" action="{{ route('admin.quizzes.destroy', $quiz) }}"
                                         onsubmit="return confirm('Are you sure you want to delete this quiz?');">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit">Delete</button>
+                                        <button type="submit">Delete Quiz</button>
                                     </form>
 
                                     {{-- Post Quiz button --}}
                                     <form method="POST" action="{{ route('admin.quizzes.post', $quiz) }}"
                                         onsubmit="return confirm('Posting this quiz will prevent future edits or deletion. Are you sure?');">
                                         @csrf
-                                        <button type="submit">Post</button>
+                                        <button type="submit">Post Quiz to Users</button>
                                     </form>
                                 @endif
                             </td>
