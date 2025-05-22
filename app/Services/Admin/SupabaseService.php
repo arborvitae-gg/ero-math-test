@@ -1,11 +1,16 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Admin;
 
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
 
+/**
+ * Service for handling Supabase storage operations (image upload/delete).
+ *
+ * @package App\Services\Admin
+ */
 class SupabaseService
 {
     protected string $url;
@@ -19,6 +24,14 @@ class SupabaseService
         $this->bucket = config('services.supabase.bucket');
     }
 
+    /**
+     * Upload an image to Supabase storage.
+     *
+     * @param UploadedFile $file
+     * @param string $path
+     * @return bool
+     * @throws \Exception
+     */
     public function uploadImage(UploadedFile $file, string $path): bool
     {
         $response = Http::withHeaders([
@@ -40,6 +53,13 @@ class SupabaseService
         return true;
     }
 
+    /**
+     * Delete an image from Supabase storage.
+     *
+     * @param string $path
+     * @return void
+     * @throws \Exception
+     */
     public function deleteImage(string $path): void
     {
         $response = Http::withHeaders([

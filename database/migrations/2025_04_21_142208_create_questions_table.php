@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('category_id')->constrained();
             $table->foreignId('quiz_id')->constrained()->onDelete('cascade');
-            $table->text('question_content')->nullable(); // rename to question_text in the future
+            $table->text('question_text')->nullable();
             $table->string('question_image')->nullable();
             $table->timestamps();
         });

@@ -4,6 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Model representing a possible answer choice for a question.
+ *
+ * @package App\Models
+ */
 class QuestionChoice extends Model
 {
     protected $fillable = [
@@ -15,6 +20,11 @@ class QuestionChoice extends Model
 
     protected $appends = ['choice_image_url'];
 
+    /**
+     * Get the full URL for the choice image (if any).
+     *
+     * @return string|null
+     */
     public function getChoiceImageUrlAttribute(): ?string
     {
         return $this->choice_image
@@ -22,6 +32,11 @@ class QuestionChoice extends Model
             : null;
     }
 
+    /**
+     * Get the question this choice belongs to.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function question()
     {
         return $this->belongsTo(Question::class);

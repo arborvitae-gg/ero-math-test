@@ -19,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Register RolePolicy for User model
+        \Illuminate\Support\Facades\Gate::define('hasRole', [\App\Policies\RolePolicy::class, 'hasRole']);
     }
 }

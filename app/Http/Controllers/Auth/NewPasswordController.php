@@ -13,10 +13,18 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
+/**
+ * Controller for handling new password (reset) requests.
+ *
+ * @package App\Http\Controllers\Auth
+ */
 class NewPasswordController
 {
     /**
      * Display the password reset view.
+     *
+     * @param Request $request
+     * @return View
      */
     public function create(Request $request): View
     {
@@ -26,6 +34,8 @@ class NewPasswordController
     /**
      * Handle an incoming new password request.
      *
+     * @param Request $request
+     * @return RedirectResponse
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request): RedirectResponse

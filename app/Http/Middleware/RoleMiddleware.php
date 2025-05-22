@@ -6,16 +6,25 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Middleware to restrict access based on user role.
+ *
+ * @package App\Http\Middleware
+ */
 class RoleMiddleware
 {
     /**
-     * Handle an incoming request.
+     * Handle an incoming request and check user role.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param Request $request
+     * @param \Closure $next
+     * @param string $role
+     * @return Response
      */
     public function handle(Request $request, Closure $next, string $role): Response
     {
-        if (auth()->check() && auth()->user()->role === $role) {
+        // Use Laravel's policy for role check (correct argument order)
+        if (auth()->check() && $request->user()->can('hasRole', $role)) {
             return $next($request);
         }
 

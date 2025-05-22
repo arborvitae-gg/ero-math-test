@@ -20,7 +20,7 @@
                 @foreach ($quizUsers as $quizUser)
                     <tr>
                         <td><input type="checkbox" name="selected_users[]" value="{{ $quizUser->id }}"></td>
-                        <td>{{ $quizUser->user->name }}</td>
+                        <td>{{ $quizUser->user->first_name }} {{ $quizUser->user->last_name }}</td>
                         <td>{{ $quizUser->category->name }}</td>
                         <td>{{ $quizUser->total_score ?? 'Pending' }}</td>
                         <td>

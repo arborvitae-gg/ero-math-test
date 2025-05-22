@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * User model representing application users.
+ *
+ * @package App\Models
+ */
 class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -52,6 +57,11 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
+    /**
+     * Get the user's quiz sessions (attempts).
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function quizSessions()
     {
         return $this->hasMany(QuizUser::class);
