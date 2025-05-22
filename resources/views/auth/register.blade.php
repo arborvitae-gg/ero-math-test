@@ -125,7 +125,7 @@
 
             <div id="user-fields" style="{{ old('role') === 'admin' ? 'display:none;' : '' }}">
                 <div class="register-form-group">
-                    <label for="grade_level" class="register-label">{{ __('Grade Level') }}</label>
+                    <label for="grade_level" class="register-label">{{ __('Grade Level (1-12)') }}</label>
                     <input id="grade_level" class="register-input" type="number" name="grade_level" min="1"
                         max="12" value="{{ old('grade_level') }}" />
                     <x-input-error :messages="$errors->get('grade_level')" />
