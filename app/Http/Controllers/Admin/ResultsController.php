@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Quiz;
 use App\Models\QuizUser;
+use App\Services\Admin\ResultsService;
 
 /**
  * Controller for managing quiz results in the admin panel.
@@ -14,6 +15,13 @@ use App\Models\QuizUser;
  */
 class ResultsController
 {
+    protected $resultsService;
+
+    public function __construct(ResultsService $resultsService)
+    {
+        $this->resultsService = $resultsService;
+    }
+
     /**
      * Display a listing of quiz attempts for a quiz.
      *
@@ -48,8 +56,7 @@ class ResultsController
      */
     public function toggleVisibility(Quiz $quiz, QuizUser $quizUser)
     {
-        $quizUser->can_view_score = !$quizUser->can_view_score;
-        $quizUser->save();
+        $this->resultsService->toggleVisibility($quizUser);
 
         return back()->with('status', 'User score visibility updated.');
     }
@@ -64,18 +71,8 @@ class ResultsController
     public function toggleBulkVisibility(Quiz $quiz, Request $request)
     {
         $action = $request->input('action');
-
-        if ($action === 'toggle_all') {
-            $quizUsers = $quiz->quizUsers()->get();
-        } else {
-            $userIds = $request->input('users', []);
-            $quizUsers = QuizUser::whereIn('id', $userIds)->get();
-        }
-
-        foreach ($quizUsers as $quizUser) {
-            $quizUser->can_view_score = !$quizUser->can_view_score;
-            $quizUser->save();
-        }
+        $userIds = $request->input('users', []);
+        $this->resultsService->toggleBulkVisibility($quiz, $action, $userIds);
 
         return back()->with('status', 'Bulk visibility updated successfully.');
     }
