@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Http\Request;
+
 use App\Models\Quiz;
 use App\Models\QuizUser;
 
@@ -51,5 +53,30 @@ class ResultsController
 
         return back()->with('status', 'User score visibility updated.');
     }
-}
 
+    /**
+     * Toggle the visibility of quiz scores for multiple users.
+     *
+     * @param Quiz $quiz
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function toggleBulkVisibility(Quiz $quiz, Request $request)
+    {
+        $action = $request->input('action');
+
+        if ($action === 'toggle_all') {
+            $quizUsers = $quiz->quizUsers()->get();
+        } else {
+            $userIds = $request->input('users', []);
+            $quizUsers = QuizUser::whereIn('id', $userIds)->get();
+        }
+
+        foreach ($quizUsers as $quizUser) {
+            $quizUser->can_view_score = !$quizUser->can_view_score;
+            $quizUser->save();
+        }
+
+        return back()->with('status', 'Bulk visibility updated successfully.');
+    }
+}
