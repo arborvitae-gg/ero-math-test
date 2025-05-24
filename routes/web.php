@@ -10,7 +10,7 @@ use App\Http\Controllers\Admin\AdminQuizController;
 use App\Http\Controllers\Admin\AdminQuizResultsController;
 use App\Http\Controllers\Admin\QuestionController;
 
-use App\Http\Controllers\User\ProfileController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\UserQuizController;
 
 // Main web routes
