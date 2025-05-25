@@ -18,7 +18,7 @@
 
         {{-- ✅ Disable add question if quiz is posted --}}
         @if (!$quiz->is_posted)
-            <div x-data="{ showCreate: false }">
+            <div x-data="{ showCreate: false }" class="add-question-btn">
                 <button @click="showCreate = !showCreate">
                     + Add Question
                 </button>
@@ -50,31 +50,32 @@
         {{-- ✅ List of questions --}}
         <div class="question-table">
             @foreach ($questions as $index => $question)
-                <div x-show="categoryId == '{{ $question->category_id }}'">
+                <div class="question-table-data" x-show="categoryId == '{{ $question->category_id }}'">
+                    <div class="table-data-title">
                     <h3>
                         {{ $question->question_text }}
                     </h3>
                     @if (!empty($question->question_image))
-                        <img src="{{ $question->question_image_url }}" alt="Question Image">
+                        <img id="table-data-image" src="{{ $question->question_image_url }}" alt="Question Image">
                     @endif
+                    </div>
                     <ul>
                         @foreach ($question->choices as $idx => $choice)
                             <li class="{{ $choice->is_correct ? 'correct' : '' }}">
                                 {{ $choice->choice_text }}
                                 @if (!empty($choice->choice_image))
-                                    <img src="{{ $choice->choice_image_url }}" alt="Choice Image">
+                                    <img id="table-data-image" src="{{ $choice->choice_image_url }}" alt="Choice Image">
                                 @endif
                                 @if ($choice->is_correct)
-                                    <span>✔</span>
+                                   <span>✔</span>
                                 @endif
                             </li>
                         @endforeach
                     </ul>
-
                     {{-- Only show edit/delete if not posted --}}
                     @if (!$quiz->is_posted)
-                        <div x-data="{ editing: false }">
-                            <button @click="editing = !editing">Edit</button>
+                        <div class="edit-btn-container" x-data="{ editing: false }">
+                            <button id="table-data-btn" @click="editing = !editing">Edit</button>
 
                             <div x-show="editing">
                                 @include('admin.quizzes.partials.question-form', [
@@ -86,11 +87,11 @@
                             </div>
                         </div>
 
-                        <form action="{{ route('admin.quizzes.questions.destroy', [$quiz, $question]) }}"
+                        <form class="delete-btn-container" action="{{ route('admin.quizzes.questions.destroy', [$quiz, $question]) }}"
                             method="POST" onsubmit="return confirm('Are you sure?');">
                             @csrf
                             @method('DELETE')
-                            <button type="submit">Delete</button>
+                            <button id="table-data-btn" type="submit">Delete</button>
                         </form>
                     @endif
                 </div>
