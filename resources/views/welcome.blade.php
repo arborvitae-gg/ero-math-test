@@ -5,258 +5,400 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="{{ asset('images/Erovoutika_E_logo.png') }}" type="image/png">
-    <title>
-        Ero-Math Competition
-    </title>
+    <title>Ero-Math Competition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    @vite(['resources/css/app.css'])
 
     <style>
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
-            color: #222;
-            background: #fff;
+            color: #1a2b3c;
+            background: #f8fafc;
+            line-height: 1.6;
         }
 
+        /* Header Styles */
         header {
-            background: rgba(0, 0, 139, 0.85);
-            /* semi-transparent dark blue */
+            background: linear-gradient(135deg, rgba(0, 0, 139, 0.95), rgba(0, 0, 139, 0.85));
             padding: 1rem 0;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-            position: sticky;
-            /* changed from relative */
+            position: fixed;
+            width: 100%;
             top: 0;
-            /* stick to top */
-            z-index: 100;
-            /* ensure it stays above other content */
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(8px);
         }
 
         .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin: 0 auto;
-            padding: 0 1rem;
+            padding: 0 2rem;
         }
 
         .logo img {
-            height: 40px;
+            height: 45px;
             width: auto;
-            display: block;
-            padding-left: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo img:hover {
+            transform: scale(1.05);
         }
 
         nav {
             display: flex;
-            justify-content: flex-end;
-            gap: 1rem;
-            max-width: 900px;
-            padding: 0 3rem;
+            gap: 1.5rem;
         }
 
         nav a {
             color: #fff;
             text-decoration: none;
             font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            transition: background 0.2s;
+            padding: 0.5rem 1.2rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 1.05rem;
         }
 
         nav a:hover {
-            background: #1a2533;
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
         }
 
-        .hero-bg {
-            position: relative;
-            width: 100%;
-            height: 70vh;
-            min-height: 350px;
-            background: url('{{ asset('images/bg-home.png') }}') no-repeat center center;
-            background-size: cover;
-            display: flex;
-            flex-direction: column;
-        }
-
+        /* Hero Section */
         .hero-bg-carousel {
-            position: relative;
-            width: 100%;
-            height: 90vh;
-            /* Increased from 80vh to 90vh */
+            margin-top: 76px;
+            height: calc(100vh - 76px);
             min-height: 600px;
-            /* Increased min-height for larger screens */
+            position: relative;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .hero-content {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            /* Center vertically */
-            align-items: center;
-            color: #fff;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-            padding: 0;
-            pointer-events: none;
-            /* Prevents accidental overlay blocking, optional */
-        }
-
-        .hero-content h1,
-        .hero-content p {
-            pointer-events: auto;
-            /* Allow interaction with text if needed */
-        }
-
-        .hero-content h1 {
-            color: #fff;
-            font-size: 2.5rem;
-        }
-
-        .hero-content p {
-            color: #fff;
-            font-size: 1.2rem;
         }
 
         .carousel-image {
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             background-size: cover;
             background-position: center;
             opacity: 0;
-            transition: opacity 1s;
-            z-index: 0;
+            transition: opacity 1s ease;
         }
 
         .carousel-image.active {
             opacity: 1;
-            z-index: 1;
         }
 
+        .hero-content {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.4);
+            color: #fff;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            max-width: 800px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .hero-btn {
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .hero-btn-primary {
+            background: #3b82f6;
+            color: #fff;
+        }
+
+        .hero-btn-primary:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+        }
+
+        .hero-btn-secondary {
+            background: rgba(255, 255, 255, 0.9);
+            color: #1a2b3c;
+        }
+
+        .hero-btn-secondary:hover {
+            background: #fff;
+            transform: translateY(-2px);
+        }
+
+        /* Features Section */
+        .features {
+            max-width: 1200px;
+            margin: -100px auto 0;
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .feature-card {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: #3b82f6;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-icon svg {
+            width: 32px;
+            height: 32px;
+            color: #fff;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1a2b3c;
+        }
+
+        .feature-description {
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        /* About Section */
+        .about-section {
+            background: #fff;
+            padding: 6rem 0;
+        }
+
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-content h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #1a2b3c;
+        }
+
+        .about-content p {
+            color: #64748b;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .about-image {
+            position: relative;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: #f8fafc;
+            padding: 6rem 0;
+        }
+
+        .contact-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
+
+        .contact-container h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #1a2b3c;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            margin-top: 3rem;
+        }
+
+        .contact-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .contact-icon {
+            width: 48px;
+            height: 48px;
+            background: #3b82f6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .contact-icon svg {
+            width: 24px;
+            height: 24px;
+            color: #fff;
+        }
+
+        .contact-text {
+            color: #64748b;
+        }
+
+        .contact-text a {
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .contact-text a:hover {
+            text-decoration: underline;
+        }
+
+        /* Carousel Navigation */
         .carousel-dots {
             position: absolute;
+            bottom: 2rem;
             left: 0;
             right: 0;
-            bottom: 40px;
-            margin: 0 auto;
-            text-align: center;
-            z-index: 3;
-            pointer-events: auto;
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            z-index: 10;
         }
 
-        .carousel-dots .dot {
-            display: inline-block;
+        .dot {
             width: 12px;
             height: 12px;
-            margin: 0 4px;
-            background: #fff;
+            background: rgba(255, 255, 255, 0.5);
             border-radius: 50%;
-            opacity: 0.5;
             cursor: pointer;
-            transition: opacity 0.3s;
+            transition: all 0.3s ease;
         }
 
-        .carousel-dots .dot.active {
-            opacity: 1;
+        .dot.active {
             background: #fff;
+            transform: scale(1.2);
         }
 
-        .below-carousel {
-            max-width: 900px;
-            margin: 2rem auto 0 auto;
-            padding: 2rem;
-            background: #f6f9ff;
-            border-radius: 16px;
-            box-shadow: 0 2px 12px rgba(44, 62, 80, 0.06);
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                gap: 2rem;
+            }
         }
 
-        .below-carousel h2 {
-            font-size: 2rem;
-            color: #0d1a4d;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-
-        .below-carousel ul {
-            margin-top: 1rem;
-            margin-left: 1.5rem;
-        }
-
-        @media (max-width: 600px) {
+        @media (max-width: 480px) {
             .nav-container {
                 flex-direction: column;
-                align-items: flex-start;
-                gap: 0.5rem;
+                gap: 1rem;
+                padding: 1rem;
             }
 
             nav {
                 flex-direction: column;
-                align-items: flex-end;
-                gap: 0.5rem;
+                width: 100%;
             }
 
-            .hero-bg {
-                min-height: 220px;
-                height: 40vh;
+            nav a {
+                text-align: center;
             }
 
             .hero-content h1 {
-                font-size: 1.3rem;
+                font-size: 2rem;
             }
 
-            .hero-content p {
-                font-size: 1rem;
+            .hero-cta {
+                flex-direction: column;
             }
 
-            main {
-                margin-top: -30px;
-                padding: 1rem;
+            .features {
+                margin-top: -50px;
             }
-
-            .below-carousel {
-                padding: 1rem;
-            }
-
-            .below-carousel h2 {
-                font-size: 1.2rem;
-            }
-        }
-
-        .carousel-gradient-blend {
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            height: 120px;
-            pointer-events: none;
-            z-index: 5;
-            background: linear-gradient(
-                to bottom,
-                rgba(255, 255, 255, 0) 0%,
-                #d8d8ff 100%
-            );
         }
     </style>
-    {{-- Styles / Scripts --}}
-    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-        {{-- Classless CSS script, remove or comment out if you want to start styling --}}
-        {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/digitallytailored/classless@latest/classless.min.css"> --}}
-    @endif
 </head>
 
 <body>
@@ -279,55 +421,118 @@
             @endif
         </div>
     </header>
+
     <div class="hero-bg-carousel">
         <div class="carousel-image active" style="background-image: url('{{ asset('images/bg-home1.png') }}');"></div>
         <div class="carousel-image" style="background-image: url('{{ asset('images/bg-home2.png') }}');"></div>
         <div class="carousel-image" style="background-image: url('{{ asset('images/bg-home3.png') }}');"></div>
         <div class="carousel-image" style="background-image: url('{{ asset('images/bg-home4.png') }}');"></div>
+        
         <div class="hero-content">
-            <h1>Lorem ipsum dolor sit amet,<br>consectetur adipiscing elit</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ...</p>
-            <div class="carousel-dots">
-                <span class="dot active"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
+            <h1>Welcome to Ero-Math Competition</h1>
+            <p>Challenge yourself with engaging math problems and compete with students across different grade levels. Join now and showcase your mathematical prowess!</p>
+            <div class="hero-cta">
+                @guest
+                    <a href="{{ route('register') }}" class="hero-btn hero-btn-primary">Get Started</a>
+                    <a href="{{ route('login') }}" class="hero-btn hero-btn-secondary">Sign In</a>
+                @else
+                    <a href="{{ url('/dashboard') }}" class="hero-btn hero-btn-primary">Go to Dashboard</a>
+                @endguest
             </div>
         </div>
-        <div class="carousel-gradient-blend"></div>
+
+        <div class="carousel-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
     </div>
 
-    <main class="below-carousel">
-        <section>
-            <h2>Welcome to Ero-Math Competition!</h2>
-            <p>
-                This is a sample content area below the hero carousel.  
-                Add your features, announcements, or other homepage content here.<br>
-                <br>
-                <strong>Features:</strong>
-                <ul>
-                    <li>Online Math Quizzes</li>
-                    <li>Leaderboard &amp; Certificates</li>
-                    <li>Accessible for all grade levels</li>
-                </ul>
-            </p>
-        </section>
-    </main>
+    <section class="features">
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                    </svg>
+                </div>
+                <h3 class="feature-title">Adaptive Quizzes</h3>
+                <p class="feature-description">Take part in quizzes tailored to your grade level, with questions that challenge and help you grow.</p>
+            </div>
 
-    <!-- Additional content below the main section -->
-    <section style="max-width:900px;margin:2rem auto 0 auto;padding:2rem;background:#fff;border-radius:16px;box-shadow:0 2px 12px rgba(44,62,80,0.04);">
-        <h2 style="color:#0d1a4d;text-align:center;">About the Competition</h2>
-        <p>
-            The Ero-Math Competition is designed to inspire students to excel in mathematics through fun and challenging quizzes. 
-            Participants from all grade levels can join and compete for top spots on the leaderboard and earn certificates.
-        </p>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                </div>
+                <h3 class="feature-title">Track Progress</h3>
+                <p class="feature-description">Monitor your performance with detailed statistics and see how you rank among your peers.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                    </svg>
+                </div>
+                <h3 class="feature-title">Earn Certificates</h3>
+                <p class="feature-description">Receive certificates for your achievements and showcase your mathematical excellence.</p>
+            </div>
+        </div>
     </section>
 
-    <section style="max-width:900px;margin:2rem auto 2rem auto;padding:2rem;background:#f6f9ff;border-radius:16px;box-shadow:0 2px 12px rgba(44,62,80,0.04);">
-        <h2 style="color:#0d1a4d;text-align:center;">Contact Us</h2>
-        <p style="text-align:center;">
-            Have questions? Email us at <a href="mailto:info@eromath.com">info@eromath.com</a> or call (123) 456-7890.
-        </p>
+    <section class="about-section">
+        <div class="about-container">
+            <div class="about-content">
+                <h2>About the Competition</h2>
+                <p>The Ero-Math Competition is designed to inspire students to excel in mathematics through fun and challenging quizzes. Our platform offers:</p>
+                <ul>
+                    <li>Grade-specific mathematical challenges</li>
+                    <li>Real-time performance tracking</li>
+                    <li>Competitive leaderboards</li>
+                    <li>Achievement certificates</li>
+                    <li>Comprehensive learning resources</li>
+                </ul>
+            </div>
+            <div class="about-image">
+                <img src="{{ asset('images/bg-home2.png') }}" alt="Students solving math problems">
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section">
+        <div class="contact-container">
+            <h2>Get in Touch</h2>
+            <p>Have questions about the competition? We're here to help!</p>
+            
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <div class="contact-text">
+                        <strong>Email</strong><br>
+                        <a href="mailto:info@eromath.com">info@eromath.com</a>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                        </svg>
+                    </div>
+                    <div class="contact-text">
+                        <strong>Phone</strong><br>
+                        <a href="tel:+1234567890">(123) 456-7890</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
     <script>
@@ -335,7 +540,7 @@
         const dots = document.querySelectorAll('.carousel-dots .dot');
         let current = 0;
         const total = images.length;
-        let interval = setInterval(nextSlide, 4000);
+        let interval = setInterval(nextSlide, 5000);
 
         function showSlide(idx) {
             images.forEach((img, i) => {
@@ -346,18 +551,26 @@
         }
 
         function nextSlide() {
-            let next = (current + 1) % total;
-            showSlide(next);
+            showSlide((current + 1) % total);
         }
 
         dots.forEach((dot, idx) => {
             dot.addEventListener('click', () => {
                 showSlide(idx);
                 clearInterval(interval);
-                interval = setInterval(nextSlide, 4000);
+                interval = setInterval(nextSlide, 5000);
+            });
+        });
+
+        // Add smooth scroll behavior for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
             });
         });
     </script>
 </body>
-
 </html>

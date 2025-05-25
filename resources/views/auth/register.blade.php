@@ -1,225 +1,342 @@
-<x-guest-layout>
-    <x-slot name="logo">
-        <a href="/">
-            <img src="{{ asset('images/Erovoutika_logo.png') }}" alt="Erovoutika Logo" style="height: 60px;">
-        </a>
-    </x-slot>
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Register - Ero-Math Competition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    @vite(['resources/css/app.css'])
 
     <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f6f8fc 0%, #e9edf5 100%);
+            display: flex;
+            flex-direction: column;
+        }
+
         header {
-            background: darkblue;
+            background: linear-gradient(135deg, rgba(0, 0, 139, 0.95), rgba(0, 0, 139, 0.85));
             padding: 1rem 0;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(8px);
         }
 
         .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin: 0 auto;
-            padding: 0 1rem;
+            padding: 0 2rem;
         }
 
         .logo img {
-            height: 40px;
+            height: 45px;
             width: auto;
-            display: block;
-            padding-left: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo img:hover {
+            transform: scale(1.05);
         }
 
         nav {
             display: flex;
-            justify-content: flex-end;
-            gap: 1rem;
+            gap: 1.5rem;
         }
 
         nav a {
             color: #fff;
             text-decoration: none;
             font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            transition: background 0.2s;
+            padding: 0.5rem 1.2rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 1.05rem;
         }
 
         nav a:hover {
-            background: #1a2533;
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .register-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            margin-top: 76px;
         }
 
         .register-card {
-            max-width: 400px;
-            margin: 2rem auto;
+            width: 100%;
+            max-width: 500px;
             background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.10);
-            padding: 2rem 3rem 1.5rem 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 139, 0.08);
+            padding: 3rem;
+            transform: translateY(0);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .register-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 48px rgba(0, 0, 139, 0.12);
+        }
+
+        .register-logo {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .register-logo img {
+            height: 50px;
+            width: auto;
         }
 
         .register-title {
-            font-size: 2rem;
-            font-weight: 500;
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #1a2b3c;
+            text-align: center;
             margin-bottom: 1.5rem;
-            color: #222;
-            width: 100%;
-            text-align: left;
         }
 
         .register-form-group {
-            width: 100%;
-            margin-bottom: 1.2rem;
+            margin-bottom: 1.25rem;
         }
 
         .register-label {
             display: block;
-            font-size: 1rem;
-            margin-bottom: 0.3rem;
-            color: #333;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #1a2b3c;
+            margin-bottom: 0.5rem;
         }
 
         .register-input {
             width: 100%;
-            padding: 0.7rem;
-            border: 1px solid #e0e0e0;
-            border-radius: 6px;
-            background: #f7f7f7;
-            font-size: 1rem;
-            outline: none;
-            transition: border 0.2s;
+            padding: 5px;
+            border: 2px solid #e9edf5;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+            background: #f8fafc;
         }
 
         .register-input:focus {
-            border: 1.5px solid #2d3e50;
+            outline: none;
+            border-color: rgba(0, 0, 139, 0.5);
             background: #fff;
+            box-shadow: 0 0 0 4px rgba(0, 0, 139, 0.1);
         }
 
         .register-btn {
             width: 100%;
-            background: #222;
+            padding: 0.875rem;
+            background: linear-gradient(135deg, #000080, #0000b3);
             color: #fff;
             border: none;
-            border-radius: 24px;
-            padding: 0.9rem 0;
-            font-size: 1.1rem;
-            font-weight: 500;
-            margin-top: 0.5rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
         }
 
         .register-btn:hover {
-            background: #2d3e50;
+            background: linear-gradient(135deg, #0000b3, #0000e6);
+            transform: translateY(-2px);
         }
 
         .register-footer {
-            margin-top: 1.2rem;
             text-align: center;
-            font-size: 0.9rem;
-            color: #888;
+            margin-top: 1.5rem;
+            color: #64748b;
         }
 
         .register-footer a {
-            color: #2d3e50;
+            color: #000080;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .register-footer a:hover {
+            color: #0000b3;
             text-decoration: underline;
         }
+
+        .error-message {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-top: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .register-container {
+                padding: 1rem;
+            }
+
+            .register-card {
+                padding: 1.5rem;
+            }
+
+            .register-title {
+                font-size: 1.5rem;
+            }
+
+            .register-form-group {
+                margin-bottom: 1rem;
+            }
+        }
     </style>
+</head>
 
-    <div class="register-card">
-        <div class="register-title">Register</div>
-        <form method="POST" action="{{ route('register') }}" style="width: 100%;">
-            @csrf
+<body>
+    <header>
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <img src="{{ asset('images/Erovoutika Light Logo.png') }}" alt="Ero-Math Logo">
+            </a>
+            <nav>
+                <a href="{{ route('login') }}">Sign in</a>
+            </nav>
+        </div>
+    </header>
 
-            <div class="register-form-group">
-                <label for="first_name" class="register-label">{{ __('First Name') }}</label>
-                <input id="first_name" class="register-input" type="text" name="first_name"
-                    value="{{ old('first_name') }}" required autofocus autocomplete="given-name" />
-                <x-input-error :messages="$errors->get('first_name')" />
+    <div class="register-container">
+        <div class="register-card">
+            <div class="register-logo">
+                <img src="{{ asset('images/Erovoutika_logo.png') }}" alt="Erovoutika Logo">
             </div>
+            <h1 class="register-title">Create Account</h1>
 
-            <div class="register-form-group">
-                <label for="middle_name" class="register-label">{{ __('Middle Name') }}</label>
-                <input id="middle_name" class="register-input" type="text" name="middle_name"
-                    value="{{ old('middle_name') }}" autocomplete="additional-name" />
-                <x-input-error :messages="$errors->get('middle_name')" />
-            </div>
+            <form method="POST" action="{{ route('register') }}">
+                @csrf
 
-            <div class="register-form-group">
-                <label for="last_name" class="register-label">{{ __('Last Name') }}</label>
-                <input id="last_name" class="register-input" type="text" name="last_name"
-                    value="{{ old('last_name') }}" required autocomplete="family-name" />
-                <x-input-error :messages="$errors->get('last_name')" />
-            </div>
+                <div class="form-grid">
+                    <div class="register-form-group">
+                        <label for="first_name" class="register-label">First Name</label>
+                        <input id="first_name" class="register-input" type="text" name="first_name" value="{{ old('first_name') }}" required autofocus autocomplete="given-name" />
+                        <x-input-error :messages="$errors->get('first_name')" class="error-message" />
+                    </div>
 
-            <div class="register-form-group">
-                <label for="email" class="register-label">{{ __('Email') }}</label>
-                <input id="email" class="register-input" type="email" name="email" value="{{ old('email') }}"
-                    required autocomplete="username" />
-                <x-input-error :messages="$errors->get('email')" />
-            </div>
-
-            <div class="register-form-group">
-                <label for="role" class="register-label">{{ __('Register As (to be removed in final)') }}</label>
-                <select id="role" class="register-input" name="role" required
-                    onchange="toggleUserFields(this.value)">
-                    <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>User</option>
-                    <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
-                </select>
-                <x-input-error :messages="$errors->get('role')" />
-            </div>
-
-            <div id="user-fields" style="{{ old('role') === 'admin' ? 'display:none;' : '' }}">
-                <div class="register-form-group">
-                    <label for="grade_level" class="register-label">{{ __('Grade Level') }}</label>
-                    <input id="grade_level" class="register-input" type="number" name="grade_level" min="1"
-                        max="12" value="{{ old('grade_level') }}" />
-                    <x-input-error :messages="$errors->get('grade_level')" />
+                    <div class="register-form-group">
+                        <label for="middle_name" class="register-label">Middle Name</label>
+                        <input id="middle_name" class="register-input" type="text" name="middle_name" value="{{ old('middle_name') }}" autocomplete="additional-name" />
+                        <x-input-error :messages="$errors->get('middle_name')" class="error-message" />
+                    </div>
                 </div>
 
                 <div class="register-form-group">
-                    <label for="school" class="register-label">{{ __('School') }}</label>
-                    <input id="school" class="register-input" type="text" name="school"
-                        value="{{ old('school') }}" />
-                    <x-input-error :messages="$errors->get('school')" />
+                    <label for="last_name" class="register-label">Last Name</label>
+                    <input id="last_name" class="register-input" type="text" name="last_name" value="{{ old('last_name') }}" required autocomplete="family-name" />
+                    <x-input-error :messages="$errors->get('last_name')" class="error-message" />
                 </div>
 
                 <div class="register-form-group">
-                    <label for="coach_name" class="register-label">{{ __('Coach Name') }}</label>
-                    <input id="coach_name" class="register-input" type="text" name="coach_name"
-                        value="{{ old('coach_name') }}" />
-                    <x-input-error :messages="$errors->get('coach_name')" />
+                    <label for="email" class="register-label">Email</label>
+                    <input id="email" class="register-input" type="email" name="email" value="{{ old('email') }}" required autocomplete="username" />
+                    <x-input-error :messages="$errors->get('email')" class="error-message" />
                 </div>
-            </div>
 
-            <div class="register-form-group">
-                <label for="password" class="register-label">{{ __('Password') }}</label>
-                <input id="password" class="register-input" type="password" name="password" required
-                    autocomplete="new-password" />
-                <x-input-error :messages="$errors->get('password')" />
-            </div>
+                <div class="register-form-group">
+                    <label for="role" class="register-label">Register As</label>
+                    <select id="role" class="register-input" name="role" required onchange="toggleUserFields(this.value)">
+                        <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>Student</option>
+                        <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Administrator</option>
+                    </select>
+                    <x-input-error :messages="$errors->get('role')" class="error-message" />
+                </div>
 
-            <div class="register-form-group">
-                <label for="password_confirmation" class="register-label">{{ __('Confirm Password') }}</label>
-                <input id="password_confirmation" class="register-input" type="password" name="password_confirmation"
-                    required autocomplete="new-password" />
-                <x-input-error :messages="$errors->get('password_confirmation')" />
-            </div>
+                <div id="user-fields" style="{{ old('role') === 'admin' ? 'display:none;' : '' }}">
+                    <div class="form-grid">
+                        <div class="register-form-group">
+                            <label for="grade_level" class="register-label">Grade Level</label>
+                            <input id="grade_level" class="register-input" type="number" name="grade_level" min="1" max="12" value="{{ old('grade_level') }}" />
+                            <x-input-error :messages="$errors->get('grade_level')" class="error-message" />
+                        </div>
 
-            <div class="register-footer">
-                <a href="{{ route('login') }}">
-                    {{ __('Already registered?') }}
-                </a>
+                        <div class="register-form-group">
+                            <label for="school" class="register-label">School</label>
+                            <input id="school" class="register-input" type="text" name="school" value="{{ old('school') }}" />
+                            <x-input-error :messages="$errors->get('school')" class="error-message" />
+                        </div>
+                    </div>
+
+                    <div class="register-form-group">
+                        <label for="coach_name" class="register-label">Coach Name</label>
+                        <input id="coach_name" class="register-input" type="text" name="coach_name" value="{{ old('coach_name') }}" />
+                        <x-input-error :messages="$errors->get('coach_name')" class="error-message" />
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="register-form-group">
+                        <label for="password" class="register-label">Password</label>
+                        <input id="password" class="register-input" type="password" name="password" required autocomplete="new-password" />
+                        <x-input-error :messages="$errors->get('password')" class="error-message" />
+                    </div>
+
+                    <div class="register-form-group">
+                        <label for="password_confirmation" class="register-label">Confirm Password</label>
+                        <input id="password_confirmation" class="register-input" type="password" name="password_confirmation" required autocomplete="new-password" />
+                        <x-input-error :messages="$errors->get('password_confirmation')" class="error-message" />
+                    </div>
+                </div>
+
                 <button type="submit" class="register-btn">
-                    {{ __('Register') }}
+                    Create Account
                 </button>
-            </div>
-        </form>
+
+                <div class="register-footer">
+                    <p>
+                        Already have an account? 
+                        <a href="{{ route('login') }}">Sign in</a>
+                    </p>
+                </div>
+            </form>
+        </div>
     </div>
 
     <script>
         function toggleUserFields(role) {
-            document.getElementById('user-fields').style.display = (role === 'admin') ? 'none' : '';
+            const userFields = document.getElementById('user-fields');
+            userFields.style.display = role === 'admin' ? 'none' : 'block';
         }
     </script>
-</x-guest-layout>
+</body>
+</html>

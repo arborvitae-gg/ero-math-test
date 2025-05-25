@@ -1,154 +1,264 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2>{{ __('Quiz Results') }}</h2>
     </x-slot>
 
     <style>
-        #quiz-results {
-            max-width: 700px;
+        .results-container {
+            max-width: 1200px;
             margin: 2rem auto;
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-            padding: 2rem 2.5rem;
+            padding: 0 1rem;
         }
-        .question-block {
-            margin-bottom: 2.2rem;
-            padding-bottom: 1.2rem;
-            border-bottom: 1px solid #ececec;
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, #000080, #0000b3);
+            border-radius: 24px;
+            color: white;
+            box-shadow: 0 4px 24px rgba(0, 0, 139, 0.15);
         }
-        .question-block:last-child {
-            border-bottom: none;
+
+        .results-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
+
+        .results-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .results-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin: 2rem auto;
+            max-width: 800px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 4px 24px rgba(0, 0, 139, 0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .summary-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a2b3c;
+            margin-bottom: 0.5rem;
+        }
+
+        .summary-label {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        .question-container {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 4px 24px rgba(0, 0, 139, 0.08);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .question-container:hover {
+            transform: translateY(-5px);
+        }
+
         .question-text {
-            font-size: 1.15rem;
+            font-size: 1.25rem;
             font-weight: 600;
-            color: #222;
-            margin-bottom: 1.1rem;
+            color: #1a2b3c;
+            margin-bottom: 1.5rem;
+            line-height: 1.4;
         }
+
+        .question-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+
         .choices-list {
             list-style: none;
             padding: 0;
             margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
         }
+
         .choice-item {
-            margin-bottom: 0.7rem;
-            padding: 0.9rem 1.2rem;
-            border-radius: 8px;
-            border: 2px solid #e0e0e0;
-            background: #f7f7f7;
             display: flex;
             align-items: center;
-            transition: border 0.2s, background 0.2s;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
         }
-        .choice-item:last-child {
-            margin-bottom: 0;
-        }
+
         .choice-content {
             flex: 1;
-            font-size: 1rem;
-            color: #222;
-            word-break: break-word;
-        }
-        .choice-content img {
-            max-width: 120px;
-            max-height: 60px;
-            object-fit: contain;
-            border-radius: 4px;
-            background: #fff;
-            border: 1px solid #e0e0e0;
-        }
-        .choice-label {
-            margin-left: 1.2rem;
-            min-width: 120px;
-            text-align: right;
-        }
-        .label {
-            display: inline-block;
-            padding: 0.3em 0.8em;
-            border-radius: 16px;
-            font-size: 0.95em;
-            font-weight: 500;
-        }
-        .label-success {
-            background: #e6f4ea;
-            color: #388e3c;
-            border: 1px solid #b2dfdb;
-        }
-        .label-error {
-            background: #fdeaea;
-            color: #e53935;
-            border: 1px solid #ffcdd2;
-        }
-        .choice-correct-user {
-            border: 2px solid #388e3c;
-            background: #e6f4ea;
-        }
-        .choice-correct {
-            border: 2px solid #1976d2;
-            background: #e3f2fd;
-        }
-        .choice-wrong-user {
-            border: 2px solid #e53935;
-            background: #fdeaea;
-        }
-        .choice-default {
-            border: 2px solid #e0e0e0;
-            background: #f7f7f7;
-        }
-        @media (max-width: 600px) {
-            #quiz-results {
-                padding: 1rem 0.5rem;
-            }
-            .choice-content {
-                font-size: 0.97rem;
-            }
-            .choice-label {
-                min-width: 80px;
-                margin-left: 0.5rem;
-                font-size: 0.9em;
-            }
-        }
-        .return-dashboard-link {
-            display: inline-block;
-            margin: 2rem auto 0 auto;
-            background: #2d3e50;
-            color: #fff;
-            border: none;
-            border-radius: 22px;
-            padding: 0.7rem 2rem;
             font-size: 1.1rem;
+            color: #1a2b3c;
+        }
+
+        .choice-image {
+            max-width: 120px;
+            height: auto;
+            border-radius: 8px;
+            margin-left: 1rem;
+        }
+
+        .choice-label {
+            margin-left: 1.5rem;
             font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .choice-correct-user {
+            background: #dcfce7;
+            border-color: #166534;
+        }
+
+        .choice-correct {
+            background: #dbeafe;
+            border-color: #1e40af;
+        }
+
+        .choice-wrong-user {
+            background: #fee2e2;
+            border-color: #991b1b;
+        }
+
+        .choice-default {
+            background: #f8fafc;
+            border-color: #e2e8f0;
+        }
+
+        .label {
+            padding: 0.5rem 1rem;
+            border-radius: 24px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .label svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .label-success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .label-error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .return-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: linear-gradient(135deg, #000080, #0000b3);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
             text-decoration: none;
-            transition: background 0.2s;
-            box-shadow: 0 2px 8px rgba(44,62,80,0.06);
+            transition: all 0.3s ease;
+            margin: 2rem auto;
+            box-shadow: 0 4px 24px rgba(0, 0, 139, 0.15);
         }
-        .return-dashboard-link:hover {
-            background: #1a2533;
+
+        .return-link:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #0000b3, #0000e6);
         }
-        h2 {
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: #0d1a4d;
-            text-align: center;
-            margin-top: 1.5rem;
-            margin-bottom: 2rem;
-            letter-spacing: 1px;
-            text-shadow: 0 2px 8px rgba(44,62,80,0.08);
+
+        @media (max-width: 768px) {
+            .results-summary {
+                grid-template-columns: 1fr;
+            }
+
+            .results-header {
+                padding: 1.5rem;
+                margin-bottom: 2rem;
+            }
+
+            .results-header h2 {
+                font-size: 2rem;
+            }
+
+            .question-container {
+                padding: 1.5rem;
+            }
+
+            .choice-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .choice-label {
+                margin-left: 0;
+            }
         }
     </style>
 
-    <div id="quiz-results">
+    <div class="results-container">
+        <div class="results-header">
+            <h2>Quiz Results</h2>
+            <p>Review your answers and see how well you did!</p>
+        </div>
+
+        <div class="results-summary">
+            <div class="summary-card">
+                <div class="summary-value">{{ $quizUser->total_score }}%</div>
+                <div class="summary-label">Overall Score</div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-value">{{ $quizUser->attempts->where('is_correct', true)->count() }}</div>
+                <div class="summary-label">Correct Answers</div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-value">{{ $quizUser->attempts->count() }}</div>
+                <div class="summary-label">Total Questions</div>
+            </div>
+        </div>
+
         @foreach ($quizUser->attempts as $attempt)
             @php
                 $question = $attempt->question;
             @endphp
 
-            <div class="question-block" id="question-{{ $question->id }}">
-                <h3>{{ $question->question_text }}</h3>
+            <div class="question-container">
+                <div class="question-text">{{ $question->question_text }}</div>
 
                 @if (!empty($question->question_image))
-                    <img src="{{ $question->question_image_url }}" alt="Question Image">
+                    <img src="{{ $question->question_image_url }}" alt="Question Image" class="question-image">
                 @endif
 
                 <ul class="choices-list">
@@ -168,21 +278,36 @@
                             }
                         @endphp
 
-                        <li class="choice-item {{ $choiceClass }}" data-choice-id="{{ $choice->id }}">
+                        <li class="choice-item {{ $choiceClass }}">
                             <div class="choice-content">
                                 {{ $choice->choice_text }}
                                 @if (!empty($choice->choice_image))
-                                    <img src="{{ $choice->choice_image_url }}" alt="Choice Image">
+                                    <img src="{{ $choice->choice_image_url }}" alt="Choice Image" class="choice-image">
                                 @endif
                             </div>
 
                             <div class="choice-label">
                                 @if ($isCorrectChoice && $isUserChoice)
-                                    <span class="label label-success">✔ Your answer is correct</span>
+                                    <span class="label label-success">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                        </svg>
+                                        Correct Answer
+                                    </span>
                                 @elseif ($isCorrectChoice)
-                                    <span class="label label-success">✔ Correct answer</span>
+                                    <span class="label label-success">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                        </svg>
+                                        Correct Answer
+                                    </span>
                                 @elseif ($isUserChoice)
-                                    <span class="label label-error">✖ Your answer</span>
+                                    <span class="label label-error">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                                        </svg>
+                                        Your Answer
+                                    </span>
                                 @endif
                             </div>
                         </li>
@@ -190,9 +315,14 @@
                 </ul>
             </div>
         @endforeach
-    </div>
 
-    <div style="text-align:center;">
-        <a href="{{ route('user.dashboard') }}" class="return-dashboard-link">Return to Dashboard</a>
+        <div style="text-align: center;">
+            <a href="{{ route('user.dashboard') }}" class="return-link">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="width: 20px; height: 20px;">
+                    <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                </svg>
+                Return to Dashboard
+            </a>
+        </div>
     </div>
 </x-app-layout>
