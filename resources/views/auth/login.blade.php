@@ -223,12 +223,6 @@
             </div>
 
             <div class="login-actions">
-                <a href="{{ route('register') }}">
-                    {{ __('No account yet? Register here') }}
-                </a>
-            </div>
-
-            <div class="login-actions">
                 @if (Route::has('password.request'))
                     <a href="{{ route('password.request') }}">
                         {{ __('Forgot your password?') }}

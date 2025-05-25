@@ -66,7 +66,7 @@
         .hero-bg {
             position: relative;
             width: 100%;
-            height: 50vh;
+            height: 70vh;
             min-height: 350px;
             background: url('{{ asset('images/bg-home.png') }}') no-repeat center center;
             background-size: cover;
@@ -77,9 +77,9 @@
         .hero-bg-carousel {
             position: relative;
             width: 100%;
-            height: 80vh;
-            /* Increased from 65vh to 80vh */
-            min-height: 520px;
+            height: 90vh;
+            /* Increased from 80vh to 90vh */
+            min-height: 600px;
             /* Increased min-height for larger screens */
             overflow: hidden;
             display: flex;
@@ -88,21 +88,28 @@
         }
 
         .hero-content {
-            position: relative;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: 2;
-            flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
-            /* Move content to the bottom */
+            justify-content: center;
+            /* Center vertically */
             align-items: center;
             color: #fff;
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-            height: 100%;
-            padding-bottom: 10rem;
-            /* Add space from the bottom */
-            padding-top: 2rem;
-            /* Optional: add space from the top */
+            padding: 0;
+            pointer-events: none;
+            /* Prevents accidental overlay blocking, optional */
+        }
+
+        .hero-content h1,
+        .hero-content p {
+            pointer-events: auto;
+            /* Allow interaction with text if needed */
         }
 
         .hero-content h1 {
@@ -140,10 +147,10 @@
             left: 0;
             right: 0;
             bottom: 40px;
-            /* Adjust this value as needed */
             margin: 0 auto;
             text-align: center;
             z-index: 3;
+            pointer-events: auto;
         }
 
         .carousel-dots .dot {

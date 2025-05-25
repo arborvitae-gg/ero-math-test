@@ -18,17 +18,28 @@
 </head>
 
 <body>
-    <div>
-        <div>
-            <a href="/">
-                Logo
-                {{-- <x-application-logo /> --}}
+    <header>
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <img src="{{ asset('images/Erovoutika Light Logo.png') }}" alt="Ero-Math Logo">
             </a>
+            @if (Route::has('login'))
+                <nav>
+                    @auth
+                        <a href="{{ url('/dashboard') }}">Dashboard</a>
+                    @else
+                        <a href="{{ route('login') }}">Log in</a>
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}">Register</a>
+                        @endif
+                    @endauth
+                </nav>
+            @endif
         </div>
+    </header>
 
-        <div>
-            {{ $slot }}
-        </div>
+    <div>
+        {{ $slot }}
     </div>
 </body>
 

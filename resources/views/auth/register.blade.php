@@ -1,5 +1,51 @@
 <x-guest-layout>
+    <x-slot name="logo">
+        <a href="/">
+            <img src="{{ asset('images/Erovoutika_logo.png') }}" alt="Erovoutika Logo" style="height: 60px;">
+        </a>
+    </x-slot>
+
     <style>
+        header {
+            background: darkblue;
+            padding: 1rem 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+            display: block;
+            padding-left: 20px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        nav a:hover {
+            background: #1a2533;
+        }
+
         .register-card {
             max-width: 400px;
             margin: 2rem auto;
