@@ -77,6 +77,18 @@
                 font-size: 1.1rem;
             }
         }
+
+        /* Add this inside your <style> tag or main CSS file */
+        h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #0d1a4d;
+            text-align: center;
+            margin-top: 1.5rem;
+            margin-bottom: 2rem;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 8px rgba(44,62,80,0.08);
+        }
     </style>
     <div class="profile-info-card">
         <header>

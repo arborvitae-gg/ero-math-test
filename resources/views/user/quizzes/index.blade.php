@@ -72,6 +72,16 @@
             font-weight: 500;
             margin-bottom: 0.2rem;
         }
+        h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #0d1a4d;
+            text-align: center;
+            margin-top: 1.5rem;
+            margin-bottom: 2rem;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 8px rgba(44,62,80,0.08);
+        }
         @media (max-width: 600px) {
             .quiz-list-container {
                 padding: 1rem 0.5rem;

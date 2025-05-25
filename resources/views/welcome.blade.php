@@ -23,8 +23,12 @@
             /* semi-transparent dark blue */
             padding: 1rem 0;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-            position: relative;
-            z-index: 2;
+            position: sticky;
+            /* changed from relative */
+            top: 0;
+            /* stick to top */
+            z-index: 100;
+            /* ensure it stays above other content */
         }
 
         .nav-container {
@@ -170,6 +174,27 @@
             background: #fff;
         }
 
+        .below-carousel {
+            max-width: 900px;
+            margin: 2rem auto 0 auto;
+            padding: 2rem;
+            background: #f6f9ff;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(44, 62, 80, 0.06);
+        }
+
+        .below-carousel h2 {
+            font-size: 2rem;
+            color: #0d1a4d;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .below-carousel ul {
+            margin-top: 1rem;
+            margin-left: 1.5rem;
+        }
+
         @media (max-width: 600px) {
             .nav-container {
                 flex-direction: column;
@@ -200,6 +225,29 @@
                 margin-top: -30px;
                 padding: 1rem;
             }
+
+            .below-carousel {
+                padding: 1rem;
+            }
+
+            .below-carousel h2 {
+                font-size: 1.2rem;
+            }
+        }
+
+        .carousel-gradient-blend {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 120px;
+            pointer-events: none;
+            z-index: 5;
+            background: linear-gradient(
+                to bottom,
+                rgba(255, 255, 255, 0) 0%,
+                #d8d8ff 100%
+            );
         }
     </style>
     {{-- Styles / Scripts --}}
@@ -246,7 +294,42 @@
                 <span class="dot"></span>
             </div>
         </div>
+        <div class="carousel-gradient-blend"></div>
     </div>
+
+    <main class="below-carousel">
+        <section>
+            <h2>Welcome to Ero-Math Competition!</h2>
+            <p>
+                This is a sample content area below the hero carousel.  
+                Add your features, announcements, or other homepage content here.<br>
+                <br>
+                <strong>Features:</strong>
+                <ul>
+                    <li>Online Math Quizzes</li>
+                    <li>Leaderboard &amp; Certificates</li>
+                    <li>Accessible for all grade levels</li>
+                </ul>
+            </p>
+        </section>
+    </main>
+
+    <!-- Additional content below the main section -->
+    <section style="max-width:900px;margin:2rem auto 0 auto;padding:2rem;background:#fff;border-radius:16px;box-shadow:0 2px 12px rgba(44,62,80,0.04);">
+        <h2 style="color:#0d1a4d;text-align:center;">About the Competition</h2>
+        <p>
+            The Ero-Math Competition is designed to inspire students to excel in mathematics through fun and challenging quizzes. 
+            Participants from all grade levels can join and compete for top spots on the leaderboard and earn certificates.
+        </p>
+    </section>
+
+    <section style="max-width:900px;margin:2rem auto 2rem auto;padding:2rem;background:#f6f9ff;border-radius:16px;box-shadow:0 2px 12px rgba(44,62,80,0.04);">
+        <h2 style="color:#0d1a4d;text-align:center;">Contact Us</h2>
+        <p style="text-align:center;">
+            Have questions? Email us at <a href="mailto:info@eromath.com">info@eromath.com</a> or call (123) 456-7890.
+        </p>
+    </section>
+
     <script>
         const images = document.querySelectorAll('.carousel-image');
         const dots = document.querySelectorAll('.carousel-dots .dot');
