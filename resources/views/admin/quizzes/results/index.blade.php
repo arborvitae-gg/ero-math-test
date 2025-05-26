@@ -23,13 +23,6 @@
                         <td>{{ $quizUser->total_score ?? 'Pending' }}</td>
                         <td>
                             <a href="{{ route('admin.quizzes.results.show', [$quiz, $quizUser]) }}">View Details</a>
-                            <form method="POST"
-                                action="{{ route('admin.quizzes.results.toggle-visibility', [$quiz, $quizUser]) }}">
-                                @csrf
-                                <button type="submit">
-                                    {{ $quizUser->can_view_score ? 'Revoke User Access' : 'Allow User to View Score' }}
-                                </button>
-                            </form>
                         </td>
                     </tr>
                 @endforeach

@@ -40,8 +40,5 @@ Route::prefix('admin')
     Route::prefix('quizzes/{quiz}/results')->name('quizzes.results.')->group(function () {
         Route::get('/', [ResultsController::class, 'index'])->name('index');
         Route::get('/{quizUser}', [ResultsController::class, 'show'])->name('show');
-        Route::post('/{quizUser}/toggle-visibility', [ResultsController::class, 'toggleVisibility'])->name('toggle-visibility');
-        Route::post('/toggle-bulk-visibility', [ResultsController::class, 'toggleBulkVisibility'])
-        ->name('toggle-bulk-visibility');
     });
 });
