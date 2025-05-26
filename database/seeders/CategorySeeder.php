@@ -20,5 +20,6 @@ class CategorySeeder extends Seeder
             ['name' => 'Level 4', 'min_grade' => 9, 'max_grade' => 10],
             ['name' => 'Level 5', 'min_grade' => 11, 'max_grade' => 12],
         ];
+        \App\Models\Category::insert($categories);
     }
 }

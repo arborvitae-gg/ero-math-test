@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
             'email' => 'user@example.com',
             'password' => Hash::make('password'),
             // 'role' => 'user',
-            'grade_level' => 5,
+            'grade_level' => 3,
             'school' => 'Sample Elementary School',
             'coach_name' => 'Ms. Smith',
         ]);
