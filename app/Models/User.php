@@ -66,4 +66,27 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(QuizUser::class);
     }
+
+    /**
+     * Get the category for the user based on their grade level.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function category()
+    {
+        return $this->belongsTo(Category::class)->where(function ($query) {
+            $query->where('min_grade', '<=', $this->grade_level)
+                  ->where('max_grade', '>=', $this->grade_level);
+        });
+    }
+
+    /**
+     * Get the user's category (accessor).
+     *
+     * @return Category|null
+     */
+    public function getCategoryAttribute()
+    {
+        return Category::findCategoryForGrade($this->grade_level);
+    }
 }

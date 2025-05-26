@@ -12,7 +12,15 @@
     </title>
 
     {{-- Styles / Scripts --}}
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite([
+        'resources/css/app.css',
+        'resources/css/navigation.css',
+        'resources/css/quiz.css',
+        'resources/css/auth.css',
+        'resources/css/profile.css'
+    ])
+    @yield('styles')
+    @vite(['resources/js/app.js'])
 
     {{-- Classless CSS script, remove or comment out if you want to start styling --}}
     {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/digitallytailored/classless@latest/classless.min.css"> --}}
@@ -23,19 +31,19 @@
         @include('layouts.navigation')
 
         {{-- Page Heading --}}
-        @isset($header)
-            <header>
-                <div>
-                    {{ $header }}
-                </div>
-            </header>
-        @endisset
+        <header class="page-header">
+            <div class="header-content">
+                @yield('header')
+            </div>
+        </header>
 
         {{-- Page Content --}}
-        <main>
-            {{ $slot }}
+        <main class="page-content">
+            @yield('content')
         </main>
     </div>
+
+    @stack('scripts')
 </body>
 
 </html>

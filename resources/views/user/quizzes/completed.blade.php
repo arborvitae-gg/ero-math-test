@@ -1,8 +1,10 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="quiz-title">{{ __('Quiz Completed') }}</h2>
-    </x-slot>
+@extends('layouts.app')
 
+@section('header')
+    <h2 class="quiz-title">{{ __('Quiz Completed') }}</h2>
+@endsection
+
+@section('content')
     <style>
         .completion-container {
             max-width: 800px;
@@ -172,4 +174,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+@endsection

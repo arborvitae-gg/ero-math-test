@@ -1,7 +1,10 @@
-<x-app-layout>
-    <x-slot name="header">
-    </x-slot>
+@extends('layouts.app')
 
+@section('header')
+    <h2 class="quiz-title">{{ $quizUser->quiz->title }} - Results</h2>
+@endsection
+
+@section('content')
     <style>
         .results-container {
             max-width: 1200px;
@@ -154,18 +157,17 @@
         }
 
         .label {
-            padding: 0.5rem 1rem;
-            border-radius: 24px;
-            font-size: 0.95rem;
-            font-weight: 500;
-            display: inline-flex;
+            display: flex;
             align-items: center;
             gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
         }
 
         .label svg {
-            width: 16px;
-            height: 16px;
+            width: 1.25rem;
+            height: 1.25rem;
         }
 
         .label-success {
@@ -182,15 +184,14 @@
             display: inline-flex;
             align-items: center;
             gap: 0.75rem;
+            padding: 1rem 2rem;
             background: linear-gradient(135deg, #000080, #0000b3);
             color: white;
-            padding: 1rem 2rem;
             border-radius: 12px;
             font-weight: 600;
             text-decoration: none;
             transition: all 0.3s ease;
-            margin: 2rem auto;
-            box-shadow: 0 4px 24px rgba(0, 0, 139, 0.15);
+            margin-top: 2rem;
         }
 
         .return-link:hover {
@@ -199,8 +200,8 @@
         }
 
         @media (max-width: 768px) {
-            .results-summary {
-                grid-template-columns: 1fr;
+            .results-container {
+                padding: 1rem;
             }
 
             .results-header {
@@ -212,6 +213,10 @@
                 font-size: 2rem;
             }
 
+            .results-summary {
+                grid-template-columns: 1fr;
+            }
+
             .question-container {
                 padding: 1.5rem;
             }
@@ -219,11 +224,10 @@
             .choice-item {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 1rem;
             }
 
             .choice-label {
-                margin-left: 0;
+                margin: 1rem 0 0 0;
             }
         }
     </style>
@@ -325,4 +329,4 @@
             </a>
         </div>
     </div>
-</x-app-layout>
+@endsection

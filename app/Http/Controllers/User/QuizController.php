@@ -35,6 +35,20 @@ class QuizController
     }
 
     /**
+     * Display the user dashboard.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function dashboard()
+    {
+        $user = Auth::user();
+        $quizzes = Quiz::where('is_posted', true)->with('questions')->get();
+        $quizUsers = $user->quizSessions()->with('category')->get()->keyBy('quiz_id');
+
+        return view('user.dashboard', compact('quizzes', 'user', 'quizUsers'));
+    }
+
+    /**
      * Display a list of available quizzes and user attempts.
      *
      * @return \Illuminate\View\View
@@ -42,11 +56,7 @@ class QuizController
     public function index()
     {
         $user = Auth::user();
-
-        // Fetch all posted quizzes with their questions
         $quizzes = Quiz::where('is_posted', true)->with('questions')->get();
-
-        // Fetch all attempts by the current user, keyed by quiz_id
         $quizUsers = $user->quizSessions()->with('category')->get()->keyBy('quiz_id');
 
         return view('user.quizzes.index', compact('quizzes', 'user', 'quizUsers'));

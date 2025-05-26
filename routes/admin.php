@@ -34,7 +34,7 @@ Route::prefix('admin')
     Route::post('quizzes/{quiz}/post', [QuizController::class, 'post'])->name('quizzes.post');
 
     // Questions (resourceful, nested under quizzes)
-    Route::resource('quizzes.questions', QuestionController::class)->shallow()->except(['create', 'show', 'edit']);
+    Route::resource('quizzes.questions', QuestionController::class)->except(['create', 'show', 'edit']);
 
     // Results (grouped under quizzes)
     Route::prefix('quizzes/{quiz}/results')->name('quizzes.results.')->group(function () {

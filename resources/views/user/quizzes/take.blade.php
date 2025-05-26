@@ -1,7 +1,31 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="quiz-title">{{ $quizUser->quiz->title }}</h2>
-    </x-slot>
+@extends('layouts.app')
+
+@section('header')
+    <h2 class="quiz-title">{{ $quizUser->quiz->title }}</h2>
+@endsection
+
+@pushOnce('scripts')
+    @include('user.quizzes.partials.quiz-script')
+@endPushOnce
+
+@section('content')
+    <div class="quiz-container">
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+        <div class="progress-text">
+            Question {{ $quizUser->current_question }} of {{ count($quizUser->question_order) }}
+        </div>
+
+        <div class="question-container">
+            @include('user.quizzes.partials.answer-form', [
+                'quizUser' => $quizUser,
+                'question' => $question,
+                'choices' => $choices,
+                'existingAttempt' => $existingAttempt
+            ])
+        </div>
+    </div>
 
     <style>
         .quiz-container {
@@ -13,8 +37,9 @@
         .quiz-title {
             font-size: 2rem;
             font-weight: 700;
-            color: #1a2b3c;
+            color: white;
             text-align: center;
+            margin: 0;
         }
 
         .progress-bar {
@@ -210,22 +235,4 @@
             }
         }
     </style>
-
-    <div x-data="quizHandler()" class="quiz-container">
-        <div class="progress-bar">
-            <div class="progress-fill"></div>
-        </div>
-        <div class="progress-text">
-            Question {{ $quizUser->current_question }} of {{ count($quizUser->question_order) }}
-        </div>
-
-        <div class="question-container">
-            {{-- partials/answer-form.blade.php --}}
-            @include('user.quizzes.partials.answer-form', [
-                'quizUser' => $quizUser,
-                'question' => $question,
-                'choices' => $choices,
-            ])
-        </div>
-    </div>
-</x-app-layout>
+@endsection

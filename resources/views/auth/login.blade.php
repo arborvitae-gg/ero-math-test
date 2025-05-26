@@ -79,12 +79,11 @@
 
         .login-card {
             width: 100%;
-            max-width: 400px;
+            max-width: 500px;
             background: #fff;
             border-radius: 16px;
             box-shadow: 0 8px 32px rgba(0, 0, 139, 0.08);
-            padding: 2rem;
-            padding-right: 3rem;
+            padding: 3rem;
             transform: translateY(0);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
@@ -112,11 +111,11 @@
             margin-bottom: 1.5rem;
         }
 
-        .login-form-group {
+        .form-group {
             margin-bottom: 1.25rem;
         }
 
-        .login-label {
+        label {
             display: block;
             font-size: 0.95rem;
             font-weight: 500;
@@ -124,9 +123,10 @@
             margin-bottom: 0.5rem;
         }
 
-        .login-input {
+        input[type="email"],
+        input[type="password"] {
             width: 100%;
-            padding: 0.75rem 1rem;
+            padding: 12px;
             border: 2px solid #e9edf5;
             border-radius: 12px;
             font-size: 0.95rem;
@@ -135,30 +135,32 @@
             background: #f8fafc;
         }
 
-        .login-input:focus {
+        input[type="email"]:focus,
+        input[type="password"]:focus {
             outline: none;
             border-color: rgba(0, 0, 139, 0.5);
             background: #fff;
             box-shadow: 0 0 0 4px rgba(0, 0, 139, 0.1);
         }
 
-        .login-remember {
+        .remember-me {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1.25rem;
-            margin-top: 0.5rem;
+            margin: 1rem 0;
         }
 
-        .login-remember input[type="checkbox"] {
-            width: 1.2rem;
-            height: 1.2rem;
-            border-radius: 4px;
-            border: 2px solid #e9edf5;
-            cursor: pointer;
+        .remember-me input[type="checkbox"] {
+            margin-right: 0.5rem;
         }
 
-        .login-btn {
+        .remember-me label {
+            margin: 0;
+            display: inline;
+            font-size: 0.95rem;
+            color: #64748b;
+        }
+
+        button[type="submit"] {
             width: 100%;
             padding: 0.875rem;
             background: linear-gradient(135deg, #000080, #0000b3);
@@ -169,68 +171,57 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 0.5rem;
+            margin-top: 1rem;
         }
 
-        .login-btn:hover {
+        button[type="submit"]:hover {
             background: linear-gradient(135deg, #0000b3, #0000e6);
             transform: translateY(-2px);
         }
 
-        .login-footer {
+        .links {
             text-align: center;
             margin-top: 1.5rem;
             color: #64748b;
         }
 
-        .login-footer a {
+        .links a {
             color: #000080;
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s ease;
         }
 
-        .login-footer a:hover {
+        .links a:hover {
             color: #0000b3;
             text-decoration: underline;
         }
 
-        .error-message {
+        .error {
             background: #fee2e2;
             color: #dc2626;
             padding: 0.75rem 1rem;
             border-radius: 8px;
-            margin-bottom: 1.5rem;
+            margin-top: 0.5rem;
             font-size: 0.95rem;
         }
 
-        @media (max-width: 640px) {
-            .nav-container {
-                padding: 0 1rem;
-            }
-
-            .login-container {
-                padding: 1rem;
-            }
-
+        @media (max-width: 768px) {
             .login-card {
-                padding: 1.5rem;
-            }
-
-            .login-title {
-                font-size: 1.5rem;
+                padding: 2rem;
+                margin: 1rem;
             }
         }
     </style>
 </head>
-
 <body>
     <header>
         <div class="nav-container">
             <a href="/" class="logo">
-                <img src="{{ asset('images/Erovoutika Light Logo.png') }}" alt="Ero-Math Logo">
+                <img src="{{ asset('images/Erovoutika Light Logo.png') }}" alt="Erovoutika Logo">
             </a>
             <nav>
+                <a href="{{ route('login') }}">Login</a>
                 <a href="{{ route('register') }}">Register</a>
             </nav>
         </div>
@@ -241,10 +232,11 @@
             <div class="login-logo">
                 <img src="{{ asset('images/Erovoutika_logo.png') }}" alt="Erovoutika Logo">
             </div>
+            
             <h1 class="login-title">Welcome Back</h1>
 
             @if (session('status'))
-                <div class="error-message">
+                <div class="status-message">
                     {{ session('status') }}
                 </div>
             @endif
@@ -252,37 +244,34 @@
             <form method="POST" action="{{ route('login') }}">
                 @csrf
 
-                <div class="login-form-group">
-                    <label for="email" class="login-label">Email</label>
-                    <input id="email" class="login-input" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username" />
-                    <x-input-error :messages="$errors->get('email')" class="error-message" />
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" value="{{ old('email') }}" required>
+                    @error('email')
+                        <span class="error">{{ $message }}</span>
+                    @enderror
                 </div>
 
-                <div class="login-form-group">
-                    <label for="password" class="login-label">Password</label>
-                    <input id="password" class="login-input" type="password" name="password" required autocomplete="current-password" />
-                    <x-input-error :messages="$errors->get('password')" class="error-message" />
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" required>
+                    @error('password')
+                        <span class="error">{{ $message }}</span>
+                    @enderror
                 </div>
 
-                <div class="login-remember">
-                    <input id="remember_me" type="checkbox" name="remember">
-                    <label for="remember_me">Remember me</label>
+                <div class="remember-me">
+                    <input type="checkbox" name="remember" id="remember">
+                    <label for="remember">Remember me</label>
                 </div>
 
-                <button type="submit" class="login-btn">
-                    Sign in
-                </button>
+                <button type="submit">Sign in</button>
 
-                <div class="login-footer">
-                    @if (Route::has('password.request'))
-                        <a href="{{ route('password.request') }}">
-                            Forgot your password?
-                        </a>
-                    @endif
-                    <p>
-                        Don't have an account? 
-                        <a href="{{ route('register') }}">Register now</a>
-                    </p>
+                <div class="links">
+                    <a href="{{ route('password.request') }}">Forgot your password?</a>
+                    <br>
+                    <span>Don't have an account? </span>
+                    <a href="{{ route('register') }}">Register now</a>
                 </div>
             </form>
         </div>

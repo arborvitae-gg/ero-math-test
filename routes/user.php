@@ -11,8 +11,11 @@ Route::middleware(['auth', 'verified', 'role:user'])
     ->name('user.')
     ->group(function () {
         // User Dashboard
-        Route::get('/dashboard', [QuizController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard', [QuizController::class, 'dashboard'])->name('dashboard');
 
+        // Quiz routes
+        Route::get('/quizzes', [QuizController::class, 'index'])->name('quizzes.index');
+        
         // Start a quiz
         Route::post('/quizzes/{quiz}/start', [QuizController::class, 'start'])->name('quizzes.start');
 

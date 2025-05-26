@@ -1,6 +1,6 @@
+@extends('layouts.app')
 
-
-<x-guest-layout>
+@section('content')
     <style>
 
          header {
@@ -139,4 +139,4 @@
             <button type="submit" class="forgot-btn">{{ __('Email Password Reset Link') }}</button>
         </form>
     </div>
-</x-guest-layout>
+@endsection

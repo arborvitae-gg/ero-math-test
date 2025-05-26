@@ -2,12 +2,22 @@
     function quizHandler() {
         return {
             previousQuestion() {
-                document.getElementById('answer-form').action += '?direction=previous';
-                document.getElementById('answer-form').submit();
+                const form = document.getElementById('answer-form');
+                const directionInput = document.createElement('input');
+                directionInput.type = 'hidden';
+                directionInput.name = 'direction';
+                directionInput.value = 'previous';
+                form.appendChild(directionInput);
+                form.submit();
             },
             nextQuestion() {
-                document.getElementById('answer-form').action += '?direction=next';
-                document.getElementById('answer-form').submit();
+                const form = document.getElementById('answer-form');
+                const directionInput = document.createElement('input');
+                directionInput.type = 'hidden';
+                directionInput.name = 'direction';
+                directionInput.value = 'next';
+                form.appendChild(directionInput);
+                form.submit();
             }
         }
     }
