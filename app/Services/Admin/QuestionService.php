@@ -97,7 +97,7 @@ class QuestionService
      * @param int $index
      * @return void
      */
-    private function handleChoice(Question $question, array $choiceData, int $index): void
+    public function handleChoice(Question $question, array $choiceData, int $index): void
     {
         try {
             $choice = $question->choices->get($index);

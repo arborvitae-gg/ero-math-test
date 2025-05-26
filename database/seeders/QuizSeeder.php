@@ -19,9 +19,9 @@ class QuizSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->seedQuiz('test 5');
-        $this->seedQuiz('test 6');
-        $this->seedQuiz('test 7');
+        $this->seedQuiz('test 1');
+        $this->seedQuiz('test 2');
+        $this->seedQuiz('test 3');
         // change the quiz name
     }
 }
