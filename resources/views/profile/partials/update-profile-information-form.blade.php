@@ -1,152 +1,217 @@
 <section>
     <style>
-        .profile-info-card {
-            max-width: 450px;
-            margin: 2rem auto;
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-            padding: 2rem 2.5rem 1.5rem 2rem;
+        .form-header {
+            margin-bottom: 2rem;
         }
-        .profile-info-card header h2 {
+
+        .form-header h2 {
             font-size: 1.5rem;
             font-weight: 600;
-            color: #222;
-            margin-bottom: 0.3rem;
+            color: #1a2b3c;
+            margin-bottom: 0.5rem;
         }
-        .profile-info-card header p {
-            color: #555;
-            margin-bottom: 1.5rem;
+
+        .form-header p {
+            color: #64748b;
             font-size: 1rem;
+            line-height: 1.5;
         }
-        .profile-info-card form > div {
-            margin-bottom: 1.2rem;
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
         }
-        .profile-info-card label {
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
             display: block;
-            font-size: 1rem;
-            margin-bottom: 0.3rem;
-            color: #333;
-        }
-        .profile-info-card input[type="text"],
-        .profile-info-card input[type="email"] {
-            width: 100%;
-            padding: 0.7rem;
-            border: 1px solid #e0e0e0;
-            border-radius: 6px;
-            background: #f7f7f7;
-            font-size: 1rem;
-            outline: none;
-            transition: border 0.2s;
-        }
-        .profile-info-card input[type="text"]:focus,
-        .profile-info-card input[type="email"]:focus {
-            border: 1.5px solid #2d3e50;
-            background: #fff;
-        }
-        .profile-info-card button {
-            background: #222;
-            color: #fff;
-            border: none;
-            border-radius: 24px;
-            padding: 0.8rem 2rem;
-            font-size: 1.1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .profile-info-card button:hover {
-            background: #2d3e50;
-        }
-        .profile-info-card .input-error {
-            color: #e53935;
             font-size: 0.95rem;
-            margin-top: 0.2rem;
+            font-weight: 500;
+            color: #1a2b3c;
+            margin-bottom: 0.5rem;
         }
-        .profile-info-card .verified-message,
-        .profile-info-card .status-message {
-            color: #388e3c;
-            font-size: 0.98rem;
+
+        .form-input {
+            width: 100%;
+            padding: .7rem .2rem .7rem .2rem;
+            border: 2px solid #e9edf5;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: rgba(0, 0, 139, 0.5);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(0, 0, 139, 0.1);
+        }
+
+        .form-error {
+            color: #dc2626;
+            font-size: 0.9rem;
             margin-top: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            background: #fee2e2;
+            border-radius: 8px;
         }
-        @media (max-width: 600px) {
-            .profile-info-card {
-                padding: 1rem 0.5rem;
+
+        .form-success {
+            color: #059669;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            background: #dcfce7;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-success svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .form-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.875rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #000080, #0000b3);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #0000b3, #0000e6);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #f8fafc;
+            color: #1a2b3c;
+            border: 2px solid #e2e8f0;
+        }
+
+        .btn-secondary:hover {
+            background: #f1f5f9;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 640px) {
+            .form-grid {
+                grid-template-columns: 1fr;
             }
-            .profile-info-card header h2 {
-                font-size: 1.1rem;
+
+            .form-actions {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .btn {
+                width: 100%;
             }
         }
     </style>
-    <div class="profile-info-card">
-        <header>
-            <h2>{{ __('Profile Information') }}</h2>
-            <p>{{ __("Update your account's profile information and email address.") }}</p>
-        </header>
 
-        <form id="send-verification" method="post" action="{{ route('verification.send') }}">
-            @csrf
-        </form>
+    <div class="form-header">
+        
+        <p>Update your account's profile information and email address.</p>
+    </div>
 
-        <form method="post" action="{{ route('profile.update') }}">
-            @csrf
-            @method('patch')
+    <form id="send-verification" method="post" action="{{ route('verification.send') }}">
+        @csrf
+    </form>
 
-            {{-- First Name --}}
-            <div>
-                <label for="first_name">{{ __('First Name') }}</label>
-                <input id="first_name" name="first_name" type="text" value="{{ old('first_name', $user->first_name) }}"
-                    required autofocus autocomplete="given-name" />
-                <x-input-error :messages="$errors->get('first_name')" class="input-error" />
+    <form method="post" action="{{ route('profile.update') }}">
+        @csrf
+        @method('patch')
+
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="first_name" class="form-label">First Name</label>
+                <input id="first_name" name="first_name" type="text" class="form-input" 
+                    value="{{ old('first_name', $user->first_name) }}" required autofocus autocomplete="given-name" />
+                <x-input-error :messages="$errors->get('first_name')" class="form-error" />
             </div>
 
-            {{-- Middle Name --}}
-            <div>
-                <label for="middle_name">{{ __('Middle Name') }}</label>
-                <input id="middle_name" name="middle_name" type="text"
+            <div class="form-group">
+                <label for="middle_name" class="form-label">Middle Name</label>
+                <input id="middle_name" name="middle_name" type="text" class="form-input"
                     value="{{ old('middle_name', $user->middle_name) }}" autocomplete="additional-name" />
-                <x-input-error :messages="$errors->get('middle_name')" class="input-error" />
+                <x-input-error :messages="$errors->get('middle_name')" class="form-error" />
             </div>
+        </div>
 
-            {{-- Last Name --}}
-            <div>
-                <label for="last_name">{{ __('Last Name') }}</label>
-                <input id="last_name" name="last_name" type="text" value="{{ old('last_name', $user->last_name) }}"
-                    required autocomplete="family-name" />
-                <x-input-error :messages="$errors->get('last_name')" class="input-error" />
-            </div>
+        <div class="form-group">
+            <label for="last_name" class="form-label">Last Name</label>
+            <input id="last_name" name="last_name" type="text" class="form-input"
+                value="{{ old('last_name', $user->last_name) }}" required autocomplete="family-name" />
+            <x-input-error :messages="$errors->get('last_name')" class="form-error" />
+        </div>
 
-            {{-- Email --}}
-            <div>
-                <label for="email">{{ __('Email') }}</label>
-                <input id="email" name="email" type="email" value="{{ old('email', $user->email) }}" required
-                    autocomplete="username" />
-                <x-input-error :messages="$errors->get('email')" class="input-error" />
+        <div class="form-group">
+            <label for="email" class="form-label">Email</label>
+            <input id="email" name="email" type="email" class="form-input"
+                value="{{ old('email', $user->email) }}" required autocomplete="username" />
+            <x-input-error :messages="$errors->get('email')" class="form-error" />
 
-                @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
-                    <div class="verified-message">
-                        <p>
-                            {{ __('Your email address is unverified.') }}
-                            <button form="send-verification" type="submit">
-                                {{ __('Click here to re-send the verification email.') }}
-                            </button>
-                        </p>
+            @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
+                <div class="form-error">
+                    Your email address is unverified.
+                    <button form="send-verification" class="btn btn-secondary">
+                        Click here to re-send the verification email
+                    </button>
+                </div>
 
-                        @if (session('status') === 'verification-link-sent')
-                            <p class="status-message">{{ __('A new verification link has been sent to your email address.') }}</p>
-                        @endif
+                @if (session('status') === 'verification-link-sent')
+                    <div class="form-success">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                        </svg>
+                        A new verification link has been sent to your email address.
                     </div>
                 @endif
-            </div>
+            @endif
+        </div>
 
-            {{-- Save Button --}}
-            <div>
-                <button type="submit">{{ __('Save') }}</button>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                Save Changes
+            </button>
 
-                @if (session('status') === 'profile-updated')
-                    <p class="status-message">{{ __('Saved.') }}</p>
-                @endif
-            </div>
-        </form>
-    </div>
+            @if (session('status') === 'profile-updated')
+                <div class="form-success">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>
+                    Saved successfully
+                </div>
+            @endif
+        </div>
+    </form>
 </section>

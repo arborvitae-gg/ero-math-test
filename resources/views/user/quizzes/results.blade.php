@@ -1,11 +1,10 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2>{{ __('Quiz Results') }}</h2>
     </x-slot>
 
     <style>
-        #quiz-results {
-            max-width: 700px;
+        .results-container {
+            max-width: 1200px;
             margin: 2rem auto;
             background: #fff;
             border-radius: 12px;
@@ -24,24 +23,23 @@
         }
 
         .question-text {
-            font-size: 1.15rem;
+            font-size: 1.25rem;
             font-weight: 600;
-            color: #222;
-            margin-bottom: 1.1rem;
+            color: #1a2b3c;
+            margin-bottom: 1.5rem;
+            line-height: 1.4;
         }
 
         .choices-list {
             list-style: none;
             padding: 0;
             margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
         }
 
         .choice-item {
-            margin-bottom: 0.7rem;
-            padding: 0.9rem 1.2rem;
-            border-radius: 8px;
-            border: 2px solid #e0e0e0;
-            background: #f7f7f7;
             display: flex;
             align-items: center;
             transition: border 0.2s, background 0.2s;
@@ -53,18 +51,15 @@
 
         .choice-content {
             flex: 1;
-            font-size: 1rem;
-            color: #222;
-            word-break: break-word;
+            font-size: 1.1rem;
+            color: #1a2b3c;
         }
 
         .choice-content img {
             max-width: 120px;
-            max-height: 60px;
-            object-fit: contain;
-            border-radius: 4px;
-            background: #fff;
-            border: 1px solid #e0e0e0;
+            height: auto;
+            border-radius: 8px;
+            margin-left: 1rem;
         }
 
         .choice-label {
@@ -79,6 +74,9 @@
             border-radius: 16px;
             font-size: 0.95em;
             font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .label-success {
@@ -94,23 +92,68 @@
         }
 
         .choice-correct-user {
-            border: 2px solid #388e3c;
-            background: #e6f4ea;
+            background: #dcfce7;
+            border-color: #166534;
         }
 
         .choice-correct {
-            border: 2px solid #1976d2;
-            background: #e3f2fd;
+            background: #dbeafe;
+            border-color: #1e40af;
         }
 
         .choice-wrong-user {
-            border: 2px solid #e53935;
-            background: #fdeaea;
+            background: #fee2e2;
+            border-color: #991b1b;
         }
 
         .choice-default {
-            border: 2px solid #e0e0e0;
-            background: #f7f7f7;
+            background: #f8fafc;
+            border-color: #e2e8f0;
+        }
+
+        .label {
+            padding: 0.5rem 1rem;
+            border-radius: 24px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .label svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .label-success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .label-error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .return-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: linear-gradient(135deg, #000080, #0000b3);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin: 2rem auto;
+            box-shadow: 0 4px 24px rgba(0, 0, 139, 0.15);
+        }
+
+        .return-link:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #0000b3, #0000e6);
         }
 
         @media (max-width: 600px) {
@@ -121,11 +164,9 @@
             .choice-content {
                 font-size: 0.97rem;
             }
-
+            
             .choice-label {
-                min-width: 80px;
-                margin-left: 0.5rem;
-                font-size: 0.9em;
+                margin-left: 0;
             }
         }
 
@@ -147,19 +188,40 @@
         .return-dashboard-link:hover {
             background: #1a2533;
         }
+
     </style>
 
-    <div id="quiz-results">
+    <div class="results-container">
+        <div class="results-header">
+            <h2>Quiz Results</h2>
+            <p>Review your answers and see how well you did!</p>
+        </div>
+
+        <div class="results-summary">
+            <div class="summary-card">
+                <div class="summary-value">{{ $quizUser->total_score }}%</div>
+                <div class="summary-label">Overall Score</div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-value">{{ $quizUser->attempts->where('is_correct', true)->count() }}</div>
+                <div class="summary-label">Correct Answers</div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-value">{{ $quizUser->attempts->count() }}</div>
+                <div class="summary-label">Total Questions</div>
+            </div>
+        </div>
+
         @foreach ($quizUser->attempts as $attempt)
             @php
                 $question = $attempt->question;
             @endphp
 
-            <div class="question-block" id="question-{{ $question->id }}">
-                <h3>{{ $question->question_text }}</h3>
+            <div class="question-container">
+                <div class="question-text">{{ $question->question_text }}</div>
 
                 @if (!empty($question->question_image))
-                    <img src="{{ $question->question_image_url }}" alt="Question Image">
+                    <img src="{{ $question->question_image_url }}" alt="Question Image" class="question-image">
                 @endif
 
                 <ul class="choices-list">
@@ -182,21 +244,36 @@
                             }
                         @endphp
 
-                        <li class="choice-item {{ $choiceClass }}" data-choice-id="{{ $choice->id }}">
+                        <li class="choice-item {{ $choiceClass }}">
                             <div class="choice-content">
                                 {{ $choice->choice_text }}
                                 @if (!empty($choice->choice_image))
-                                    <img src="{{ $choice->choice_image_url }}" alt="Choice Image">
+                                    <img src="{{ $choice->choice_image_url }}" alt="Choice Image" class="choice-image">
                                 @endif
                             </div>
 
                             <div class="choice-label">
                                 @if ($isCorrectChoice && $isUserChoice)
-                                    <span class="label label-success">✔ Your answer is correct</span>
+                                    <span class="label label-success">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                        </svg>
+                                        Correct Answer
+                                    </span>
                                 @elseif ($isCorrectChoice)
-                                    <span class="label label-success">✔ Correct answer</span>
+                                    <span class="label label-success">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                        </svg>
+                                        Correct Answer
+                                    </span>
                                 @elseif ($isUserChoice)
-                                    <span class="label label-error">✖ Your answer</span>
+                                    <span class="label label-error">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                                        </svg>
+                                        Your Answer
+                                    </span>
                                 @endif
                             </div>
                         </li>
@@ -211,9 +288,14 @@
                 </ul>
             </div>
         @endforeach
-    </div>
 
-    <div style="text-align:center;">
-        <a href="{{ route('user.dashboard') }}" class="return-dashboard-link">Return to Dashboard</a>
+        <div style="text-align: center;">
+            <a href="{{ route('user.dashboard') }}" class="return-link">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="width: 20px; height: 20px;">
+                    <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                </svg>
+                Return to Dashboard
+            </a>
+        </div>
     </div>
 </x-app-layout>

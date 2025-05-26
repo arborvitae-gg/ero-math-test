@@ -1,249 +1,291 @@
-<x-guest-layout>
-    <x-slot name="logo">
-        <a href="/">
-            <img src="{{ asset('images/Erovoutika_logo.png') }}" alt="Erovoutika Logo" style="height: 60px;">
-        </a>
-    </x-slot>
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login - Ero-Math Competition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    @vite(['resources/css/app.css'])
 
     <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f6f8fc 0%, #e9edf5 100%);
+            display: flex;
+            flex-direction: column;
+        }
+
         header {
-            background: darkblue;
+            background: linear-gradient(135deg, rgba(0, 0, 139, 0.95), rgba(0, 0, 139, 0.85));
             padding: 1rem 0;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(8px);
         }
 
         .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin: 0 auto;
-            padding: 0 1rem;
+            padding: 0 2rem;
         }
 
         .logo img {
-            height: 40px;
+            height: 45px;
             width: auto;
-            display: block;
-            padding-left: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo img:hover {
+            transform: scale(1.05);
         }
 
         nav {
             display: flex;
-            justify-content: flex-end;
-            gap: 1rem;
+            gap: 1.5rem;
         }
 
         nav a {
             color: #fff;
             text-decoration: none;
             font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            transition: background 0.2s;
+            padding: 0.5rem 1.2rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 1.05rem;
         }
 
         nav a:hover {
-            background: #1a2533;
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .login-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            margin-top: 76px;
         }
 
         .login-card {
-            max-width: 350px;
-            margin: 2rem auto;
+            width: 100%;
+            max-width: 400px;
             background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.10);
-            padding: 2rem 2rem 1.5rem 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 139, 0.08);
+            padding: 2rem;
+            padding-right: 3rem;
+            transform: translateY(0);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .login-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 48px rgba(0, 0, 139, 0.12);
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 1.5rem;
         }
 
         .login-logo img {
-            max-width: 200px;
-            margin-bottom: 1.5rem;
+            height: 50px;
+            width: auto;
         }
 
         .login-title {
-            font-size: 2rem;
-            font-weight: 500;
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #1a2b3c;
+            text-align: center;
             margin-bottom: 1.5rem;
-            color: #222;
-            width: 100%;
-            text-align: left;
         }
 
         .login-form-group {
-            width: 100%;
-            margin-bottom: 1.2rem;
+            margin-bottom: 1.25rem;
         }
 
         .login-label {
             display: block;
-            font-size: 1rem;
-            margin-bottom: 0.3rem;
-            color: #333;
-        }
-
-        .login-input-wrapper {
-            position: relative;
-        }
-
-        .login-input-icon {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #888;
-            font-size: 1rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #1a2b3c;
+            margin-bottom: 0.5rem;
         }
 
         .login-input {
             width: 100%;
-            padding: 0.7rem;
-            border: 1px solid #e0e0e0;
-            border-radius: 6px;
-            background: #f7f7f7;
-            font-size: 1rem;
-            outline: none;
-            transition: border 0.2s;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e9edf5;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+            background: #f8fafc;
         }
 
         .login-input:focus {
-            border: 1.5px solid #2d3e50;
+            outline: none;
+            border-color: rgba(0, 0, 139, 0.5);
             background: #fff;
+            box-shadow: 0 0 0 4px rgba(0, 0, 139, 0.1);
         }
 
         .login-remember {
             display: flex;
             align-items: center;
-            margin-bottom: 1.2rem;
-            width: 100%;
+            gap: 0.5rem;
+            margin-bottom: 1.25rem;
+            margin-top: 0.5rem;
         }
 
         .login-remember input[type="checkbox"] {
-            margin-right: 0.5rem;
-        }
-
-        .login-actions {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.2rem;
-        }
-
-        .login-actions a {
-            font-size: 0.95rem;
-            color: #2d3e50;
-            text-decoration: underline;
+            width: 1.2rem;
+            height: 1.2rem;
+            border-radius: 4px;
+            border: 2px solid #e9edf5;
+            cursor: pointer;
         }
 
         .login-btn {
             width: 100%;
-            background: #222;
+            padding: 0.875rem;
+            background: linear-gradient(135deg, #000080, #0000b3);
             color: #fff;
             border: none;
-            border-radius: 24px;
-            padding: 0.9rem 0;
-            font-size: 1.1rem;
-            font-weight: 500;
-            margin-top: 0.5rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
         }
 
         .login-btn:hover {
-            background: #2d3e50;
+            background: linear-gradient(135deg, #0000b3, #0000e6);
+            transform: translateY(-2px);
         }
 
         .login-footer {
-            margin-top: 1.2rem;
             text-align: center;
-            font-size: 0.9rem;
-            color: #888;
+            margin-top: 1.5rem;
+            color: #64748b;
         }
 
         .login-footer a {
-            color: #2d3e50;
+            color: #000080;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .login-footer a:hover {
+            color: #0000b3;
             text-decoration: underline;
         }
 
-        @media (max-width: 600px) {
+        .error-message {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 640px) {
             .nav-container {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.5rem;
+                padding: 0 1rem;
             }
 
-            nav {
-                flex-direction: column;
-                align-items: flex-end;
-                gap: 0.5rem;
+            .login-container {
+                padding: 1rem;
+            }
+
+            .login-card {
+                padding: 1.5rem;
+            }
+
+            .login-title {
+                font-size: 1.5rem;
             }
         }
     </style>
+</head>
 
-    <div class="login-card">
-        <div class="login-logo">
-            <img src="{{ asset('images/Erovoutika_logo.png') }}" alt="Erovoutika Logo">
+<body>
+    <header>
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <img src="{{ asset('images/Erovoutika Light Logo.png') }}" alt="Ero-Math Logo">
+            </a>
+            <nav>
+                <a href="{{ route('register') }}">Register</a>
+            </nav>
         </div>
-        <div class="login-title">Log in</div>
-        @if (session('status'))
-            <div style="color: #e53935; margin-bottom: 1rem;">
-                {{ session('status') }}
+    </header>
+
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-logo">
+                <img src="{{ asset('images/Erovoutika_logo.png') }}" alt="Erovoutika Logo">
             </div>
-        @endif
+            <h1 class="login-title">Welcome Back</h1>
 
-        <form method="POST" action="{{ route('login') }}" style="width: 100%;">
-            @csrf
-
-            <div class="login-form-group">
-                <label for="email" class="login-label">{{ __('Email') }}</label>
-                <div class="login-input-wrapper">
-                    <!-- Removed icon -->
-                    <input id="email" class="login-input" type="email" name="email" value="{{ old('email') }}"
-                        required autofocus autocomplete="username" />
+            @if (session('status'))
+                <div class="error-message">
+                    {{ session('status') }}
                 </div>
-                <x-input-error :messages="$errors->get('email')" />
-            </div>
+            @endif
 
-            <div class="login-form-group">
-                <label for="password" class="login-label">{{ __('Password') }}</label>
-                <div class="login-input-wrapper">
-                    <!-- Removed icon -->
-                    <input id="password" class="login-input" type="password" name="password" required
-                        autocomplete="current-password" />
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
+
+                <div class="login-form-group">
+                    <label for="email" class="login-label">Email</label>
+                    <input id="email" class="login-input" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username" />
+                    <x-input-error :messages="$errors->get('email')" class="error-message" />
                 </div>
-                <x-input-error :messages="$errors->get('password')" />
-            </div>
 
-            <div class="login-remember">
-                <input id="remember_me" type="checkbox" name="remember">
-                <label for="remember_me" style="margin: 0;">{{ __('Remember me') }}</label>
-            </div>
+                <div class="login-form-group">
+                    <label for="password" class="login-label">Password</label>
+                    <input id="password" class="login-input" type="password" name="password" required autocomplete="current-password" />
+                    <x-input-error :messages="$errors->get('password')" class="error-message" />
+                </div>
 
-            <div class="login-actions">
-                <a href="{{ route('register') }}">
-                    {{ __('No account yet? Register here') }}
-                </a>
-            </div>
+                <div class="login-remember">
+                    <input id="remember_me" type="checkbox" name="remember">
+                    <label for="remember_me">Remember me</label>
+                </div>
 
-            <div class="login-actions">
-                @if (Route::has('password.request'))
-                    <a href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
-                    </a>
-                @endif
-            </div>
+                <button type="submit" class="login-btn">
+                    Sign in
+                </button>
 
-            <button type="submit" class="login-btn">{{ __('Log in') }}</button>
-        </form>
-
-        <div class="login-footer">
-            By signing up you accept our
-            <a href="#">Term of Use</a>
-            and
-            <a href="#">Policies</a>
+                <div class="login-footer">
+                    @if (Route::has('password.request'))
+                        <a href="{{ route('password.request') }}">
+                            Forgot your password?
+                        </a>
+                    @endif
+                    <p>
+                        Don't have an account? 
+                        <a href="{{ route('register') }}">Register now</a>
+                    </p>
+                </div>
+            </form>
         </div>
     </div>
-</x-guest-layout>
+</body>
+</html>
