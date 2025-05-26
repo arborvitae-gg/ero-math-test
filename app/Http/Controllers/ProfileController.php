@@ -27,8 +27,17 @@ class ProfileController
 
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $this->profileService->updateProfile($request->user(), $request->validated());
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        try {
+            $this->profileService->updateProfile($request->user(), $request->validated());
+            return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        } catch (\Throwable $e) {
+            \Log::error('User profile update failed', [
+                'user_id' => $request->user()->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            return Redirect::route('profile.edit')->withErrors(['profile' => 'An error occurred while updating your profile. Please try again later.']);
+        }
     }
 
     public function destroy(Request $request): RedirectResponse
@@ -36,7 +45,16 @@ class ProfileController
         $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],
         ]);
-        $this->profileService->deleteProfile($request->user(), $request);
-        return Redirect::to('/');
+        try {
+            $this->profileService->deleteProfile($request->user(), $request);
+            return Redirect::to('/');
+        } catch (\Throwable $e) {
+            \Log::error('User profile deletion failed', [
+                'user_id' => $request->user()->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            return Redirect::route('profile.edit')->withErrors(['profile' => 'An error occurred while deleting your account. Please try again later.']);
+        }
     }
 }

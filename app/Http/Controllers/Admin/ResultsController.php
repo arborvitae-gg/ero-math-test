@@ -56,9 +56,13 @@ class ResultsController
      */
     public function toggleVisibility(Quiz $quiz, QuizUser $quizUser)
     {
-        $this->resultsService->toggleVisibility($quizUser);
-
-        return back()->with('status', 'User score visibility updated.');
+        try {
+            $this->resultsService->toggleVisibility($quizUser);
+            return back()->with('status', 'User score visibility updated.');
+        } catch (\Throwable $e) {
+            \Log::error('Toggle user score visibility failed', ['quiz_id' => $quiz->id, 'quiz_user_id' => $quizUser->id, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+            return back()->withErrors('Failed to update user score visibility. Please try again.');
+        }
     }
 
     /**
@@ -72,8 +76,12 @@ class ResultsController
     {
         $action = $request->input('action');
         $userIds = $request->input('users', []);
-        $this->resultsService->toggleBulkVisibility($quiz, $action, $userIds);
-
-        return back()->with('status', 'Bulk visibility updated successfully.');
+        try {
+            $this->resultsService->toggleBulkVisibility($quiz, $action, $userIds);
+            return back()->with('status', 'Bulk visibility updated successfully.');
+        } catch (\Throwable $e) {
+            \Log::error('Bulk toggle score visibility failed', ['quiz_id' => $quiz->id, 'action' => $action, 'user_ids' => $userIds, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+            return back()->withErrors('Failed to update bulk score visibility. Please try again.');
+        }
     }
 }

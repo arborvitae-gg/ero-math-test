@@ -17,11 +17,16 @@ class ProfileService
      */
     public function updateProfile(User $user, array $validatedData): void
     {
-        $user->fill($validatedData);
-        if ($user->isDirty('email')) {
-            $user->email_verified_at = null;
+        try {
+            $user->fill($validatedData);
+            if ($user->isDirty('email')) {
+                $user->email_verified_at = null;
+            }
+            $user->save();
+        } catch (\Throwable $e) {
+            \Log::error('Profile update failed', ['user_id' => $user->id, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+            throw $e;
         }
-        $user->save();
     }
 
     /**
@@ -33,9 +38,14 @@ class ProfileService
      */
     public function deleteProfile(User $user, Request $request): void
     {
-        Auth::logout();
-        $user->delete();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        try {
+            Auth::logout();
+            $user->delete();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+        } catch (\Throwable $e) {
+            \Log::error('Profile deletion failed', ['user_id' => $user->id, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+            throw $e;
+        }
     }
 }
