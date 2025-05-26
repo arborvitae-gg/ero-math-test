@@ -14,11 +14,11 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         $categories = [
-            ['name' => 'Level 1', 'min_grade' => 3, 'max_grade' => 4],
-            ['name' => 'Level 2', 'min_grade' => 5, 'max_grade' => 6],
-            ['name' => 'Level 3', 'min_grade' => 7, 'max_grade' => 8],
-            ['name' => 'Level 4', 'min_grade' => 9, 'max_grade' => 10],
-            ['name' => 'Level 5', 'min_grade' => 11, 'max_grade' => 12],
+            ['name' => 'Category 1', 'min_grade' => 3, 'max_grade' => 4],
+            ['name' => 'Category 2', 'min_grade' => 5, 'max_grade' => 6],
+            ['name' => 'Category 3', 'min_grade' => 7, 'max_grade' => 8],
+            ['name' => 'Category 4', 'min_grade' => 9, 'max_grade' => 10],
+            ['name' => 'Category 5', 'min_grade' => 11, 'max_grade' => 12],
         ];
         \App\Models\Category::insert($categories);
     }

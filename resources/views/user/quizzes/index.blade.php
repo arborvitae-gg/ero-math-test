@@ -120,13 +120,11 @@
                         </form>
                     @elseif ($quizUser->status === 'completed')
                         <div class="quiz-status">Completed</div>
-                        @if ($quizUser->can_view_score)
-                            <div class="quiz-score">Your Score: {{ $quizUser->total_score }} /
-                                {{ $questionsInCategory }}</div>
-                            <a href="{{ route('user.quizzes.attempts.results', [$quiz, $quizUser]) }}">View Results</a>
-                        @else
-                            <div class="quiz-waiting">Waiting for results...</div>
-                        @endif
+
+                        <div class="quiz-score">Your Score: {{ $quizUser->total_score }} /
+                            {{ $questionsInCategory }}</div>
+                        <a href="{{ route('user.quizzes.attempts.results', [$quiz, $quizUser]) }}">View Results</a>
+
                         {{-- <a href="{{ route('user.quizzes.certificate', [$quiz, $quizUser]) }}">Download Certificate</a> --}}
                     @else
                         <a href="{{ route('user.quizzes.attempts.show', [$quiz, $quizUser]) }}">Continue Quiz</a>
