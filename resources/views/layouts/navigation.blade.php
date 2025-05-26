@@ -4,15 +4,30 @@
             <img src="{{ asset('images/Erovoutika Light Logo.png') }}" alt="Ero-Math Logo">
         </a>
         <div class="navbar-links">
-            <a href="{{ route('dashboard') }}">Dashboard</a>
+            <a href="{{ route('dashboard') }}" class="nav-link">
+                <i class="fa-solid fa-gauge-high"></i>
+                Dashboard
+            </a>
             @if (Auth::user()->role === 'admin')
-                <a href="{{ route('admin.users.index') }}">Users</a>
-                <a href="{{ route('admin.quizzes.index') }}">Quizzes</a>
+                <a href="{{ route('admin.users.index') }}" class="nav-link">
+                    <i class="fa-solid fa-users"></i>
+                    Users
+                </a>
+                <a href="{{ route('admin.quizzes.index') }}" class="nav-link">
+                    <i class="fa-solid fa-clipboard-question"></i>
+                    Quizzes
+                </a>
             @endif
-            <a href="{{ route('profile.edit') }}"><i class="fa-solid fa-circle-user"></i> Profile</a>
+            <a href="{{ route('profile.edit') }}" class="nav-link">
+                <i class="fa-solid fa-circle-user"></i>
+                Profile
+            </a>
             <form method="POST" action="{{ route('logout') }}" style="display:inline;">
                 @csrf
-                <button type="submit" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+                <button type="submit" class="nav-link logout-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    Logout
+                </button>
             </form>
         </div>
     </div>
@@ -21,11 +36,12 @@
 <style>
 .main-navbar {
     background: rgba(0, 0, 139, 0.92);
-    padding: 0.5rem 0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    padding: 0.75rem 0;
+    box-shadow: 0 4px 24px rgba(0, 0, 139, 0.15);
     position: relative;
     z-index: 10;
 }
+
 .navbar-content {
     display: flex;
     align-items: center;
@@ -34,47 +50,76 @@
     margin: 0 auto;
     padding: 0 2rem;
 }
+
 .navbar-logo img {
     height: 40px;
     width: auto;
     display: block;
 }
+
 .navbar-links {
     display: flex;
     align-items: center;
-    gap: 1.2rem;
+    gap: 1rem;
 }
-.navbar-links a,
-.navbar-links button.logout-btn {
+
+.nav-link,
+.logout-btn {
     color: #fff;
     text-decoration: none;
     font-weight: 500;
-    padding: 0.5rem 1.1rem;
-    border-radius: 4px;
+    padding: 0.5rem 1.25rem;
+    border-radius: 8px;
     background: none;
     border: none;
-    transition: background 0.2s;
+    transition: all 0.3s ease;
     cursor: pointer;
     font-size: 1rem;
     display: flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 0.5rem;
 }
-.navbar-links a:hover,
-.navbar-links button.logout-btn:hover {
-    background: #1a2533;
+
+.nav-link:hover,
+.logout-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px);
 }
-@media (max-width: 700px) {
+
+.nav-link.active {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.logout-btn {
+    color: #fecaca;
+}
+
+.logout-btn:hover {
+    background: rgba(254, 202, 202, 0.1);
+}
+
+@media (max-width: 768px) {
     .navbar-content {
         flex-direction: column;
-        align-items: flex-start;
-        padding: 0 1rem;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
     }
+
     .navbar-links {
         flex-direction: column;
         width: 100%;
-        gap: 0.5rem;
-        margin-top: 0.5rem;
+        gap: 0.75rem;
+    }
+
+    .nav-link,
+    .logout-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    form {
+        width: 100%;
     }
 }
 </style>
