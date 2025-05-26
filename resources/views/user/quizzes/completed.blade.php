@@ -11,95 +11,14 @@
             text-align: center;
         }
 
-        .completion-card {
-            background: white;
-            border-radius: 24px;
-            box-shadow: 0 4px 24px rgba(0, 0, 139, 0.08);
-            padding: 3rem 2rem;
-            animation: slideIn 0.5s ease-out;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .completion-icon {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 2rem;
-            background: linear-gradient(135deg, #000080, #0000b3);
-            border-radius: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: scaleIn 0.5s ease-out;
-        }
-
-        @keyframes scaleIn {
-            from {
-                transform: scale(0);
-            }
-            to {
-                transform: scale(1);
-            }
-        }
-
-        .completion-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #1a2b3c;
-            margin-bottom: 1rem;
-            line-height: 1.2;
-        }
-
-        .completion-text {
-            font-size: 1.2rem;
-            color: #64748b;
-            margin-bottom: 2.5rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .quiz-title-text {
-            font-weight: 600;
-            color: #000080;
-        }
-
-        .actions {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .action-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-
-        .primary-button {
-            background: linear-gradient(135deg, #000080, #0000b3);
-            color: white;
-        }
-
-        .primary-button:hover {
-            transform: translateY(-2px);
-            background: linear-gradient(135deg, #0000b3, #0000e6);
-        }
+        <div class="actions">
+            <a href="{{ route('user.dashboard') }}" class="btn btn-primary">Back to Dashboard</a>
+            <a href="{{ route('user.quizzes.attempts.results', [$quizUser->quiz, $quizUser]) }}"
+                class="btn btn-secondary">View
+                Results</a>
+            {{-- <a href="{{ route('user.quizzes.certificate', [$quizUser->quiz, $quizUser]) }}"
+                class="btn btn-success">Download Certificate</a> --}}
+        </div>
 
         .secondary-button {
             background: linear-gradient(135deg, #059669, #047857);

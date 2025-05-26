@@ -6,52 +6,20 @@
         .quiz-container {
             max-width: 1200px;
             margin: 2rem auto;
-            padding: 0 1rem;
-        }
-
-        .quiz-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .quiz-header h2 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #1a2b3c;
-            margin-bottom: 1rem;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .quiz-header p {
-            font-size: 1.1rem;
-            color: #64748b;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .quiz-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .quiz-card {
             background: #fff;
-            border-radius: 16px;
-            box-shadow: 0 4px 24px rgba(0, 0, 139, 0.08);
-            padding: 2rem;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            padding: 2rem 2.5rem;
         }
 
-        .quiz-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 32px rgba(0, 0, 139, 0.12);
+        .quiz-item {
+            padding: 1.5rem 0 1rem 0;
+            border-bottom: 1px solid #ececec;
         }
 
-       
+        .quiz-item:last-child {
+            border-bottom: none;
+        }
 
         .quiz-title {
             font-size: 1.4rem;
@@ -68,26 +36,12 @@
             margin-bottom: 1.5rem;
         }
 
-        .quiz-meta-item {
-            background: #f8fafc;
-            padding: 0.75rem;
-            border-radius: 12px;
-            text-align: center;
+        .quiz-actions {
+            margin-top: 0.7rem;
         }
 
-        .quiz-meta-label {
-            font-size: 0.9rem;
-            color: #64748b;
-            margin-bottom: 0.25rem;
-        }
-
-        .quiz-meta-value {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #1a2b3c;
-        }
-
-        .quiz-status {
+        .quiz-actions button,
+        .quiz-actions a {
             display: inline-block;
             padding: 0.5rem 1rem;
             border-radius: 24px;
@@ -136,42 +90,39 @@
             text-align: center;
             text-decoration: none;
             cursor: pointer;
-            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(44, 62, 80, 0.06);
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #000080, #0000b3);
-            color: #fff;
+        .quiz-actions button:hover,
+        .quiz-actions a:hover {
+            background: #1a2533;
         }
 
-        .btn-primary:hover {
-            background: linear-gradient(135deg, #0000b3, #0000e6);
-            transform: translateY(-2px);
+        .quiz-status {
+            font-size: 1rem;
+            color: #388e3c;
+            font-weight: 500;
+            margin-bottom: 0.2rem;
         }
 
-        .btn-secondary {
-            background: #f8fafc;
-            color: #1a2b3c;
-            border: 2px solid #e2e8f0;
+        .quiz-score {
+            font-size: 1rem;
+            color: #1976d2;
+            font-weight: 500;
+            margin-bottom: 0.2rem;
         }
 
-        .btn-secondary:hover {
-            background: #f1f5f9;
-            transform: translateY(-2px);
+        .quiz-waiting {
+            font-size: 1rem;
+            color: #e53935;
+            font-weight: 500;
+            margin-bottom: 0.2rem;
         }
 
-        @media (max-width: 768px) {
-            .quiz-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
+        @media (max-width: 600px) {
+            .quiz-list-container {
+                padding: 1rem 0.5rem;
 
-            .quiz-header h2 {
-                font-size: 2rem;
-            }
-
-            .quiz-card {
-                padding: 1.5rem;
             }
 
             .quiz-title {
@@ -227,15 +178,14 @@
                             </form>
                         </div>
                     @elseif ($quizUser->status === 'completed')
-                        <div class="quiz-status status-completed">Completed</div>
-                        @if ($quizUser->can_view_score)
-                            <div class="quiz-score">Score: {{ $quizUser->total_score }}</div>
-                            <div class="quiz-actions">
-                                <a href="{{ route('user.quizzes.attempts.results', [$quiz, $quizUser]) }}" class="quiz-btn btn-secondary">View Results</a>
-                            </div>
-                        @else
-                            <div class="quiz-status status-waiting">Waiting for results...</div>
-                        @endif
+
+                        <div class="quiz-status">Completed</div>
+
+                        <div class="quiz-score">Your Score: {{ $quizUser->total_score }} /
+                            {{ $questionsInCategory }}</div>
+                        <a href="{{ route('user.quizzes.attempts.results', [$quiz, $quizUser]) }}">View Results</a>
+
+                        {{-- <a href="{{ route('user.quizzes.certificate', [$quiz, $quizUser]) }}">Download Certificate</a> --}}
                     @else
                         <div class="quiz-status status-in-progress">In Progress</div>
                         <div class="quiz-actions">

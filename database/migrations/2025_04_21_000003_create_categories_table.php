@@ -18,6 +18,14 @@ return new class extends Migration
             $table->unsignedTinyInteger('max_grade');
             $table->timestamps();
         });
+        // Insert default categories after table creation
+        \DB::table('categories')->insert([
+            ['name' => 'Category 1', 'min_grade' => 3, 'max_grade' => 4],
+            ['name' => 'Category 2', 'min_grade' => 5, 'max_grade' => 6],
+            ['name' => 'Category 3', 'min_grade' => 7, 'max_grade' => 8],
+            ['name' => 'Category 4', 'min_grade' => 9, 'max_grade' => 10],
+            ['name' => 'Category 5', 'min_grade' => 11, 'max_grade' => 12],
+        ]);
     }
 
     /**

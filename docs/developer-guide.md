@@ -7,6 +7,7 @@
 -   [Main Logic](#main-logic)
 -   [API Endpoints](#api-endpoints)
 -   [Controllers, Middleware, Requests, Models, Services](#components)
+-   [Error Handling and Logging Practices](#error-handling-and-logging-practices)
 
 ## Architecture
 
@@ -96,6 +97,47 @@ routes/
     -   `Admin/QuizService`, `Admin/QuestionService`: CRUD and business logic for admins
     -   `User/QuizService`: Quiz flow, answer saving, scoring for users
 
+## Error Handling and Logging Practices
+
+### Controllers
+
+-   All controllers performing database or sensitive operations must use try/catch blocks.
+-   On exception, log the error using `\Log::error()` with relevant context (user ID, email, etc.).
+-   Return user-friendly error messages using `withErrors()` or similar methods.
+-   Example:
+
+```php
+try {
+    // service/database call
+} catch (\Throwable $e) {
+    \Log::error('Context message', [...]);
+    return back()->withErrors(['key' => 'User-friendly message.']);
+}
+```
+
+### Services
+
+-   Service methods should catch exceptions, log details, and rethrow for controller handling.
+-   Always log the exception message and stack trace.
+
+### Logging
+
+-   All logs are written to `storage/logs/laravel.log` by default.
+-   Include user context and error trace for easier debugging.
+
+### Database Transactions
+
+-   Use DB transactions for multi-step operations to ensure data integrity.
+
+### Testing
+
+-   All error paths should be covered by feature and unit tests.
+-   Tests should assert that user-friendly errors are shown and logs are written (where possible).
+
+### Authorization & Validation
+
+-   Always validate and authorize requests before performing actions.
+
 ---
 
-For more details, see the code in each referenced folder. Add or update this guide as the application evolves.
+_Last updated: May 24, 2025_

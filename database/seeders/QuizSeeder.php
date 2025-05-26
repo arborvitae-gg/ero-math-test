@@ -9,51 +9,19 @@ use App\Models\Quiz;
 use App\Models\Category;
 use App\Models\Question;
 use App\Models\QuestionChoice;
-
+use Database\Seeders\QuizSeederHelper;
 
 class QuizSeeder extends Seeder
 {
+    use QuizSeederHelper;
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $quiz = Quiz::create([
-            'title' => 'Math Quiz 2025',
-            'slug' => Str::slug('Math Quiz 2025'), // explicitly added in case seeding bypasses model events
-            'is_posted' => false,
-        ]);
-
-        $categories = Category::all();
-
-        foreach ($categories as $category) {
-            for ($i = 0; $i < 5; $i++) {
-                $a = rand(1, 20);
-                $b = rand(1, 20);
-                $op = ['+', '-', '*'][rand(0, 2)];
-                $questionText = "$a $op $b";
-                $correctAnswer = eval("return $a $op $b;");
-
-                $question = Question::create([
-                    'quiz_id' => $quiz->id,
-                    'category_id' => $category->id,
-                    'question_text' => "What is $questionText?",
-                ]);
-
-                QuestionChoice::create([
-                    'question_id' => $question->id,
-                    'choice_text' => (string)$correctAnswer,
-                    'is_correct' => true,
-                ]);
-
-                for ($j = 0; $j < 3; $j++) {
-                    QuestionChoice::create([
-                        'question_id' => $question->id,
-                        'choice_text' => (string)($correctAnswer + rand(1, 10)),
-                        'is_correct' => false,
-                    ]);
-                }
-            }
-        }
+        $this->seedQuiz('test 1');
+        $this->seedQuiz('test 2');
+        $this->seedQuiz('test 3');
+        // change the quiz name
     }
 }

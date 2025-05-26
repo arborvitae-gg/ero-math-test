@@ -97,29 +97,60 @@ class QuestionService
      * @param int $index
      * @return void
      */
-    private function handleChoice(Question $question, array $choiceData, int $index): void
+    public function handleChoice(Question $question, array $choiceData, int $index): void
     {
-        $choice = $question->choices->get($index);
-        $updateData = [
-            'choice_text' => $choiceData['choice_text'] ?? null,
-            'is_correct' => $index === 0,
-        ];
+        try {
+            $choice = $question->choices->get($index);
+            $updateData = [
+                'choice_text' => $choiceData['choice_text'] ?? null,
+                'is_correct' => $index === 0,
+            ];
 
-        if (isset($choiceData['choice_image'])) {
-            $updateData['choice_image'] = $this->uploadFile(
-                $choiceData['choice_image'],
-                'choices'
-            );
+            if (isset($choiceData['choice_image'])) {
+                try {
+                    $updateData['choice_image'] = $this->uploadFile(
+                        $choiceData['choice_image'],
+                        'choices'
+                    );
+                } catch (\Throwable $e) {
+                    \Log::error('Choice image upload failed', [
+                        'question_id' => $question->id,
+                        'choice_index' => $index,
+                        'error' => $e->getMessage(),
+                        'trace' => $e->getTraceAsString(),
+                    ]);
+                    throw $e;
+                }
 
-            if ($choice?->choice_image) {
-                $this->supabase->deleteImage($choice->choice_image);
+                if ($choice?->choice_image) {
+                    try {
+                        $this->supabase->deleteImage($choice->choice_image);
+                    } catch (\Throwable $e) {
+                        \Log::error('Old choice image deletion failed', [
+                            'question_id' => $question->id,
+                            'choice_index' => $index,
+                            'image' => $choice->choice_image,
+                            'error' => $e->getMessage(),
+                            'trace' => $e->getTraceAsString(),
+                        ]);
+                        // Not rethrowing, as this is non-critical
+                    }
+                }
             }
-        }
 
-        if ($choice) {
-            $choice->update($updateData);
-        } else {
-            $question->choices()->create($updateData);
+            if ($choice) {
+                $choice->update($updateData);
+            } else {
+                $question->choices()->create($updateData);
+            }
+        } catch (\Throwable $e) {
+            \Log::error('handleChoice failed', [
+                'question_id' => $question->id,
+                'choice_index' => $index,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            throw $e;
         }
     }
 
@@ -134,10 +165,17 @@ class QuestionService
     {
         $filename = Str::random(10) . '.' . $file->getClientOriginalExtension();
         $filePath = $path . '/' . $filename;
-
-        // Only upload the file, don't return the full URL
-        $this->supabase->uploadImage($file, $filePath);
-
+        try {
+            $this->supabase->uploadImage($file, $filePath);
+        } catch (\Throwable $e) {
+            \Log::error('File upload to Supabase failed', [
+                'file' => $file->getClientOriginalName(),
+                'path' => $filePath,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            throw $e;
+        }
         return $filePath; // Return relative path for DB storage
     }
 
@@ -149,6 +187,11 @@ class QuestionService
      */
     public function delete(Question $question): void
     {
-        $question->delete();
+        try {
+            $question->delete();
+        } catch (\Throwable $e) {
+            \Log::error('Question deletion failed', ['question_id' => $question->id, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+            throw $e;
+        }
     }
 }

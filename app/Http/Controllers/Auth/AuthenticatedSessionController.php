@@ -34,11 +34,19 @@ class AuthenticatedSessionController
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
-
-        $request->session()->regenerate();
-
-        return redirect()->intended(route('dashboard', absolute: false));
+        try {
+            $request->authenticate();
+            $request->session()->regenerate();
+            return redirect()->intended(route('dashboard', absolute: false));
+        } catch (\Throwable $e) {
+            \Log::error('User login failed', [
+                'email' => $request->input('email'),
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            return back()->withInput($request->only('email'))
+                ->withErrors(['login' => 'An error occurred during login. Please try again later.']);
+        }
     }
 
     /**
@@ -49,12 +57,18 @@ class AuthenticatedSessionController
      */
     public function destroy(Request $request): RedirectResponse
     {
-        Auth::guard('web')->logout();
-
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
-
-        return redirect('/');
+        try {
+            Auth::guard('web')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            return redirect('/');
+        } catch (\Throwable $e) {
+            \Log::error('User logout failed', [
+                'user_id' => optional($request->user())->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            return back()->withErrors(['logout' => 'An error occurred during logout. Please try again later.']);
+        }
     }
 }

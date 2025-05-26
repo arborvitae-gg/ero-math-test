@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\User\QuizController;
-use App\Http\Controllers\User\ProfileController;
 
 // User routes for quiz participation and profile management
 Route::middleware(['auth', 'verified', 'role:user'])

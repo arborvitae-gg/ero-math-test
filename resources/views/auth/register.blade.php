@@ -266,6 +266,13 @@
                     <input id="last_name" class="register-input" type="text" name="last_name" value="{{ old('last_name') }}" required autocomplete="family-name" />
                     <x-input-error :messages="$errors->get('last_name')" class="error-message" />
                 </div>
+                
+                <div class="register-form-group">
+                    <label for="grade_level" class="register-label">{{ __('Grade Level (1-12)') }}</label>
+                    <input id="grade_level" class="register-input" type="number" name="grade_level" min="1"
+                        max="12" value="{{ old('grade_level') }}" />
+                    <x-input-error :messages="$errors->get('grade_level')" />
+                </div>
 
                 <div class="register-form-group">
                     <label for="email" class="register-label">Email</label>

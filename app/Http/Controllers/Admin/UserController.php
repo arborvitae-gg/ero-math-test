@@ -51,7 +51,12 @@ class UserController
      */
     public function update(UserUpdateRequest $request, User $user)
     {
-        $this->service->update($user, $request->validated());
-        return redirect()->route('admin.users.index')->with('status', 'User updated!');
+        try {
+            $this->service->update($user, $request->validated());
+            return redirect()->route('admin.users.index')->with('status', 'User updated!');
+        } catch (\Throwable $e) {
+            \Log::error('User update failed', ['user_id' => $user->id, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+            return back()->withErrors('Failed to update user. Please try again.');
+        }
     }
 }

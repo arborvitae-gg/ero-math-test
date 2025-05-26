@@ -6,77 +6,20 @@
         .results-container {
             max-width: 1200px;
             margin: 2rem auto;
-            padding: 0 1rem;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            padding: 2rem 2.5rem;
         }
 
-        .results-header {
-            text-align: center;
-            margin-bottom: 3rem;
-            padding: 2rem;
-            background: linear-gradient(135deg, #000080, #0000b3);
-            border-radius: 24px;
-            color: white;
-            box-shadow: 0 4px 24px rgba(0, 0, 139, 0.15);
+        .question-block {
+            margin-bottom: 2.2rem;
+            padding-bottom: 1.2rem;
+            border-bottom: 1px solid #ececec;
         }
 
-        .results-header h2 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .results-header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .results-summary {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            margin: 2rem auto;
-            max-width: 800px;
-        }
-
-        .summary-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 16px;
-            text-align: center;
-            box-shadow: 0 4px 24px rgba(0, 0, 139, 0.08);
-            transition: transform 0.3s ease;
-        }
-
-        .summary-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .summary-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #1a2b3c;
-            margin-bottom: 0.5rem;
-        }
-
-        .summary-label {
-            color: #64748b;
-            font-size: 0.95rem;
-        }
-
-        .question-container {
-            background: white;
-            border-radius: 24px;
-            box-shadow: 0 4px 24px rgba(0, 0, 139, 0.08);
-            padding: 2rem;
-            margin-bottom: 2rem;
-            transition: transform 0.3s ease;
-        }
-
-        .question-container:hover {
-            transform: translateY(-5px);
+        .question-block:last-child {
+            border-bottom: none;
         }
 
         .question-text {
@@ -85,13 +28,6 @@
             color: #1a2b3c;
             margin-bottom: 1.5rem;
             line-height: 1.4;
-        }
-
-        .question-image {
-            max-width: 100%;
-            height: auto;
-            border-radius: 12px;
-            margin-bottom: 1.5rem;
         }
 
         .choices-list {
@@ -106,10 +42,11 @@
         .choice-item {
             display: flex;
             align-items: center;
-            padding: 1rem 1.5rem;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
+            transition: border 0.2s, background 0.2s;
+        }
+
+        .choice-item:last-child {
+            margin-bottom: 0;
         }
 
         .choice-content {
@@ -118,7 +55,7 @@
             color: #1a2b3c;
         }
 
-        .choice-image {
+        .choice-content img {
             max-width: 120px;
             height: auto;
             border-radius: 8px;
@@ -126,11 +63,32 @@
         }
 
         .choice-label {
-            margin-left: 1.5rem;
+            margin-left: 1.2rem;
+            min-width: 120px;
+            text-align: right;
+        }
+
+        .label {
+            display: inline-block;
+            padding: 0.3em 0.8em;
+            border-radius: 16px;
+            font-size: 0.95em;
             font-weight: 500;
             display: flex;
             align-items: center;
             gap: 0.5rem;
+        }
+
+        .label-success {
+            background: #e6f4ea;
+            color: #388e3c;
+            border: 1px solid #b2dfdb;
+        }
+
+        .label-error {
+            background: #fdeaea;
+            color: #e53935;
+            border: 1px solid #ffcdd2;
         }
 
         .choice-correct-user {
@@ -198,34 +156,39 @@
             background: linear-gradient(135deg, #0000b3, #0000e6);
         }
 
-        @media (max-width: 768px) {
-            .results-summary {
-                grid-template-columns: 1fr;
+        @media (max-width: 600px) {
+            #quiz-results {
+                padding: 1rem 0.5rem;
             }
 
-            .results-header {
-                padding: 1.5rem;
-                margin-bottom: 2rem;
+            .choice-content {
+                font-size: 0.97rem;
             }
-
-            .results-header h2 {
-                font-size: 2rem;
-            }
-
-            .question-container {
-                padding: 1.5rem;
-            }
-
-            .choice-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-            }
-
+            
             .choice-label {
                 margin-left: 0;
             }
         }
+
+        .return-dashboard-link {
+            display: inline-block;
+            margin: 2rem auto 0 auto;
+            background: #2d3e50;
+            color: #fff;
+            border: none;
+            border-radius: 22px;
+            padding: 0.7rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: background 0.2s;
+            box-shadow: 0 2px 8px rgba(44, 62, 80, 0.06);
+        }
+
+        .return-dashboard-link:hover {
+            background: #1a2533;
+        }
+
     </style>
 
     <div class="results-container">
@@ -262,6 +225,9 @@
                 @endif
 
                 <ul class="choices-list">
+                    @php
+                        $userAnswered = $attempt->choice !== null;
+                    @endphp
                     @foreach ($question->choices as $choice)
                         @php
                             $isUserChoice = $attempt->choice && $attempt->choice->id === $choice->id;
@@ -312,6 +278,13 @@
                             </div>
                         </li>
                     @endforeach
+                    @if (!$userAnswered)
+                        <li class="choice-item choice-default">
+                            <div class="choice-content" style="font-style:italic; color:#888;">
+                                (You skipped this question)
+                            </div>
+                        </li>
+                    @endif
                 </ul>
             </div>
         @endforeach
