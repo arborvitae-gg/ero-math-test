@@ -36,7 +36,12 @@ class QuestionServiceTest extends TestCase
         $supabase->shouldReceive('uploadImage')->andThrow(new \Exception('Upload failed'));
         $service = new QuestionService($supabase);
 
-        $question = Question::factory()->create();
+        $quiz = \App\Models\Quiz::factory()->create();
+        $category = \App\Models\Category::factory()->create();
+        $question = Question::factory()->create([
+            'quiz_id' => $quiz->id,
+            'category_id' => $category->id,
+        ]);
         $choiceData = [
             'choice_text' => 'A',
             'choice_image' => UploadedFile::fake()->image('fail.png'),
@@ -71,19 +76,29 @@ class QuestionServiceTest extends TestCase
     public function test_handleChoice_creates_choice_for_admin_and_user()
     {
         $supabase = Mockery::mock(SupabaseService::class);
-        $supabase->shouldReceive('uploadImage')->andReturnNull();
+        $supabase->shouldReceive('uploadImage')->andReturnTrue();
         $service = new QuestionService($supabase);
 
         // Admin
         $admin = \App\Models\User::factory()->create(['role' => 'admin']);
-        $questionAdmin = \App\Models\Question::factory()->create(['quiz_id' => 1, 'category_id' => 1]);
+        $quizAdmin = \App\Models\Quiz::factory()->create();
+        $categoryAdmin = \App\Models\Category::factory()->create();
+        $questionAdmin = \App\Models\Question::factory()->create([
+            'quiz_id' => $quizAdmin->id,
+            'category_id' => $categoryAdmin->id,
+        ]);
         $choiceData = ['choice_text' => 'A', 'choice_image' => UploadedFile::fake()->image('a.png')];
         $service->handleChoice($questionAdmin, $choiceData, 0);
         $this->assertDatabaseHas('question_choices', ['question_id' => $questionAdmin->id, 'choice_text' => 'A']);
 
         // User
         $user = \App\Models\User::factory()->create(['role' => 'user', 'grade_level' => 5, 'school' => 'Sample', 'coach_name' => 'Ms. Smith']);
-        $questionUser = \App\Models\Question::factory()->create(['quiz_id' => 1, 'category_id' => 1]);
+        $quizUser = \App\Models\Quiz::factory()->create();
+        $categoryUser = \App\Models\Category::factory()->create();
+        $questionUser = \App\Models\Question::factory()->create([
+            'quiz_id' => $quizUser->id,
+            'category_id' => $categoryUser->id,
+        ]);
         $service->handleChoice($questionUser, $choiceData, 0);
         $this->assertDatabaseHas('question_choices', ['question_id' => $questionUser->id, 'choice_text' => 'A']);
     }
