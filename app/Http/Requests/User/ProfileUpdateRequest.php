@@ -37,4 +37,31 @@ class ProfileUpdateRequest extends FormRequest
             'coach_name' => ['nullable', 'string', 'max:255'],
         ];
     }
+
+    /**
+     * Determine if the user is authorized to make this request.
+     * Only allow the authenticated user to update their own profile.
+     *
+     * @return bool
+     */
+    public function authorize(): bool
+    {
+        return auth()->check() && auth()->id() === $this->user()->id;
+    }
+
+    /**
+     * Custom validation error messages for this request.
+     *
+     * @return array
+     */
+    public function messages(): array
+    {
+        return [
+            'first_name.required' => 'Your first name is required.',
+            'last_name.required' => 'Your last name is required.',
+            'email.required' => 'Your email address is required.',
+            'email.email' => 'Please provide a valid email address.',
+            'email.unique' => 'This email address is already in use.',
+        ];
+    }
 }

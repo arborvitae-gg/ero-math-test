@@ -13,12 +13,13 @@ class QuizRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
+     * Only allow admins to create/update quizzes.
      *
      * @return bool
      */
     public function authorize(): bool
     {
-        return true;
+        return auth()->check() && auth()->user()->role === 'admin';
     }
 
     /**
@@ -32,6 +33,21 @@ class QuizRequest extends FormRequest
             'title' => ['required', 'string'],
             'timer' => ['nullable', 'integer'],
             'is_posted' => ['nullable', 'boolean'],
+        ];
+    }
+
+    /**
+     * Custom validation error messages for this request.
+     *
+     * @return array
+     */
+    public function messages(): array
+    {
+        return [
+            'title.required' => 'The quiz title is required.',
+            'title.string' => 'The quiz title must be a string.',
+            'timer.integer' => 'The timer must be a number.',
+            'is_posted.boolean' => 'The posted status must be true or false.',
         ];
     }
 

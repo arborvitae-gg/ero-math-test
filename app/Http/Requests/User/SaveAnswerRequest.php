@@ -17,12 +17,13 @@ class SaveAnswerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
+     * Only allow authenticated users to save answers.
      *
      * @return bool
      */
     public function authorize(): bool
     {
-        return true;
+        return auth()->check() && auth()->user()->role === 'user';
     }
 
     /**
@@ -35,6 +36,18 @@ class SaveAnswerRequest extends FormRequest
         return [
             'choice_id' => ['nullable', 'exists:question_choices,id'],
             'question_choice_id' => ['nullable'],
+        ];
+    }
+
+    /**
+     * Custom validation error messages for this request.
+     *
+     * @return array
+     */
+    public function messages(): array
+    {
+        return [
+            'choice_id.exists' => 'The selected answer is invalid.',
         ];
     }
 }

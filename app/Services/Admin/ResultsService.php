@@ -15,8 +15,13 @@ class ResultsService
      */
     public function toggleVisibility(QuizUser $quizUser): void
     {
-        $quizUser->can_view_score = !$quizUser->can_view_score;
-        $quizUser->save();
+        try {
+            $quizUser->can_view_score = !$quizUser->can_view_score;
+            $quizUser->save();
+        } catch (\Throwable $e) {
+            \Log::error('Toggle user score visibility failed', ['quiz_user_id' => $quizUser->id, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+            throw $e;
+        }
     }
 
     /**
@@ -29,15 +34,19 @@ class ResultsService
      */
     public function toggleBulkVisibility(Quiz $quiz, string $action, array $userIds = []): void
     {
-        if ($action === 'toggle_all') {
-            $quizUsers = $quiz->quizUsers()->get();
-        } else {
-            $quizUsers = QuizUser::whereIn('id', $userIds)->get();
-        }
-
-        foreach ($quizUsers as $quizUser) {
-            $quizUser->can_view_score = !$quizUser->can_view_score;
-            $quizUser->save();
+        try {
+            if ($action === 'toggle_all') {
+                $quizUsers = $quiz->quizUsers()->get();
+            } else {
+                $quizUsers = QuizUser::whereIn('id', $userIds)->get();
+            }
+            foreach ($quizUsers as $quizUser) {
+                $quizUser->can_view_score = !$quizUser->can_view_score;
+                $quizUser->save();
+            }
+        } catch (\Throwable $e) {
+            \Log::error('Bulk toggle score visibility failed', ['quiz_id' => $quiz->id, 'action' => $action, 'user_ids' => $userIds, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+            throw $e;
         }
     }
 }
