@@ -9,7 +9,7 @@ use App\Http\Controllers\Admin\QuestionController;
 
 // Admin routes for user, quiz, question, and results management
 Route::prefix('admin')
-    ->middleware(['auth', 'verified', 'role:admin'])
+    ->middleware(['auth', 'role:admin']) // verified
     ->name('admin.')
     ->group(function () {
 

@@ -25,10 +25,11 @@ Route::get('/dashboard', function () {
     } else {
         return redirect()->route('user.dashboard');
     }
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth']) // verified
+->name('dashboard');
 
 // Profile management routes (shared by all authenticated users)
-Route::middleware(['auth', 'verified'])
+Route::middleware(['auth']) // verified
     ->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
