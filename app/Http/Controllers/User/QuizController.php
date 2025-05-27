@@ -75,14 +75,22 @@ class QuizController
      *
      * @param Quiz $quiz
      * @param QuizUser $quizUser
-     * @return \Illuminate\View\View
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
     public function show(Quiz $quiz, QuizUser $quizUser)
     {
         try {
             $this->authorizeQuizAccess($quiz, $quizUser);
+            // Only enforce timer if quiz has a timer
+            $quizDuration = $this->quizService->getQuizDuration($quiz);
+            $remainingTime = $quizDuration !== null ? $this->quizService->getRemainingTime($quizUser) : null;
+            if ($quizDuration !== null && $this->quizService->isQuizExpired($quizUser)) {
+                $this->quizService->submitQuiz($quizUser);
+                return redirect()->route('user.quizzes.attempts.completed', [$quiz, $quizUser]);
+            }
             [$question, $choices, $existingAttempt] = $this->quizService->getCurrentQuestionData($quizUser);
-            return view('user.quizzes.take', compact('quizUser', 'quiz', 'question', 'choices', 'existingAttempt'));
+            $startedAt = $quizUser->started_at;
+            return view('user.quizzes.take', compact('quizUser', 'quiz', 'question', 'choices', 'existingAttempt', 'remainingTime', 'quizDuration', 'startedAt'));
         } catch (\Throwable $e) {
             \Log::error('User show quiz question failed', ['user_id' => Auth::id(), 'quiz_id' => $quiz->id, 'quiz_user_id' => $quizUser->id, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
             return back()->withErrors('Failed to load quiz question. Please try again.');
@@ -102,6 +110,11 @@ class QuizController
     {
         try {
             $this->authorizeQuizAccess($quiz, $quizUser);
+            $quizDuration = $this->quizService->getQuizDuration($quiz);
+            if ($quizDuration !== null && $this->quizService->isQuizExpired($quizUser)) {
+                $this->quizService->submitQuiz($quizUser);
+                return redirect()->route('user.quizzes.attempts.completed', [$quiz, $quizUser]);
+            }
             $this->quizService->processAnswerNavigation($quizUser, $question, $request);
             if ($request->input('direction') === 'submit') {
                 $this->quizService->submitQuiz($quizUser);
@@ -125,6 +138,11 @@ class QuizController
     {
         try {
             $this->authorizeQuizAccess($quiz, $quizUser);
+            $quizDuration = $this->quizService->getQuizDuration($quiz);
+            if ($quizDuration !== null && $this->quizService->isQuizExpired($quizUser)) {
+                $this->quizService->submitQuiz($quizUser);
+                return redirect()->route('user.quizzes.attempts.completed', [$quiz, $quizUser]);
+            }
             $this->quizService->submitQuiz($quizUser);
             return redirect()->route('user.quizzes.attempts.completed', [$quiz, $quizUser]);
         } catch (\Throwable $e) {
@@ -184,4 +202,3 @@ class QuizController
         }
     }
 }
-
