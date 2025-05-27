@@ -18,7 +18,7 @@
 
         {{-- ✅ Disable add question if quiz is posted --}}
         @if (!$quiz->is_posted)
-            <div x-data="{ showCreate: false }" class="add-question-btn">
+            <div x-data="{ showCreate: false }">
                 <button @click="showCreate = !showCreate">
                     + Add Question
                 </button>
@@ -52,22 +52,23 @@
             @foreach ($questions as $index => $question)
                 <div class="question-table-data" x-show="categoryId == '{{ $question->category_id }}'">
                     <div class="table-data-title">
-                    <h3>
-                        {{ $question->question_text }}
-                    </h3>
-                    @if (!empty($question->question_image))
-                        <img id="table-data-image" src="{{ $question->question_image_url }}" alt="Question Image">
-                    @endif
+                        <h3>
+                            {{ $question->question_text }}
+                        </h3>
+                        @if (!empty($question->question_image))
+                            <img id="table-data-image" src="{{ $question->question_image_url }}" alt="Question Image">
+                        @endif
                     </div>
                     <ul>
                         @foreach ($question->choices as $idx => $choice)
                             <li class="{{ $choice->is_correct ? 'correct' : '' }}">
                                 {{ $choice->choice_text }}
                                 @if (!empty($choice->choice_image))
-                                    <img id="table-data-image" src="{{ $choice->choice_image_url }}" alt="Choice Image">
+                                    <img id="table-data-image" src="{{ $choice->choice_image_url }}"
+                                        alt="Choice Image">
                                 @endif
                                 @if ($choice->is_correct)
-                                   <span>✔</span>
+                                    <span>✔</span>
                                 @endif
                             </li>
                         @endforeach
@@ -87,8 +88,9 @@
                             </div>
                         </div>
 
-                        <form class="delete-btn-container" action="{{ route('admin.quizzes.questions.destroy', [$quiz, $question]) }}"
-                            method="POST" onsubmit="return confirm('Are you sure?');">
+                        <form class="delete-btn-container"
+                            action="{{ route('admin.quizzes.questions.destroy', [$quiz, $question]) }}" method="POST"
+                            onsubmit="return confirm('Are you sure?');">
                             @csrf
                             @method('DELETE')
                             <button id="table-data-btn" type="submit">Delete</button>
