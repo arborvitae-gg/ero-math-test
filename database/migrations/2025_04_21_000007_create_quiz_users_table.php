@@ -21,7 +21,6 @@ return new class extends Migration
             $table->unsignedInteger('total_score')->nullable();
             $table->timestamp('started_at')->nullable();
             $table->timestamp('completed_at')->nullable();
-            $table->boolean('can_view_score')->default(false);
             $table->timestamps();
             $table->unique(['quiz_id', 'user_id']); // Prevent multiple sessions of same quiz by same user
             $table->unsignedInteger('current_question')->default(1);

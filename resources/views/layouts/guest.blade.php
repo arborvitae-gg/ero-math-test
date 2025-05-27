@@ -14,9 +14,6 @@
 
     {{-- Styles / Scripts --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-    {{-- Classless CSS script, remove or comment out if you want to start styling --}}
-    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/digitallytailored/classless@latest/classless.min.css"> --}}
 </head>
 
 <body>

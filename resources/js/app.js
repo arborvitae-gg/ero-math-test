@@ -1,4 +1,5 @@
 import './bootstrap';
+import './quiz-timer';
 
 import Alpine from 'alpinejs';
 

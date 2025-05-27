@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->boolean('is_posted')->default(false);
-            $table->unsignedInteger('timer')->nullable(); // seconds/minutes, if applicable
+            $table->unsignedInteger('timer')->nullable(); // seconds
             $table->timestamps();
         });
     }

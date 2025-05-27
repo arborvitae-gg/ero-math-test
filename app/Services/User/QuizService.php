@@ -211,4 +211,55 @@ class QuizService
         });
     }
 
+    /**
+     * Get the quiz duration in seconds.
+     *
+     * @param Quiz $quiz
+     * @return int|null
+     */
+    public function getQuizDuration(Quiz $quiz): ?int
+    {
+        return $quiz->timer !== null ? (int)$quiz->timer : null;
+    }
+
+    /**
+     * Get the quiz end time for a user's attempt.
+     *
+     * @param QuizUser $quizUser
+     * @return \Carbon\Carbon|null
+     */
+    public function getQuizEndTime(QuizUser $quizUser): ?\Carbon\Carbon
+    {
+        $duration = $this->getQuizDuration($quizUser->quiz);
+        if ($duration === null) return null;
+        return $quizUser->started_at->copy()->addSeconds($duration);
+    }
+
+    /**
+     * Get the remaining time in seconds for a user's quiz attempt.
+     *
+     * @param QuizUser $quizUser
+     * @return int|null
+     */
+    public function getRemainingTime(QuizUser $quizUser): ?int
+    {
+        $endTime = $this->getQuizEndTime($quizUser);
+        if ($endTime === null) return null;
+        $now = now();
+        return max(0, $endTime->diffInSeconds($now, false) * -1);
+    }
+
+    /**
+     * Check if the quiz time has expired for a user's attempt.
+     *
+     * @param QuizUser $quizUser
+     * @return bool
+     */
+    public function isQuizExpired(QuizUser $quizUser): bool
+    {
+        $duration = $this->getQuizDuration($quizUser->quiz);
+        if ($duration === null) return false;
+        return $this->getRemainingTime($quizUser) <= 0;
+    }
+
 }

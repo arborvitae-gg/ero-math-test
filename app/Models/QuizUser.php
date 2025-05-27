@@ -21,7 +21,6 @@ class QuizUser extends Model
         'started_at',
         'completed_at',
         'total_score',
-        'can_view_score',
         'question_order',
         'uuid'
     ];
@@ -31,7 +30,6 @@ class QuizUser extends Model
         'choice_orders' => 'array',
         'started_at' => 'datetime',
         'completed_at' => 'datetime',
-        'can_view_score' => 'boolean'
     ];
 
     /**

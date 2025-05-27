@@ -3,6 +3,7 @@
         <h2 class="quiz-title">{{ $quizUser->quiz->title }}</h2>
     </x-slot>
 
+
     <style>
         .quiz-container {
             max-width: 1000px;
@@ -53,6 +54,7 @@
                 opacity: 0;
                 transform: translateY(20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -112,12 +114,12 @@
             height: 0;
         }
 
-        .choice-radio:checked + .choice-label {
+        .choice-radio:checked+.choice-label {
             background: rgba(0, 0, 128, 0.05);
             border-color: #000080;
         }
 
-        .choice-radio:checked + .choice-label::before {
+        .choice-radio:checked+.choice-label::before {
             content: '';
             position: absolute;
             left: 0;
@@ -212,12 +214,20 @@
     </style>
 
     <div x-data="quizHandler()" class="quiz-container">
+
         <div class="progress-bar">
             <div class="progress-fill"></div>
         </div>
+
         <div class="progress-text">
             Question {{ $quizUser->current_question }} of {{ count($quizUser->question_order) }}
         </div>
+
+        @if ($quizDuration !== null)
+            <div class="timer-container">
+                <span id="quiz-timer" class="quiz-timer"></span>
+            </div>
+        @endif
 
         <div class="question-container">
             {{-- partials/answer-form.blade.php --}}
@@ -227,5 +237,18 @@
                 'choices' => $choices,
             ])
         </div>
+        @if ($quizDuration !== null)
+            <form id="auto-submit-form" action="{{ route('user.quizzes.attempts.submit', [$quiz, $quizUser]) }}"
+                method="POST" style="display:none;">
+                @csrf
+            </form>
+        @endif
     </div>
+
+    @if ($quizDuration !== null)
+        <script>
+            window.quizRemainingTime = {{ $remainingTime ?? 0 }};
+            window.quizSubmitUrl = @json(route('user.quizzes.attempts.submit', [$quiz, $quizUser]));
+        </script>
+    @endif
 </x-app-layout>
