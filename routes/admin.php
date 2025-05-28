@@ -9,7 +9,8 @@ use App\Http\Controllers\Admin\QuestionController;
 
 // Admin routes for user, quiz, question, and results management
 Route::prefix('admin')
-    ->middleware(['auth', 'verified', 'role:admin'])
+    // ->middleware(['auth', 'verified', 'role:admin'])
+    ->middleware(['auth', 'role:admin'])
     ->name('admin.')
     ->group(function () {
 
@@ -23,7 +24,7 @@ Route::prefix('admin')
         ->name('users.')
         ->group(function () {
             Route::get('/', [UserController::class, 'index'])->name('index');
-            // Add more user management routes as needed
+            Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy');
         });
 
     // Quizzes (resourceful, with custom post route)

@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Validation\Rule;
 use App\Models\User;
-use App\Services\Admin\UserService;
-use App\Http\Requests\Admin\UserUpdateRequest;
 
 /**
  * Controller for managing users in the admin panel.
@@ -14,23 +12,6 @@ use App\Http\Requests\Admin\UserUpdateRequest;
  */
 class UserController
 {
-    /**
-     * The user service instance.
-     *
-     * @var UserService
-     */
-    protected $service;
-
-    /**
-     * Inject UserService dependency.
-     *
-     * @param UserService $service
-     */
-    public function __construct(UserService $service)
-    {
-        $this->service = $service;
-    }
-
     /**
      * Display a listing of users with the 'user' role.
      *
@@ -43,21 +24,19 @@ class UserController
     }
 
     /**
-     * Update the specified user in storage.
+     * Remove the specified user from storage.
      *
-     * @param UserUpdateRequest $request
      * @param User $user
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(UserUpdateRequest $request, User $user)
+    public function destroy(User $user)
     {
         try {
-            $this->service->update($user, $request->validated());
-            return redirect()->route('admin.users.index')->with('status', 'User updated!');
-        }
-        catch (\Throwable $e) {
-            \Log::error('User update failed', ['user_id' => $user->id, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
-            return back()->withErrors('Failed to update user. Please try again.');
+            $user->delete();
+            return redirect()->route('admin.users.index')->with('status', 'User deleted!');
+        } catch (\Throwable $e) {
+            \Log::error('User delete failed', ['user_id' => $user->id, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+            return back()->withErrors('Failed to delete user. Please try again.');
         }
     }
 }
