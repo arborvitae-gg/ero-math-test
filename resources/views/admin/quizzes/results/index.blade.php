@@ -4,7 +4,6 @@
     </x-slot>
 
     <div>
-        @include('admin.quizzes.results.partials.toggle-all-form', ['quiz' => $quiz])
         <table class="table table-bordered table-striped align-middle">
             <thead>
                 <tr>
