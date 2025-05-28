@@ -15,8 +15,10 @@
                         <th>{{ __('Name') }}</th>
                         <th>{{ __('Email') }}</th>
                         <th>{{ __('Grade') }}</th>
+                        <th>{{ __('Category') }}</th>
                         <th>{{ __('School') }}</th>
                         <th>{{ __('Coach') }}</th>
+                        <th></th> {{-- Actions column --}}
                     </tr>
                 </thead>
             </div>
@@ -29,8 +31,17 @@
                             <td>{{ $user->first_name . ' ' . $user->last_name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->grade_level ?? '-' }}</td>
+                            <td>{{ \App\Models\Category::findCategoryForGrade($user->grade_level)?->name ?? '-' }}</td>
                             <td>{{ $user->school }}</td>
                             <td>{{ $user->coach_name }}</td>
+                            <td>
+                                <form method="POST" action="{{ route('admin.users.destroy', $user) }}"
+                                    onsubmit="return confirm('Are you sure you want to delete this user (Quiz scores/data included)? This action cannot be undone.');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
