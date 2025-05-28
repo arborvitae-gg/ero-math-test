@@ -1,22 +1,15 @@
 <x-app-layout>
 
     <x-slot name="header">
-
-        <div class="top-container">
-            <h1>
-                {{ __('ADMIN |') }}
-            </h1>
-            <h2>
-                {{ __('Users') }}
-            </h2>
-        </div>
-
+        <h2>
+            {{ __('Registered Users') }}
+        </h2>
     </x-slot>
 
-    <div class="mid-container">
-        <div class="table-container">
-            <table>
-                {{-- thead = table head --}}
+    <div>
+        <table>
+            {{-- thead = table head --}}
+            <div>
                 <thead>
                     <tr>
                         <th>{{ __('Name') }}</th>
@@ -26,12 +19,14 @@
                         <th>{{ __('Coach') }}</th>
                     </tr>
                 </thead>
-                {{-- tbody = table body --}}
+            </div>
+            {{-- tbody = table body --}}
+            <div>
                 <tbody>
                     {{-- foreach loops through all the users in the database --}}
                     @foreach ($users as $user)
                         <tr>
-                            <td>{{ $user->first_name }} {{ $user->last_name }}</td>
+                            <td>{{ $user->first_name . ' ' . $user->last_name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->grade_level ?? '-' }}</td>
                             <td>{{ $user->school }}</td>
@@ -39,8 +34,9 @@
                         </tr>
                     @endforeach
                 </tbody>
-            </table>
-        </div>
+            </div>
+
+        </table>
     </div>
 
 </x-app-layout>
