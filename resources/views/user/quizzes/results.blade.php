@@ -6,20 +6,77 @@
         .results-container {
             max-width: 1200px;
             margin: 2rem auto;
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-            padding: 2rem 2.5rem;
+            padding: 0 1rem;
         }
 
-        .question-block {
-            margin-bottom: 2.2rem;
-            padding-bottom: 1.2rem;
-            border-bottom: 1px solid #ececec;
+        .results-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, #000080, #0000b3);
+            border-radius: 24px;
+            color: white;
+            box-shadow: 0 4px 24px rgba(0, 0, 139, 0.15);
         }
 
-        .question-block:last-child {
-            border-bottom: none;
+        .results-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .results-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .results-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin: 2rem auto;
+            max-width: 800px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 4px 24px rgba(0, 0, 139, 0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .summary-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a2b3c;
+            margin-bottom: 0.5rem;
+        }
+
+        .summary-label {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        .question-container {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 4px 24px rgba(0, 0, 139, 0.08);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .question-container:hover {
+            transform: translateY(-5px);
         }
 
         .question-text {
@@ -28,6 +85,13 @@
             color: #1a2b3c;
             margin-bottom: 1.5rem;
             line-height: 1.4;
+        }
+
+        .question-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
         }
 
         .choices-list {
@@ -42,11 +106,10 @@
         .choice-item {
             display: flex;
             align-items: center;
-            transition: border 0.2s, background 0.2s;
-        }
-
-        .choice-item:last-child {
-            margin-bottom: 0;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
         }
 
         .choice-content {
@@ -55,7 +118,7 @@
             color: #1a2b3c;
         }
 
-        .choice-content img {
+        .choice-image {
             max-width: 120px;
             height: auto;
             border-radius: 8px;
@@ -63,32 +126,11 @@
         }
 
         .choice-label {
-            margin-left: 1.2rem;
-            min-width: 120px;
-            text-align: right;
-        }
-
-        .label {
-            display: inline-block;
-            padding: 0.3em 0.8em;
-            border-radius: 16px;
-            font-size: 0.95em;
+            margin-left: 1.5rem;
             font-weight: 500;
             display: flex;
             align-items: center;
             gap: 0.5rem;
-        }
-
-        .label-success {
-            background: #e6f4ea;
-            color: #388e3c;
-            border: 1px solid #b2dfdb;
-        }
-
-        .label-error {
-            background: #fdeaea;
-            color: #e53935;
-            border: 1px solid #ffcdd2;
         }
 
         .choice-correct-user {
@@ -112,18 +154,17 @@
         }
 
         .label {
-            padding: 0.5rem 1rem;
-            border-radius: 24px;
-            font-size: 0.95rem;
-            font-weight: 500;
-            display: inline-flex;
+            display: flex;
             align-items: center;
             gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
         }
 
         .label svg {
-            width: 16px;
-            height: 16px;
+            width: 1.25rem;
+            height: 1.25rem;
         }
 
         .label-success {
@@ -140,15 +181,14 @@
             display: inline-flex;
             align-items: center;
             gap: 0.75rem;
+            padding: 1rem 2rem;
             background: linear-gradient(135deg, #000080, #0000b3);
             color: white;
-            padding: 1rem 2rem;
             border-radius: 12px;
             font-weight: 600;
             text-decoration: none;
             transition: all 0.3s ease;
-            margin: 2rem auto;
-            box-shadow: 0 4px 24px rgba(0, 0, 139, 0.15);
+            margin-top: 2rem;
         }
 
         .return-link:hover {
@@ -156,43 +196,42 @@
             background: linear-gradient(135deg, #0000b3, #0000e6);
         }
 
-        @media (max-width: 600px) {
-            #quiz-results {
-                padding: 1rem 0.5rem;
+        @media (max-width: 768px) {
+            .results-container {
+                padding: 1rem;
             }
 
-            .choice-content {
-                font-size: 0.97rem;
+            .results-header {
+                padding: 1.5rem;
+                margin-bottom: 2rem;
             }
-            
+
+            .results-header h2 {
+                font-size: 2rem;
+            }
+
+            .results-summary {
+                grid-template-columns: 1fr;
+            }
+
+            .question-container {
+                padding: 1.5rem;
+            }
+
+            .choice-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
             .choice-label {
-                margin-left: 0;
+                margin: 1rem 0 0 0;
             }
         }
-
-        .return-dashboard-link {
-            display: inline-block;
-            margin: 2rem auto 0 auto;
-            background: #2d3e50;
-            color: #fff;
-            border: none;
-            border-radius: 22px;
-            padding: 0.7rem 2rem;
-            font-size: 1.1rem;
-            font-weight: 500;
-            text-decoration: none;
-            transition: background 0.2s;
-            box-shadow: 0 2px 8px rgba(44, 62, 80, 0.06);
-        }
-
-        .return-dashboard-link:hover {
-            background: #1a2533;
-        }
-
     </style>
 
     <div class="results-container">
         <div class="results-header">
+            <h2 class="quiz-title">{{ $quizUser->quiz->title }} - Results</h2>
             <h2>Quiz Results</h2>
             <p>Review your answers and see how well you did!</p>
         </div>
@@ -256,21 +295,27 @@
                                 @if ($isCorrectChoice && $isUserChoice)
                                     <span class="label label-success">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                            <path fill-rule="evenodd"
+                                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                                clip-rule="evenodd" />
                                         </svg>
                                         Correct Answer
                                     </span>
                                 @elseif ($isCorrectChoice)
                                     <span class="label label-success">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                            <path fill-rule="evenodd"
+                                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                                clip-rule="evenodd" />
                                         </svg>
                                         Correct Answer
                                     </span>
                                 @elseif ($isUserChoice)
                                     <span class="label label-error">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                                            <path fill-rule="evenodd"
+                                                d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                                clip-rule="evenodd" />
                                         </svg>
                                         Your Answer
                                     </span>
@@ -291,8 +336,11 @@
 
         <div style="text-align: center;">
             <a href="{{ route('user.dashboard') }}" class="return-link">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="width: 20px; height: 20px;">
-                    <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                    style="width: 20px; height: 20px;">
+                    <path fill-rule="evenodd"
+                        d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+                        clip-rule="evenodd" />
                 </svg>
                 Return to Dashboard
             </a>
