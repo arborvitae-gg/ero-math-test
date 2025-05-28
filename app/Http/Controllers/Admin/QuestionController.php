@@ -59,7 +59,8 @@ class QuestionController
         try {
             $this->service->store($request->validated());
             return redirect()->route('admin.quizzes.questions.index', $quiz)->with('status', 'Question created!');
-        } catch (\Throwable $e) {
+        }
+        catch (\Throwable $e) {
             \Log::error('Question creation failed', ['quiz_id' => $quiz->id, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
             return back()->withErrors('Failed to create question. Please try again.');
         }
@@ -78,7 +79,8 @@ class QuestionController
         try {
             $this->service->update($question, $request->validated());
             return redirect()->route('admin.quizzes.questions.index', $quiz)->with('status', 'Question updated!');
-        } catch (\Throwable $e) {
+        }
+        catch (\Throwable $e) {
             \Log::error('Question update failed', ['quiz_id' => $quiz->id, 'question_id' => $question->id, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
             return back()->withErrors('Failed to update question. Please try again.');
         }
@@ -96,7 +98,8 @@ class QuestionController
         try {
             $this->service->delete($question);
             return redirect()->route('admin.quizzes.questions.index', $quiz)->with('status', 'Question deleted!');
-        } catch (\Throwable $e) {
+        }
+        catch (\Throwable $e) {
             \Log::error('Question deletion failed', ['quiz_id' => $quiz->id, 'question_id' => $question->id, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
             return back()->withErrors('Failed to delete question. Please try again.');
         }

@@ -23,7 +23,8 @@ class ProfileService
                 $user->email_verified_at = null;
             }
             $user->save();
-        } catch (\Throwable $e) {
+        }
+        catch (\Throwable $e) {
             \Log::error('Profile update failed', ['user_id' => $user->id, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
             throw $e;
         }

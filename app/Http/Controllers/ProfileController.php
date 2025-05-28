@@ -30,7 +30,8 @@ class ProfileController
         try {
             $this->profileService->updateProfile($request->user(), $request->validated());
             return Redirect::route('profile.edit')->with('status', 'profile-updated');
-        } catch (\Throwable $e) {
+        }
+        catch (\Throwable $e) {
             \Log::error('User profile update failed', [
                 'user_id' => $request->user()->id,
                 'error' => $e->getMessage(),
@@ -48,7 +49,8 @@ class ProfileController
         try {
             $this->profileService->deleteProfile($request->user(), $request);
             return Redirect::to('/');
-        } catch (\Throwable $e) {
+        }
+        catch (\Throwable $e) {
             \Log::error('User profile deletion failed', [
                 'user_id' => $request->user()->id,
                 'error' => $e->getMessage(),

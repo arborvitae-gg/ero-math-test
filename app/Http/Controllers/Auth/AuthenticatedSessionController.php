@@ -38,7 +38,8 @@ class AuthenticatedSessionController
             $request->authenticate();
             $request->session()->regenerate();
             return redirect()->intended(route('dashboard', absolute: false));
-        } catch (\Throwable $e) {
+        }
+        catch (\Throwable $e) {
             \Log::error('User login failed', [
                 'email' => $request->input('email'),
                 'error' => $e->getMessage(),
@@ -62,7 +63,8 @@ class AuthenticatedSessionController
             $request->session()->invalidate();
             $request->session()->regenerateToken();
             return redirect('/');
-        } catch (\Throwable $e) {
+        }
+        catch (\Throwable $e) {
             \Log::error('User logout failed', [
                 'user_id' => optional($request->user())->id,
                 'error' => $e->getMessage(),

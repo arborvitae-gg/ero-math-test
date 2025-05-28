@@ -23,7 +23,8 @@ class UserService
         try {
             $user->update($data);
             return $user;
-        } catch (\Throwable $e) {
+        }
+        catch (\Throwable $e) {
             \Log::error('Admin user update failed', ['user_id' => $user->id, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
             throw $e;
         }

@@ -10,7 +10,7 @@ class CategoryFactory extends Factory
 
     public function definition()
     {
-        $min = $this->faker->numberBetween(1, 10);
+        $min = $this->faker->numberBetween(3, 12);
         $max = $min + 1;
         return [
             'name' => $this->faker->unique()->word(),

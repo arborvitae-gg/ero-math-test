@@ -63,7 +63,8 @@ class NewPasswordController
                 ? redirect()->route('login')->with('status', __($status))
                 : back()->withInput($request->only('email'))
                     ->withErrors(['email' => __($status)]);
-        } catch (\Throwable $e) {
+        }
+        catch (\Throwable $e) {
             \Log::error('Password reset failed', [
                 'email' => $request->email,
                 'error' => $e->getMessage(),

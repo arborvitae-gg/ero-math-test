@@ -11,7 +11,7 @@ use App\Models\QuestionChoice;
 use Illuminate\Http\UploadedFile;
 
 /**
- * Service for admin question management logic, including image handling.
+ * Service for admin question management logic.
  *
  * @package App\Services\Admin
  */
@@ -112,7 +112,8 @@ class QuestionService
                         $choiceData['choice_image'],
                         'choices'
                     );
-                } catch (\Throwable $e) {
+                }
+                catch (\Throwable $e) {
                     \Log::error('Choice image upload failed', [
                         'question_id' => $question->id,
                         'choice_index' => $index,
@@ -125,7 +126,8 @@ class QuestionService
                 if ($choice?->choice_image) {
                     try {
                         $this->supabase->deleteImage($choice->choice_image);
-                    } catch (\Throwable $e) {
+                    }
+                    catch (\Throwable $e) {
                         \Log::error('Old choice image deletion failed', [
                             'question_id' => $question->id,
                             'choice_index' => $index,
@@ -143,7 +145,8 @@ class QuestionService
             } else {
                 $question->choices()->create($updateData);
             }
-        } catch (\Throwable $e) {
+        }
+        catch (\Throwable $e) {
             \Log::error('handleChoice failed', [
                 'question_id' => $question->id,
                 'choice_index' => $index,
@@ -167,7 +170,8 @@ class QuestionService
         $filePath = $path . '/' . $filename;
         try {
             $this->supabase->uploadImage($file, $filePath);
-        } catch (\Throwable $e) {
+        }
+        catch (\Throwable $e) {
             \Log::error('File upload to Supabase failed', [
                 'file' => $file->getClientOriginalName(),
                 'path' => $filePath,
@@ -189,7 +193,8 @@ class QuestionService
     {
         try {
             $question->delete();
-        } catch (\Throwable $e) {
+        }
+        catch (\Throwable $e) {
             \Log::error('Question deletion failed', ['question_id' => $question->id, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
             throw $e;
         }

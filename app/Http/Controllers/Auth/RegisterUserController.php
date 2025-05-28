@@ -57,7 +57,8 @@ class RegisterUserController
             event(new Registered($user));
             Auth::login($user);
             return redirect()->route('dashboard');
-        } catch (\Throwable $e) {
+        }
+        catch (\Throwable $e) {
             \Log::error('User registration failed', [
                 'email' => $request->email,
                 'error' => $e->getMessage(),
