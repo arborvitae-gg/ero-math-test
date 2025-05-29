@@ -75,7 +75,7 @@
                                     </form>
                                 @endif
                                 <form method="POST" action="{{ route('admin.quizzes.destroy', $quiz) }}"
-                                    onsubmit="return confirm('Are you sure you want to delete this quiz?');">
+                                    onsubmit="return confirm('Are you sure you want to delete this quiz? If the quiz is already posted, it will also delete all recorded quiz attempts/scores/data.');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit">Delete Quiz</button>
