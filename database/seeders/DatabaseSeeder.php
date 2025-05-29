@@ -13,9 +13,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Mark that DatabaseSeeder is running, so dependent seeders can check
+        $this->wasRunFromDatabaseSeeder = true;
         $this->call([
+            CategorySeeder::class,
             UserSeeder::class,
             QuizSeeder::class,
+
         ]);
     }
 }

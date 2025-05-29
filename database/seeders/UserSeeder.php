@@ -34,5 +34,17 @@ class UserSeeder extends Seeder
             'school' => 'Sample Elementary School',
             'coach_name' => 'Ms. Smith',
         ]);
+
+        // Normal user
+        User::create([
+            'first_name' => 'Jane',
+            'last_name' => 'Doe',
+            'email' => 'user2@example.com',
+            'password' => Hash::make('password'),
+            // 'role' => 'user',
+            'grade_level' => 4,
+            'school' => 'Better Sample Elementary School',
+            'coach_name' => 'Mrs. Smith',
+        ]);
     }
 }

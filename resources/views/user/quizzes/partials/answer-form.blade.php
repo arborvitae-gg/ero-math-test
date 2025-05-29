@@ -11,7 +11,7 @@
             </h3>
 
             @if (!empty($question->question_image))
-                <img src="{{ $question->question_image_url }}" alt="Question Image"">
+                <img src="{{ $question->question_image_url }}" alt="Question Image">
             @endif
         </div>
 

@@ -1,4 +1,5 @@
 import './bootstrap';
+import './quiz-direction';
 import './quiz-timer';
 import './sort-users';
 
