@@ -59,6 +59,10 @@
                             </td>
                             <td>
                                 @if ($quiz->is_posted)
+                                    <a href="{{ route('admin.quizzes.questions.index', $quiz) }}">
+                                        Review Questions
+                                    </a>
+                                    <br>
                                     <a href="{{ route('admin.quizzes.results.index', $quiz) }}">View Quiz Results</a>
                                 @else
                                     <a href="{{ route('admin.quizzes.questions.index', $quiz) }}">
