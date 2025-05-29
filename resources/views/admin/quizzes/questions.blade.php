@@ -1,7 +1,7 @@
 <x-app-layout>
 
     <x-slot name="header">
-        <h2>{{ __('Questions') }}</h2>
+        <h2>{{ $quiz->title }} {{ __(' Questions') }}</h2>
     </x-slot>
 
     {{-- Back Button --}}

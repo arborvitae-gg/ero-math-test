@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2>Results for: {{ $quiz->title }}</h2>
+        <h2>{{ $quiz->title }} {{ __(' Results') }}</h2>
     </x-slot>
 
     {{-- Back Button --}}

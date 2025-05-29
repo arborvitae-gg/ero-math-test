@@ -11,9 +11,10 @@ This guide explains how admins can manage users, quizzes, questions, and results
 
 ## Managing Users
 
--   Go to **Users** to view all registered users.
+-   Go to **Users** to view all registered users in table format.
 -   You can view user details (name, email, grade, school, coach).
--   (If enabled) Edit or update user information.
+-   You can sort the table by clicking the table column headers
+-   You can delete users (also deletes quiz records/data such as scores so be careful).
 
 ## Managing Quizzes
 
@@ -28,13 +29,12 @@ This guide explains how admins can manage users, quizzes, questions, and results
 -   Click "Quiz Questions" for a quiz to manage its questions.
 -   **Add Question:** Use the "+ Add Question" button, fill in question text, image, and choices (first is correct).
 -   **Edit/Delete Question:** Use the edit/delete buttons (only if quiz is not posted).
--   **Category Filter:** Filter questions by category (grade level).
+-   **Category Filter:** Filter questions by categories.
 
 ## Viewing Results
 
 -   Click "Quiz Results" for a quiz to see all user attempts and scores.
 -   Click "View Details" to see a user's answers and which were correct.
--   Use "Allow User to View Score" or "Revoke User Access" to control when users can see their results.
 
 ## Common Tasks
 
