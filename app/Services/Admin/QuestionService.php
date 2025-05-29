@@ -27,6 +27,9 @@ class QuestionService
      */
     public function store(array $data): Question
     {
+        if (!auth()->check() || auth()->user()->role !== 'admin') {
+            throw new \Exception('Only admins can perform this action.');
+        }
         return DB::transaction(function () use ($data) {
             $questionData = $this->handleQuestionData($data);
             $question = Question::create($questionData);
@@ -48,6 +51,9 @@ class QuestionService
      */
     public function update(Question $question, array $data): Question
     {
+        if (!auth()->check() || auth()->user()->role !== 'admin') {
+            throw new \Exception('Only admins can perform this action.');
+        }
         return DB::transaction(function () use ($question, $data) {
             $questionData = $this->handleQuestionData($data, $question);
             $question->update($questionData);
@@ -61,6 +67,26 @@ class QuestionService
     }
 
     /**
+     * Delete a question from the database.
+     *
+     * @param Question $question
+     * @return void
+     */
+    public function delete(Question $question): void
+    {
+        if (!auth()->check() || auth()->user()->role !== 'admin') {
+            throw new \Exception('Only admins can perform this action.');
+        }
+        try {
+            $question->delete();
+        }
+        catch (\Throwable $e) {
+            \Log::error('Question deletion failed', ['question_id' => $question->id, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+            throw $e;
+        }
+    }
+
+    /**
      * Prepare question data for storage or update.
      *
      * @param array $data
@@ -69,24 +95,37 @@ class QuestionService
      */
     private function handleQuestionData(array $data, ?Question $existing = null): array
     {
-        $questionData = [
-            'quiz_id' => $data['quiz_id'],
-            'category_id' => $data['category_id'],
-            'question_text' => $data['question_text'] ?? null,
-        ];
-
-        if (isset($data['question_image'])) {
-            $questionData['question_image'] = $this->uploadFile(
-                $data['question_image'],
-                'questions'
-            );
-
-            if ($existing?->question_image) {
-                $this->supabase->deleteImage($existing->question_image);
-            }
+        if (!auth()->check() || auth()->user()->role !== 'admin') {
+            throw new \Exception('Only admins can perform this action.');
         }
+        try {
+            $questionData = [
+                'quiz_id' => $data['quiz_id'],
+                'category_id' => $data['category_id'],
+                'question_text' => $data['question_text'] ?? null,
+            ];
 
-        return $questionData;
+            if (isset($data['question_image'])) {
+                $questionData['question_image'] = $this->uploadFile(
+                    $data['question_image'],
+                    'questions'
+                );
+
+                if ($existing?->question_image) {
+                    $this->supabase->deleteImage($existing->question_image);
+                }
+            }
+
+            return $questionData;
+        } catch (\Throwable $e) {
+            \Log::error('handleQuestionData failed', [
+                'data' => $data,
+                'existing_question_id' => $existing?->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            throw $e;
+        }
     }
 
     /**
@@ -99,6 +138,9 @@ class QuestionService
      */
     public function handleChoice(Question $question, array $choiceData, int $index): void
     {
+        if (!auth()->check() || auth()->user()->role !== 'admin') {
+            throw new \Exception('Only admins can perform this action.');
+        }
         try {
             $choice = $question->choices->get($index);
             $updateData = [
@@ -166,6 +208,9 @@ class QuestionService
      */
     public function uploadFile(UploadedFile $file, string $path): string
     {
+        if (!auth()->check() || auth()->user()->role !== 'admin') {
+            throw new \Exception('Only admins can perform this action.');
+        }
         $filename = Str::random(10) . '.' . $file->getClientOriginalExtension();
         $filePath = $path . '/' . $filename;
         try {
@@ -181,22 +226,5 @@ class QuestionService
             throw $e;
         }
         return $filePath; // Return relative path for DB storage
-    }
-
-    /**
-     * Delete a question from the database.
-     *
-     * @param Question $question
-     * @return void
-     */
-    public function delete(Question $question): void
-    {
-        try {
-            $question->delete();
-        }
-        catch (\Throwable $e) {
-            \Log::error('Question deletion failed', ['question_id' => $question->id, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
-            throw $e;
-        }
     }
 }
