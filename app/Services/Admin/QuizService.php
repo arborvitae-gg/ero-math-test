@@ -19,6 +19,9 @@ class QuizService
      */
     public function store(array $data): Quiz
     {
+        if (!auth()->check() || auth()->user()->role !== 'admin') {
+            throw new \Exception('Only admins can perform this action.');
+        }
         return Quiz::create($data);
     }
 
@@ -31,6 +34,9 @@ class QuizService
      */
     public function update(Quiz $quiz, array $data): Quiz
     {
+        if (!auth()->check() || auth()->user()->role !== 'admin') {
+            throw new \Exception('Only admins can perform this action.');
+        }
         $quiz->update($data);
         return $quiz;
     }
@@ -43,6 +49,9 @@ class QuizService
      */
     public function delete(Quiz $quiz): void
     {
+        if (!auth()->check() || auth()->user()->role !== 'admin') {
+            throw new \Exception('Only admins can perform this action.');
+        }
         $quiz->delete();
     }
 }

@@ -34,6 +34,9 @@ class SupabaseService
      */
     public function uploadImage(UploadedFile $file, string $path): bool
     {
+        if (!auth()->check() || auth()->user()->role !== 'admin') {
+            throw new \Exception('Only admins can perform this action.');
+        }
         $response = Http::withHeaders([
             'apikey' => $this->key,
             'Authorization' => 'Bearer ' . $this->key,
@@ -62,6 +65,9 @@ class SupabaseService
      */
     public function deleteImage(string $path): void
     {
+        if (!auth()->check() || auth()->user()->role !== 'admin') {
+            throw new \Exception('Only admins can perform this action.');
+        }
         $response = Http::withHeaders([
             'apikey' => $this->key,
             'Authorization' => 'Bearer ' . $this->key,
