@@ -16,7 +16,6 @@ A web-based quiz platform built with Laravel 12, using Supabase for storage and 
 -   [Routes Summary](#routes-summary)
 -   [Testing](#testing)
 -   [Contributing](#contributing)
--   [License](#license)
 
 ---
 
@@ -123,4 +122,4 @@ Enable these in your PHP config:
 
 ## Contributing
 
-Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
+Contributions welcome.
