@@ -80,16 +80,18 @@ Enable these in your PHP config:
 
 -   Start your local server (via Laragon, XAMPP, or `php artisan serve`).
 -   Access the app in your browser at `http://localhost`.
--   Register a user or log in as admin(use seeder) to access management features.
+-   Register a user(or use seeder) or log in as admin(also use seeder) to access management features.
 
 ## Project Structure
 
 -   `app/Http/Controllers/` — Main controllers for user/admin actions
 -   `app/Http/Requests/` — Form request validation logic
--   `app/Services/` — Business logic and integrations (e.g., Supabase)
+-   `app/Services/` — Business logic and integrations
 -   `app/Models/` — Eloquent models for Users, Quizzes, Questions, etc.
 -   `resources/views/` — Blade templates for UI
--   `routes/` — Route definitions (`web.php`, `admin.php`, `user.php`, etc.)
+-   `resources/css/` — CSS Designs for Blade templates
+-   `resources/js/` — Javascript stuff
+-   `routes/` — Routes (`web.php`, `admin.php`, `user.php`, etc.)
 -   `database/migrations/` — Database schema definitions
 -   `database/seeders/` — Initial/test data population
 -   `database/factories/` — Model factories for generating fake/test data
@@ -118,7 +120,7 @@ Enable these in your PHP config:
 
 ## Testing
 
--   Unit and Feature tests
+-   Unit and Feature tests...
 
 ## Contributing
 
