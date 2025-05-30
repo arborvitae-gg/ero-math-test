@@ -36,7 +36,7 @@ class RegisterUserRequest extends FormRequest
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', \Illuminate\Validation\Rules\Password::defaults()],
             'role' => ['required', 'in:user,admin'],
-            'grade_level' => ['nullable', 'integer', 'between:1,12'],
+            'grade_level' => ['nullable', 'integer', 'between:3,12'],
             'school' => ['nullable', 'string', 'max:255'],
             'coach_name' => ['nullable', 'string', 'max:255'],
         ];
@@ -60,7 +60,7 @@ class RegisterUserRequest extends FormRequest
             'role.required' => 'Role is required.',
             'role.in' => 'Role must be user or admin.',
             'grade_level.integer' => 'Grade level must be a number.',
-            'grade_level.between' => 'Grade level must be between 1 and 12.',
+            'grade_level.between' => 'Grade level must be between 3 and 12.',
         ];
     }
 }
