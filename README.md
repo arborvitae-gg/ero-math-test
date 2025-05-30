@@ -7,7 +7,6 @@ A web-based quiz platform built with Laravel 12, using Supabase for storage and 
 ## Table of Contents
 
 -   [Project Overview](#project-overview)
--   [Screenshots](#screenshots)
 -   [Features](#features)
 -   [Installation](#installation)
 -   [Configuration](#configuration)
