@@ -49,7 +49,9 @@ class SupabaseService
         );
 
         if (!$response->successful()) {
-            Log::error('Supabase upload failed', ['response' => $response->body()]);
+            Log::error('Supabase upload failed', [
+                'response' => $response->body()
+            ]);
             throw new \Exception('Failed to upload image: ' . $response->body());
         }
 
@@ -74,7 +76,9 @@ class SupabaseService
         ])->delete("{$this->url}/storage/v1/object/{$this->bucket}/{$path}");
 
         if (!$response->successful()) {
-            Log::error('Supabase delete failed', ['response' => $response->body()]);
+            Log::error('Supabase delete failed', [
+                'response' => $response->body()
+            ]);
             throw new \Exception('Failed to delete image: ' . $response->body());
         }
     }

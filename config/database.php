@@ -82,7 +82,7 @@ return [
             ]) : [],
         ],
 
-        'pgsql' => [
+        'pgsql' => [ // Supabase PostgreSQL is used as the database
             'driver' => 'pgsql',
             'url' => env('DB_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),
@@ -93,7 +93,7 @@ return [
             'charset' => env('DB_CHARSET', 'utf8'),
             'prefix' => '',
             'prefix_indexes' => true,
-            'search_path' => 'public',
+            'search_path' => 'testing', // public or testing
             'sslmode' => 'prefer',
         ],
 

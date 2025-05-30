@@ -27,7 +27,6 @@ class RoleMiddleware
         if (auth()->check() && $request->user()->can('hasRole', $role)) {
             return $next($request);
         }
-
         abort(403, 'Unauthorized.');
     }
 }

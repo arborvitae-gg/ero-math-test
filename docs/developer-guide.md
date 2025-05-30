@@ -139,5 +139,3 @@ try {
 -   Always validate and authorize requests before performing actions.
 
 ---
-
-_Last updated: May 24, 2025_

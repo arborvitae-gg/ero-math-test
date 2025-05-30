@@ -10,6 +10,8 @@
         $choices = $question->choices->sortBy('id');
         $useAdminChoiceOrder = true;
     @endphp
-    @include('components.quiz-results-question', compact('question', 'questionNumber', 'attempt', 'choices', 'useAdminChoiceOrder'))
+    @include(
+        'components.quiz-results-question',
+        compact('question', 'questionNumber', 'attempt', 'choices', 'useAdminChoiceOrder'))
     @php $questionNumber++; @endphp
 @endforeach

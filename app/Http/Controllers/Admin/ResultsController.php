@@ -23,8 +23,18 @@ class ResultsController
      */
     public function index(Quiz $quiz)
     {
-        $quizUsers = $quiz->quizUsers()->with(['user', 'category'])->get();
-        return view('admin.quizzes.results.index', compact('quiz', 'quizUsers'));
+        try {
+            $quizUsers = $quiz->quizUsers()->with(['user', 'category'])->get();
+            return view('admin.quizzes.results.index', compact('quiz', 'quizUsers'));
+        }
+        catch (\Throwable $e) {
+            \Log::error('Admin results index failed', [
+                'quiz_id' => $quiz->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return back()->withErrors('Failed to load quiz results. Please try again.');
+        }
     }
 
     /**
@@ -36,7 +46,18 @@ class ResultsController
      */
     public function show(Quiz $quiz, QuizUser $quizUser)
     {
-        $quizUser->load(['attempts.question', 'attempts.choice', 'attempts.question.choices']);
-        return view('admin.quizzes.results.show', compact('quiz', 'quizUser'));
+        try {
+            $quizUser->load(['attempts.question', 'attempts.choice', 'attempts.question.choices']);
+            return view('admin.quizzes.results.show', compact('quiz', 'quizUser'));
+        }
+        catch (\Throwable $e) {
+            \Log::error('Admin results show failed', [
+                'quiz_id' => $quiz->id,
+                'quiz_user_id' => $quizUser->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return back()->withErrors('Failed to load quiz attempt details. Please try again.');
+        }
     }
 }

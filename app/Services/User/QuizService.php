@@ -262,4 +262,82 @@ class QuizService
         return $this->getRemainingTime($quizUser) <= 0;
     }
 
+    /**
+     * Handle quiz expiration and auto-submit if needed.
+     * Returns true if the quiz was auto-submitted due to expiration.
+     *
+     * @param QuizUser $quizUser
+     * @return bool
+     */
+    public function handleQuizExpiration(QuizUser $quizUser): bool
+    {
+        try {
+            $quizDuration = $this->getQuizDuration($quizUser->quiz);
+            if ($quizDuration !== null && $this->isQuizExpired($quizUser)) {
+                $this->submitQuiz($quizUser);
+                return true;
+            }
+            return false;
+        }
+        catch (\Throwable $e) {
+            \Log::error('QuizService handleQuizExpiration failed', [
+                'quiz_user_id' => $quizUser->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            throw $e;
+        }
+    }
+
+    /**
+     * Prepare all data needed for the quiz attempt view.
+     *
+     * @param Quiz $quiz
+     * @param QuizUser $quizUser
+     * @return array
+     */
+    public function getQuizAttemptViewData(Quiz $quiz, QuizUser $quizUser): array
+    {
+        try {
+            $quizDuration = $this->getQuizDuration($quiz);
+            $remainingTime = $quizDuration !== null ? $this->getRemainingTime($quizUser) : null;
+            [$question, $choices, $existingAttempt] = $this->getCurrentQuestionData($quizUser);
+            $startedAt = $quizUser->started_at;
+            return compact('quizUser', 'quiz', 'question', 'choices', 'existingAttempt', 'remainingTime', 'quizDuration', 'startedAt');
+        }
+        catch (\Throwable $e) {
+            \Log::error('QuizService getQuizAttemptViewData failed', [
+                'quiz_id' => $quiz->id,
+                'quiz_user_id' => $quizUser->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            throw $e;
+        }
+    }
+
+    /**
+     * Prepare all data needed for the quiz results view.
+     *
+     * @param Quiz $quiz
+     * @param QuizUser $quizUser
+     * @return array
+     */
+    public function getQuizResultsViewData(Quiz $quiz, QuizUser $quizUser): array
+    {
+        try {
+            $attempts = $quizUser->attempts()->with(['question', 'choice'])->get();
+            return compact('quizUser', 'quiz', 'attempts');
+        }
+        catch (\Throwable $e) {
+            \Log::error('QuizService getQuizResultsViewData failed', [
+                'quiz_id' => $quiz->id,
+                'quiz_user_id' => $quizUser->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            throw $e;
+        }
+    }
+
 }

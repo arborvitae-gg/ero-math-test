@@ -19,8 +19,17 @@ class UserController
      */
     public function index()
     {
-        $users = User::where('role', 'user')->get();
-        return view('admin.users.index', compact('users'));
+        try {
+            $users = User::where('role', 'user')->get();
+            return view('admin.users.index', compact('users'));
+        }
+        catch (\Throwable $e) {
+            \Log::error('Admin users index failed', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return back()->withErrors('Failed to load users. Please try again.');
+        }
     }
 
     /**
@@ -34,8 +43,13 @@ class UserController
         try {
             $user->delete();
             return redirect()->route('admin.users.index')->with('status', 'User deleted!');
-        } catch (\Throwable $e) {
-            \Log::error('User delete failed', ['user_id' => $user->id, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+        }
+        catch (\Throwable $e) {
+            \Log::error('User delete failed', [
+                    'user_id' => $user->id,
+                    'error' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString()
+                ]);
             return back()->withErrors('Failed to delete user. Please try again.');
         }
     }

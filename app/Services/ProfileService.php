@@ -25,7 +25,11 @@ class ProfileService
             $user->save();
         }
         catch (\Throwable $e) {
-            \Log::error('Profile update failed', ['user_id' => $user->id, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+            \Log::error('Profile update failed', [
+                'user_id' => $user->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
             throw $e;
         }
     }
@@ -45,7 +49,11 @@ class ProfileService
             $request->session()->invalidate();
             $request->session()->regenerateToken();
         } catch (\Throwable $e) {
-            \Log::error('Profile deletion failed', ['user_id' => $user->id, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+            \Log::error('Profile deletion failed', [
+                'user_id' => $user->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
             throw $e;
         }
     }

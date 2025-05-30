@@ -81,7 +81,11 @@ class QuestionService
             $question->delete();
         }
         catch (\Throwable $e) {
-            \Log::error('Question deletion failed', ['question_id' => $question->id, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+            \Log::error('Question deletion failed', [
+                'question_id' => $question->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
             throw $e;
         }
     }
@@ -117,7 +121,8 @@ class QuestionService
             }
 
             return $questionData;
-        } catch (\Throwable $e) {
+        }
+        catch (\Throwable $e) {
             \Log::error('handleQuestionData failed', [
                 'data' => $data,
                 'existing_question_id' => $existing?->id,

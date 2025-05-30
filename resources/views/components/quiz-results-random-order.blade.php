@@ -19,5 +19,7 @@
         $useAdminChoiceOrder = false;
         $questionNumber = ++$i;
     @endphp
-    @include('components.quiz-results-question', compact('question', 'questionNumber', 'attempt', 'choices', 'useAdminChoiceOrder'))
+    @include(
+        'components.quiz-results-question',
+        compact('question', 'questionNumber', 'attempt', 'choices', 'useAdminChoiceOrder'))
 @endforeach

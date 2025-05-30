@@ -38,10 +38,19 @@ class QuizController
      */
     public function index()
     {
-        $quizzes = Quiz::with('questions')->get();
-        $categories = Category::all();
+        try {
+            $quizzes = Quiz::with('questions')->get();
+            $categories = Category::all();
 
-        return view('admin.quizzes.index', compact('quizzes', 'categories'));
+            return view('admin.quizzes.index', compact('quizzes', 'categories'));
+        }
+        catch (\Throwable $e) {
+            \Log::error('Admin quizzes index failed', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return back()->withErrors('Failed to load quizzes. Please try again.');
+        }
     }
 
     /**
@@ -57,7 +66,10 @@ class QuizController
             return redirect()->route('admin.quizzes.index')->with('status', 'Quiz created!');
         }
         catch (\Throwable $e) {
-            \Log::error('Quiz creation failed', ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+            \Log::error('Quiz creation failed', [
+                    'error' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString()
+                ]);
             return back()->withErrors('Failed to create quiz. Please try again.');
         }
     }
@@ -76,7 +88,10 @@ class QuizController
             return redirect()->route('admin.quizzes.index')->with('status', 'Quiz updated!');
         }
         catch (\Throwable $e) {
-            \Log::error('Quiz update failed', ['quiz_id' => $quiz->id, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+            \Log::error('Quiz update failed', [
+                    'quiz_id' => $quiz->id,
+                    'error' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString()]);
             return back()->withErrors('Failed to update quiz. Please try again.');
         }
     }
@@ -94,7 +109,11 @@ class QuizController
             return redirect()->route('admin.quizzes.index')->with('status', 'Quiz deleted!');
         }
         catch (\Throwable $e) {
-            \Log::error('Quiz deletion failed', ['quiz_id' => $quiz->id, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+            \Log::error('Quiz deletion failed',[
+                    'quiz_id' => $quiz->id,
+                    'error' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString()
+            ]);
             return back()->withErrors('Failed to delete quiz. Please try again.');
         }
     }
@@ -115,7 +134,11 @@ class QuizController
             return back()->with('status', 'Quiz has been posted. Editing is now disabled.');
         }
         catch (\Throwable $e) {
-            \Log::error('Quiz post failed', ['quiz_id' => $quiz->id, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+            \Log::error('Quiz post failed', [
+                    'quiz_id' => $quiz->id,
+                    'error' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString()
+                ]);
             return back()->withErrors('Failed to post quiz. Please try again.');
         }
     }

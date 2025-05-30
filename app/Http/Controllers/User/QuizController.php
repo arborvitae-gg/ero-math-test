@@ -43,11 +43,28 @@ class QuizController
     {
         try {
             $user = Auth::user();
+
+            // Check for in-progress quiz
+            $inProgressQuizUser = $user->quizSessions()
+                ->where('status', 'in_progress')
+                ->latest('started_at')
+                ->first();
+
+            if ($inProgressQuizUser) {
+                $quiz = Quiz::find($inProgressQuizUser->quiz_id);
+                return redirect()->route('user.quizzes.attempts.show', [$quiz, $inProgressQuizUser]);
+            }
+
             $quizzes = Quiz::where('is_posted', true)->with('questions')->get();
             $quizUsers = $user->quizSessions()->with('category')->get()->keyBy('quiz_id');
             return view('user.quizzes.index', compact('quizzes', 'user', 'quizUsers'));
-        } catch (\Throwable $e) {
-            \Log::error('User quiz dashboard failed', ['user_id' => Auth::id(), 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+        }
+        catch (\Throwable $e) {
+            \Log::error('User quiz dashboard failed',[
+                'user_id' => Auth::id(),
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+        ]);
             return back()->withErrors('Failed to load quizzes. Please try again.');
         }
     }
@@ -64,8 +81,14 @@ class QuizController
             $user = Auth::user();
             $quizUser = $this->quizService->startQuiz($quiz, $user);
             return redirect()->route('user.quizzes.attempts.show', [$quiz, $quizUser]);
-        } catch (\Throwable $e) {
-            \Log::error('User start quiz failed', ['user_id' => Auth::id(), 'quiz_id' => $quiz->id, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+        }
+        catch (\Throwable $e) {
+            \Log::error('User start quiz failed', [
+                'user_id' => Auth::id(),
+                'quiz_id' => $quiz->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
             return back()->withErrors('Failed to start quiz. Please try again.');
         }
     }
@@ -81,18 +104,20 @@ class QuizController
     {
         try {
             $this->authorizeQuizAccess($quiz, $quizUser);
-            // Only enforce timer if quiz has a timer
-            $quizDuration = $this->quizService->getQuizDuration($quiz);
-            $remainingTime = $quizDuration !== null ? $this->quizService->getRemainingTime($quizUser) : null;
-            if ($quizDuration !== null && $this->quizService->isQuizExpired($quizUser)) {
-                $this->quizService->submitQuiz($quizUser);
+            if ($this->quizService->handleQuizExpiration($quizUser)) {
                 return redirect()->route('user.quizzes.attempts.completed', [$quiz, $quizUser]);
             }
-            [$question, $choices, $existingAttempt] = $this->quizService->getCurrentQuestionData($quizUser);
-            $startedAt = $quizUser->started_at;
-            return view('user.quizzes.take', compact('quizUser', 'quiz', 'question', 'choices', 'existingAttempt', 'remainingTime', 'quizDuration', 'startedAt'));
-        } catch (\Throwable $e) {
-            \Log::error('User show quiz question failed', ['user_id' => Auth::id(), 'quiz_id' => $quiz->id, 'quiz_user_id' => $quizUser->id, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+            $viewData = $this->quizService->getQuizAttemptViewData($quiz, $quizUser);
+            return view('user.quizzes.take', $viewData);
+        }
+        catch (\Throwable $e) {
+            \Log::error('User show quiz question failed', [
+                'user_id' => Auth::id(),
+                'quiz_id' => $quiz->id,
+                'quiz_user_id' => $quizUser->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
             return back()->withErrors('Failed to load quiz question. Please try again.');
         }
     }
@@ -110,19 +135,27 @@ class QuizController
     {
         try {
             $this->authorizeQuizAccess($quiz, $quizUser);
-            $quizDuration = $this->quizService->getQuizDuration($quiz);
-            if ($quizDuration !== null && $this->quizService->isQuizExpired($quizUser)) {
-                $this->quizService->submitQuiz($quizUser);
+
+            if ($this->quizService->handleQuizExpiration($quizUser)) {
                 return redirect()->route('user.quizzes.attempts.completed', [$quiz, $quizUser]);
             }
             $this->quizService->processAnswerNavigation($quizUser, $question, $request);
+
             if ($request->input('direction') === 'submit') {
                 $this->quizService->submitQuiz($quizUser);
                 return redirect()->route('user.quizzes.attempts.completed', [$quiz, $quizUser]);
             }
             return redirect()->route('user.quizzes.attempts.show', [$quiz, $quizUser]);
-        } catch (\Throwable $e) {
-            \Log::error('User save answer failed', ['user_id' => Auth::id(), 'quiz_id' => $quiz->id, 'quiz_user_id' => $quizUser->id, 'question_id' => $question->id, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+        }
+        catch (\Throwable $e) {
+            \Log::error('User save answer failed', [
+                'user_id' => Auth::id(),
+                'quiz_id' => $quiz->id,
+                'quiz_user_id' => $quizUser->id,
+                'question_id' => $question->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
             return back()->withErrors('Failed to save answer. Please try again.');
         }
     }
@@ -138,15 +171,20 @@ class QuizController
     {
         try {
             $this->authorizeQuizAccess($quiz, $quizUser);
-            $quizDuration = $this->quizService->getQuizDuration($quiz);
-            if ($quizDuration !== null && $this->quizService->isQuizExpired($quizUser)) {
-                $this->quizService->submitQuiz($quizUser);
+            if ($this->quizService->handleQuizExpiration($quizUser)) {
                 return redirect()->route('user.quizzes.attempts.completed', [$quiz, $quizUser]);
             }
             $this->quizService->submitQuiz($quizUser);
             return redirect()->route('user.quizzes.attempts.completed', [$quiz, $quizUser]);
-        } catch (\Throwable $e) {
-            \Log::error('User submit quiz failed', ['user_id' => Auth::id(), 'quiz_id' => $quiz->id, 'quiz_user_id' => $quizUser->id, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+        }
+        catch (\Throwable $e) {
+            \Log::error('User submit quiz failed', [
+                'user_id' => Auth::id(),
+                'quiz_id' => $quiz->id,
+                'quiz_user_id' => $quizUser->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
             return back()->withErrors('Failed to submit quiz. Please try again.');
         }
     }
@@ -163,8 +201,15 @@ class QuizController
         try {
             $this->authorizeQuizAccess($quiz, $quizUser);
             return view('user.quizzes.completed', compact('quizUser', 'quiz'));
-        } catch (\Throwable $e) {
-            \Log::error('User completed quiz view failed', ['user_id' => Auth::id(), 'quiz_id' => $quiz->id, 'quiz_user_id' => $quizUser->id, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+        }
+        catch (\Throwable $e) {
+            \Log::error('User completed quiz view failed', [
+                'user_id' => Auth::id(),
+                'quiz_id' => $quiz->id,
+                'quiz_user_id' => $quizUser->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
             return back()->withErrors('Failed to load completed quiz. Please try again.');
         }
     }
@@ -180,9 +225,10 @@ class QuizController
     {
         try {
             $this->authorizeQuizAccess($quiz, $quizUser);
-            $attempts = $quizUser->attempts()->with(['question', 'choice'])->get();
-            return view('user.quizzes.results', compact('quizUser', 'quiz', 'attempts'));
-        } catch (\Throwable $e) {
+            $viewData = $this->quizService->getQuizResultsViewData($quiz, $quizUser);
+            return view('user.quizzes.results', $viewData);
+        }
+        catch (\Throwable $e) {
             \Log::error('User quiz results failed', ['user_id' => Auth::id(), 'quiz_id' => $quiz->id, 'quiz_user_id' => $quizUser->id, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
             return back()->withErrors('Failed to load quiz results. Please try again.');
         }
