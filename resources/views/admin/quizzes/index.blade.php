@@ -63,10 +63,10 @@
                                         Review Questions
                                     </a>
                                     <br>
-                                    <a href="{{ route('admin.quizzes.results.index', $quiz) }}">View Quiz Results</a>
+                                    <a href="{{ route('admin.quizzes.results.index', $quiz) }}">View User Results</a>
                                 @else
                                     <a href="{{ route('admin.quizzes.questions.index', $quiz) }}">
-                                        Add/Edit Questions
+                                        Manage Questions
                                     </a>
                                     <br>
                                     <button @click="showEditQuizForm = !showEditQuizForm">

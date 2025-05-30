@@ -33,7 +33,7 @@
                             <td>{{ $quizUser->total_score }}</td>
                             <td>{{ $quiz->questions->where('category_id', $quizUser->category_id)->count() }}</td>
                             <td>
-                                <a href="{{ route('admin.quizzes.results.show', [$quiz, $quizUser]) }}">View Score</a>
+                                <a href="{{ route('admin.quizzes.results.show', [$quiz, $quizUser]) }}">View Results</a>
                             </td>
                         </tr>
                     @endforeach

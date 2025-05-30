@@ -9,8 +9,9 @@ This guide explains how users can register, take quizzes, and view results in th
 1.  **Register an Account**
 
     -   Go to the registration page.
-    -   Fill in your name, email, password, grade level, school, and coach name.
-    -   Submit the form to create your account and log in.
+    -   Fill in your first/middle/last name, email, password, grade level, school, and coach name.
+    -   Submit the form to receive an email verification code
+    -   Confirm the code in your email to create your account and log in.
 
 2.  **Log In**
 
@@ -19,9 +20,10 @@ This guide explains how users can register, take quizzes, and view results in th
 
 ## Taking Quizzes
 
-1.  **View Available Quizzes**
+1.  **View Quizzes**
 
     -   On your dashboard, see a list of quizzes available for your grade/category.
+    -   You can toggle the view between "Available" quizzes and "Completed" quizzes.
 
 2.  **Start a Quiz**
 
@@ -37,14 +39,9 @@ This guide explains how users can register, take quizzes, and view results in th
 4.  **Submit Quiz**
 
     -   On the last question, click "Submit Quiz" to finish.
-    -   Your answers are saved as you go.
+    -   Your quiz will be automatically submitted when the timer runs out.
 
 ## Viewing Results
 
--   If the admin has allowed it, you can view your score and see which answers were correct or incorrect.
--   Go to the "View Results" link for a completed quiz.
--   If results are not yet available, you will see a waiting message.
-
----
-
-If you have issues, contact your admin or coach for help.
+-   Go to the "View Results" button which will appear after quiz usbmission.
+-   You can also go the the "Completed" quiz section in the dashboard and click "View Results" for a quiz.
