@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide explains how users can register, take quizzes, and view results in the Ero-Math web app.
+This guide explains how users can register, take quizzes, and view results in the quiz web app.
 
 ## Getting Started
 
