@@ -29,51 +29,33 @@ class SupabaseService
      *
      * @param UploadedFile $file
      * @param string $path
-     * @return void
+     * @return bool
      * @throws \Exception
      */
-    public function uploadImage(UploadedFile $file, string $path): void
+    public function uploadImage(UploadedFile $file, string $path): bool
     {
-        try {
-            \Log::info('Starting Supabase image upload', [
-                'file_name' => $file->getClientOriginalName(),
-                'path' => $path,
-                'mime_type' => $file->getMimeType(),
-                'size' => $file->getSize(),
-            ]);
-
-            $fileContent = file_get_contents($file->getRealPath());
-            if ($fileContent === false) {
-                throw new \Exception('Failed to read file contents');
-            }
-
-            $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $this->key,
-                'Content-Type' => $file->getMimeType(),
-                'x-upsert' => 'true'
-            ])->put(
-                "{$this->url}/storage/v1/object/{$this->bucket}/{$path}",
-                $fileContent
-            );
-
-            \Log::info('Supabase upload response', [
-                'status' => $response->status(),
-                'body' => $response->body(),
-            ]);
-
-            if (!$response->successful()) {
-                throw new \Exception('Failed to upload image to Supabase: ' . $response->body());
-            }
+        if (!auth()->check() || auth()->user()->role !== 'admin') {
+            throw new \Exception('Only admins can perform this action.');
         }
-        catch (\Throwable $e) {
-            \Log::error('Supabase image upload failed', [
-                'file' => $file->getClientOriginalName(),
-                'path' => $path,
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString(),
+        $response = Http::withHeaders([
+            'apikey' => $this->key,
+            'Authorization' => 'Bearer ' . $this->key,
+            'Content-Type' => $file->getMimeType(),
+        ])->withBody(
+            $file->get(),
+            $file->getMimeType()
+        )->put(
+            "{$this->url}/storage/v1/object/{$this->bucket}/{$path}"
+        );
+
+        if (!$response->successful()) {
+            Log::error('Supabase upload failed', [
+                'response' => $response->body()
             ]);
-            throw $e;
+            throw new \Exception('Failed to upload image: ' . $response->body());
         }
+
+        return true;
     }
 
     /**

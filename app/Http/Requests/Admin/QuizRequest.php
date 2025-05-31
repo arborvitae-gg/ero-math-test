@@ -61,18 +61,7 @@ class QuizRequest extends FormRequest
     public function validated($key = null, $default = null)
     {
         $data = parent::validated($key, $default);
-        // Combine timer_h, timer_m, timer_s into timer (seconds)
-        $h = (int) $this->input('timer_h', 0);
-        $m = (int) $this->input('timer_m', 0);
-        $s = (int) $this->input('timer_s', 0);
-        $data['timer'] = ($h * 3600) + ($m * 60) + $s;
         $data['is_posted'] = $this->has('is_posted');
-        // Combine timer fields if present
-        $data['timer'] = (
-            (int) $this->input('timer_h', 0) * 3600 +
-            (int) $this->input('timer_m', 0) * 60 +
-            (int) $this->input('timer_s', 0)
-        );
         return $data;
     }
 }
