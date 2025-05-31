@@ -43,5 +43,5 @@ This guide explains how users can register, take quizzes, and view results in th
 
 ## Viewing Results
 
--   Go to the "View Results" button which will appear after quiz usbmission.
+-   Go to the "View Results" button which will appear after quiz submission.
 -   You can also go the the "Completed" quiz section in the dashboard and click "View Results" for a quiz.
