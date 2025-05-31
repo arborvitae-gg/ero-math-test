@@ -16,8 +16,8 @@ class DatabaseSeeder extends Seeder
         // Mark that DatabaseSeeder is running, so dependent seeders can check
         $this->wasRunFromDatabaseSeeder = true;
         $this->call([
-            CategorySeeder::class,
-            UserSeeder::class,
+            // CategorySeeder::class,
+            // UserSeeder::class,
             QuizSeeder::class,
 
         ]);
