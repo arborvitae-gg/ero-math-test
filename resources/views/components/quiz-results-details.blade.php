@@ -20,6 +20,11 @@
                 {{ $quizUser->attempts->count() }}
             </div>
         </div>
+        
+        <h3>Attempt Duration:</h3>
+        <div class="quiz-results-score">
+            <x-duration-display :start="$quizUser->started_at" :end="$quizUser->completed_at" />
+        </div>
     </div>
 
     <div class="quiz-results-order-toggle">
