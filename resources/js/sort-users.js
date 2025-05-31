@@ -34,3 +34,4 @@ function sortTable(n) {
         }
     }
 }
+window.sortTable = sortTable;
