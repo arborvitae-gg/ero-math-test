@@ -41,12 +41,9 @@ class SupabaseService
             'apikey' => $this->key,
             'Authorization' => 'Bearer ' . $this->key,
             'Content-Type' => $file->getMimeType(),
-        ])->withBody(
-            $file->get(),
-            $file->getMimeType()
-        )->put(
-            "{$this->url}/storage/v1/object/{$this->bucket}/{$path}"
-        );
+        ])->send('PUT', "{$this->url}/storage/v1/object/{$this->bucket}/{$path}", [
+            'body' => $file->get(),
+        ]);
 
         if (!$response->successful()) {
             Log::error('Supabase upload failed', [
