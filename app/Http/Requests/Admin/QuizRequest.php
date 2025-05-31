@@ -52,6 +52,21 @@ class QuizRequest extends FormRequest
     }
 
     /**
+     * Prepare the data for validation.
+     * Combines timer_h, timer_m, timer_s into timer (seconds).
+     */
+    protected function prepareForValidation(): void
+    {
+        $h = (int) $this->input('timer_h', 0);
+        $m = (int) $this->input('timer_m', 0);
+        $s = (int) $this->input('timer_s', 0);
+        $timer = ($h * 3600) + ($m * 60) + $s;
+        $this->merge([
+            'timer' => $timer
+        ]);
+    }
+
+    /**
      * Get the validated data from the request, with is_posted as boolean.
      *
      * @param string|null $key
