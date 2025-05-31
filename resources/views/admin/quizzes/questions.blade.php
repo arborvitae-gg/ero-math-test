@@ -26,18 +26,23 @@
         {{-- Disable question-form if quiz is posted --}}
         @if (!$quiz->is_posted)
             <div x-data="{ showAddQuestionForm: false }">
-                <button @click="showAddQuestionForm = !showAddQuestionForm" class="admin-add-btn">
+                <button @click="showAddQuestionForm = true" class="admin-add-btn">
                     + Add Question
                 </button>
-
-                <div x-show="showAddQuestionForm">
-                    @include('admin.quizzes.partials.question-form', [
-                        'quiz' => $quiz,
-                        'action' => route('admin.quizzes.questions.store', $quiz),
-                        'method' => 'POST',
-                    ])
+                <!-- Modal Popup for Add Question -->
+                <div x-show="showAddQuestionForm"
+                    style="position: fixed; inset: 0; z-index: 1001; display: flex; align-items: center; justify-content: center; background: rgba(20,30,60,0.35); backdrop-filter: blur(1.5px);"
+                    x-cloak>
+                    <div @click.away="showAddQuestionForm = false" style="background: #fff; border-radius: 18px; box-shadow: 0 8px 32px rgba(0,0,0,0.25); padding: 2.5rem 2rem 2rem 2rem; min-width: 340px; max-width: 520px; width: 100%; position: relative; z-index: 1002; display: flex; flex-direction: column; align-items: stretch; max-height: 80vh; overflow-y: auto; margin: auto;">
+                        <button @click="showAddQuestionForm = false" style="position: absolute; top: 1.1rem; right: 1.1rem; background: none; border: none; font-size: 2rem; color: #888; cursor: pointer; transition: color 0.2s;" @mouseover="$el.style.color='#1976d2'" @mouseleave="$el.style.color='#888'">&times;</button>
+                        <h3 style="margin-bottom: 1.5rem; text-align: center; font-size: 1.35rem; font-weight: 600; color: #1a237e; letter-spacing: 0.01em;">Add Question</h3>
+                        @include('admin.quizzes.partials.question-form', [
+                            'quiz' => $quiz,
+                            'action' => route('admin.quizzes.questions.store', $quiz),
+                            'method' => 'POST',
+                        ])
+                    </div>
                 </div>
-
             </div>
         @else
             <p><em>This quiz has been posted. Questions cannot be added, edited, or deleted.</em></p>

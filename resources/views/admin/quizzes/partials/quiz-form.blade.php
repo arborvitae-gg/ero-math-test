@@ -19,22 +19,16 @@
     <input id="quiz-input" name="title" type="text" required value="{{ old('title', $quiz->title ?? '') }}" />
 
     <label>Timer</label>
-
-    {{-- hours --}}
-    <input name="timer_h" type="number" min="0" max="23" value="{{ old('timer_h', $timer_h) }}"
-        placeholder="hh" />
-
-    <span>:</span>
-
-    {{-- minutes --}}
-    <input name="timer_m" type="number" min="0" max="59" value="{{ old('timer_m', $timer_m) }}"
-        placeholder="mm" />
-
-    <span>:</span>
-
-    {{-- seconds --}}
-    <input name="timer_s" type="number" min="0" max="59" value="{{ old('timer_s', $timer_s) }}"
-        placeholder="ss" />
+    <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 1.2rem; justify-content: center;">
+        <input name="timer_h" type="number" min="0" max="23" value="{{ old('timer_h', $timer_h) }}"
+            placeholder="hh" style="width: 48px; padding: 0.5rem; border: 1.5px solid #bfc9e0; border-radius: 7px; font-size: 1.1rem; text-align: center; background: #f8fafc; outline: none; transition: border 0.2s;" onfocus="this.style.borderColor='#1976d2'" onblur="this.style.borderColor='#bfc9e0'" />
+        <span style="font-size: 1.2rem; color: #888;">:</span>
+        <input name="timer_m" type="number" min="0" max="59" value="{{ old('timer_m', $timer_m) }}"
+            placeholder="mm" style="width: 48px; padding: 0.5rem; border: 1.5px solid #bfc9e0; border-radius: 7px; font-size: 1.1rem; text-align: center; background: #f8fafc; outline: none; transition: border 0.2s;" onfocus="this.style.borderColor='#1976d2'" onblur="this.style.borderColor='#bfc9e0'" />
+        <span style="font-size: 1.2rem; color: #888;">:</span>
+        <input name="timer_s" type="number" min="0" max="59" value="{{ old('timer_s', $timer_s) }}"
+            placeholder="ss" style="width: 48px; padding: 0.5rem; border: 1.5px solid #bfc9e0; border-radius: 7px; font-size: 1.1rem; text-align: center; background: #f8fafc; outline: none; transition: border 0.2s;" onfocus="this.style.borderColor='#1976d2'" onblur="this.style.borderColor='#bfc9e0'" />
+    </div>
 
     <button type="submit">
         {{ $method === 'PATCH' ? 'Update' : 'Save' }}
