@@ -18,6 +18,9 @@
                         <th>Category</th>
                         <th>Score</th>
                         <th>Total Questions</th>
+                        <th>Started At</th>
+                        <th>Completed At</th>
+                        <th>Duration</th>
                         <th></th> {{-- Empty header for action links --}}
                     </tr>
                 </thead>
@@ -32,6 +35,12 @@
                             <td>{{ $quizUser->category->name }}</td>
                             <td>{{ $quizUser->total_score }}</td>
                             <td>{{ $quiz->questions->where('category_id', $quizUser->category_id)->count() }}</td>
+                            <td>{{ $quizUser->started_at ? $quizUser->started_at->format('Y-m-d H:i:s') : '-' }}</td>
+                            <td>{{ $quizUser->completed_at ? $quizUser->completed_at->format('Y-m-d H:i:s') : '-' }}
+                            </td>
+                            <td>
+                                <x-duration-display :start="$quizUser->started_at" :end="$quizUser->completed_at" />
+                            </td>
                             <td>
                                 <a href="{{ route('admin.quizzes.results.show', [$quiz, $quizUser]) }}">View Results</a>
                             </td>

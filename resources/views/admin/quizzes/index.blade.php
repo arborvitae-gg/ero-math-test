@@ -50,7 +50,9 @@
                     <tbody x-data="{ showEditQuizForm: false }">
                         <tr>
                             <td>{{ $quiz->title }}</td>
-                            <td>{{ $quiz->timer ? $quiz->timer . 's' : 'None' }}</td>
+                            <td>
+                                <x-timer-display :seconds="$quiz->timer" />
+                            </td>
                             <td>
                                 @foreach ($categories as $cat)
                                     {{ $cat->name }}:

@@ -30,7 +30,7 @@
                 <div class="quiz-card">
                     <h3 style="font-size:1.3rem; font-weight:700; color:#1976d2; margin-bottom:0.5rem;">{{ $quiz->title }}</h3>
                     <div style="margin-bottom:0.7rem; color:#444;">
-                        <strong>Timer:</strong> {{ $quiz->timer ? $quiz->timer . 's' : 'No Timer' }}<br>
+                        <strong>Timer:</strong> <x-timer-display :seconds="$quiz->timer" /><br>
                         <strong>No. of Questions:</strong> {{ $questionsInCategory }}
                     </div>
                     @if (!$quizUser)
