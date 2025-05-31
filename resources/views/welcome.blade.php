@@ -54,8 +54,13 @@
             gap: 1.5rem;
         }
 
-        nav a {
-            color: #fff;
+        nav a,
+        nav a:visited,
+        nav a:active,
+        nav a:hover,
+        nav .active,
+        nav .text-danger {
+            color: #fff !important;
             text-decoration: none;
             font-weight: 500;
             padding: 0.5rem 1.2rem;
