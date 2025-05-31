@@ -21,6 +21,13 @@
                     <a href="{{ route('register') }}" class="{{ request()->routeIs('register') ? 'active' : '' }}">Register</a>
                 @endif
             @else
+                @if (Auth::user()->role === 'user')
+                    <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">Dashboard</a>
+                @elseif (Auth::user()->role === 'admin')
+                    <a href="{{ route('admin.quizzes.index') }}" class="{{ request()->routeIs('admin.quizzes.*') ? 'active' : '' }}">Quizzes</a>
+                    <a href="{{ route('admin.users.index') }}" class="{{ request()->routeIs('admin.users.*') ? 'active' : '' }}">Users</a>
+                    <!-- Add more admin links as needed -->
+                @endif
                 <form method="POST" action="{{ route('logout') }}" class="d-inline">
                     @csrf
                     <a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();">

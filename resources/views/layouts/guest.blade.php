@@ -10,13 +10,14 @@
 
     <!-- Scripts and Styles -->
     @vite([
-        // 'resources/css/app.css',
+        'resources/css/app.css',
         'resources/js/app.js',
     ])
 </head>
 
 <body>
-    <div>
+    <div style="padding-top: 80px;">
+        <x-navbar />
         <div class="page-content">
             {{ $slot }}
         </div>
