@@ -30,7 +30,7 @@
         @if (($showCompleted && $isCompleted) || (!$showCompleted && (!$quizUser || !$isCompleted)))
             <div>
                 <h3>{{ $quiz->title }}</h3>
-                <h3>Timer: {{ $quiz->timer ? $quiz->timer . 's' : 'No Timer' }}</h3>
+                <h3>Timer: <x-timer-display :seconds="$quiz->timer" /></h3>
                 <h3>No. of Questions: {{ $questionsInCategory }}</h3>
             </div>
             @if (!$quizUser)
