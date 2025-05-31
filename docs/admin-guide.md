@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide explains how admins can manage users, quizzes, questions, and results in the Ero-Math web app.
+This guide explains how admins can manage users, quizzes, questions, and results in the quiz web app.
 
 ## Accessing the Admin Panel
 
