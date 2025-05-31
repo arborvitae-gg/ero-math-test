@@ -39,14 +39,7 @@
                             <td>{{ $quizUser->completed_at ? $quizUser->completed_at->format('Y-m-d H:i:s') : '-' }}
                             </td>
                             <td>
-                                @if ($quizUser->started_at && $quizUser->completed_at)
-                                    @php
-                                        $duration = $quizUser->completed_at->diff($quizUser->started_at);
-                                    @endphp
-                                    {{ $duration->h > 0 ? $duration->h . 'h ' : '' }}{{ $duration->i > 0 ? $duration->i . 'm ' : '' }}{{ $duration->s }}s
-                                @else
-                                    -
-                                @endif
+                                <x-duration-display :start="$quizUser->started_at" :end="$quizUser->completed_at" />
                             </td>
                             <td>
                                 <a href="{{ route('admin.quizzes.results.show', [$quiz, $quizUser]) }}">View Results</a>

@@ -17,9 +17,29 @@
             /
             {{ $quizUser->attempts->count() }}
         </p>
+
+        <h3>Quiz Duration:</h3>
+        <p>
+            @if ($quizUser->quiz && $quizUser->quiz->timer)
+                @php
+                    $seconds = $quizUser->quiz->timer;
+                    $hours = floor($seconds / 3600);
+                    $minutes = floor(($seconds % 3600) / 60);
+                    $secs = $seconds % 60;
+                @endphp
+                {{ $hours > 0 ? $hours . 'h ' : '' }}{{ $minutes > 0 ? $minutes . 'm ' : '' }}{{ $secs }}s
+            @else
+                No Timer
+            @endif
+        </p>
+
+        <h3>Attempt Duration:</h3>
+        <p>
+            <x-duration-display :start="$quizUser->started_at" :end="$quizUser->completed_at" />
+        </p>
     </div>
 
-    <div style="margin-bottom: 1em;">
+    <div>
         <button type="button" @click="order = 'admin'" :class="order === 'admin' ? 'active' : ''">Default Order
         </button>
         <button type="button" @click="order = 'user'" :class="order === 'user' ? 'active' : ''">User's Randomized
