@@ -14,7 +14,7 @@
             @if(isset($quizDuration) && $quizDuration !== null)
                 <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 0.2rem;">
                     <div style="background: #e3f2fd; color: #1976d2; font-weight:700; font-size:1.15rem; border-radius: 8px; padding: 0.4rem 1.2rem; box-shadow: 0 2px 8px rgba(25,118,210,0.08); letter-spacing: 1px; min-width: 110px;">
-                        <span id="timer">{{ gmdate('H:i:s', $remainingTime ?? $quizDuration) }}</span>
+                        <span id="quiz-timer">{{ gmdate('H:i:s', $remainingTime ?? $quizDuration) }}</span>
                     </div>
                 </div>
             @endif

@@ -424,4 +424,401 @@ body {
     .admin-dashboard-title {
         font-size: 1.3rem;
     }
+}
+
+/* Admin Users Table Styles */
+.admin-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 0.7rem;
+    margin: 2rem 0;
+    background: transparent;
+}
+.admin-table th, .admin-table td {
+    background: #fff;
+    padding: 1rem 1.2rem;
+    text-align: left;
+    font-size: 1.08rem;
+    border: none;
+    vertical-align: top;
+}
+.admin-table th {
+    color: #1a237e;
+    font-weight: 700;
+    font-size: 1.13rem;
+    border-bottom: 2px solid #e3e7ef;
+    cursor: pointer;
+}
+.admin-table tr {
+    box-shadow: 0 2px 12px rgba(25,118,210,0.07);
+    border-radius: 12px;
+    transition: box-shadow 0.2s;
+}
+.admin-table tr:hover {
+    box-shadow: 0 6px 24px rgba(25,118,210,0.13);
+}
+.admin-action-btn {
+    background: linear-gradient(90deg, #1976d2 0%, #42a5f5 100%);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1.1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0.2rem 0.2rem 0.2rem 0;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 2px 8px rgba(25,118,210,0.08);
+    text-decoration: none;
+    display: inline-block;
+}
+.admin-action-btn:hover, .admin-action-btn:focus {
+    background: linear-gradient(90deg, #1565c0 0%, #1976d2 100%);
+    transform: translateY(-2px) scale(1.04);
+}
+.admin-action-btn.danger {
+    background: #e53935;
+    color: #fff;
+}
+.admin-action-btn.danger:hover, .admin-action-btn.danger:focus {
+    background: #b71c1c;
+}
+@media (max-width: 900px) {
+    .admin-table th, .admin-table td {
+        padding: 0.7rem 0.5rem;
+        font-size: 0.98rem;
+    }
+}
+
+/* Admin Quiz Questions Styles */
+.admin-back-btn {
+    color: #1976d2;
+    font-weight: 600;
+    text-decoration: none;
+    margin-bottom: 1.2rem;
+    display: inline-block;
+    font-size: 1.08rem;
+    transition: color 0.2s;
+}
+.admin-back-btn:hover {
+    color: #1565c0;
+    text-decoration: underline;
+}
+.admin-add-btn {
+    background: #f1f3f6;
+    color: #1976d2;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 0.5rem 1.1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1.2rem;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    display: inline-block;
+}
+.admin-add-btn:hover, .admin-add-btn:focus {
+    background: #e3e7ef;
+    color: #1565c0;
+}
+.admin-category-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin: 1.2rem 0 1.5rem 0;
+    align-items: center;
+}
+.admin-category-radio {
+    background: #f5f7fa;
+    border-radius: 20px;
+    padding: 0.4rem 1.1rem 0.4rem 0.8rem;
+    font-size: 1.05rem;
+    color: #1976d2;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    border: 1.5px solid transparent;
+    transition: background 0.2s, border 0.2s, color 0.2s;
+}
+.admin-category-radio input[type="radio"] {
+    accent-color: #1976d2;
+    margin-right: 0.4em;
+    width: 1.1em;
+    height: 1.1em;
+}
+.admin-category-radio input[type="radio"]:checked ~ span {
+    background: #e3f2fd;
+    color: #1976d2;
+    border-radius: 16px;
+    padding: 0.2rem 0.7rem;
+    border: 1.5px solid #90caf9;
+    box-shadow: 0 2px 8px rgba(25,118,210,0.04);
+}
+.admin-category-radio input[type="radio"]:focus ~ span {
+    outline: 2px solid #1976d2;
+}
+.admin-question-card {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(25,118,210,0.13);
+    padding: 2rem 2.5rem 1.5rem 2.5rem;
+    margin-bottom: 2.5rem;
+    transition: box-shadow 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+.admin-question-number {
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: #1a237e;
+    margin-bottom: 0.7rem;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 8px rgba(30,64,175,0.07);
+}
+.admin-question-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #1a237e;
+    margin-bottom: 0.7rem;
+}
+.admin-choice {
+    background: #f5f7fa;
+    border-radius: 10px;
+    padding: 0.9rem 1.2rem;
+    margin-bottom: 0.6rem;
+    font-size: 1.08rem;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    border-left: 5px solid transparent;
+    font-weight: 500;
+    transition: background 0.2s, border 0.2s;
+}
+.admin-choice.correct {
+    background: #e8f5e9;
+    color: #388e3c;
+    font-weight: 700;
+    border-left: 7px solid #43a047;
+    box-shadow: 0 2px 12px rgba(67,160,71,0.08);
+}
+.admin-choice.correct span {
+    font-size: 1.1em;
+    margin-left: 0.5em;
+}
+.admin-question-actions {
+    display: flex;
+    gap: 0.7rem;
+    margin-top: 0.7rem;
+}
+.admin-question-actions button {
+    background: linear-gradient(90deg, #1976d2 0%, #42a5f5 100%);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.4rem 1.1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 2px 8px rgba(25,118,210,0.08);
+}
+.admin-question-actions button:hover, .admin-question-actions button:focus {
+    background: linear-gradient(90deg, #1565c0 0%, #1976d2 100%);
+    transform: translateY(-2px) scale(1.04);
+}
+.admin-question-actions form {
+    display: inline-block;
+}
+@media (max-width: 900px) {
+    .admin-question-card {
+        padding: 1rem 0.5rem;
+    }
+    .admin-question-title {
+        font-size: 1rem;
+    }
+    .admin-question-number {
+        font-size: 1.1rem;
+    }
+}
+
+/* Admin Edit Question Form Styles */
+.admin-edit-form {
+    background: #f8fafc;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(25,118,210,0.07);
+    padding: 1.5rem 1.2rem 1.2rem 1.2rem;
+    margin-top: 1.2rem;
+    margin-bottom: 0.7rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    border: 1.5px solid #e3e7ef;
+    animation: dashboardFadeIn 0.5s cubic-bezier(.4,0,.2,1);
+}
+.admin-edit-form textarea,
+.admin-edit-form input[type='text'] {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border: 1.5px solid #cfd8dc;
+    border-radius: 7px;
+    font-size: 1.05rem;
+    margin-bottom: 0.7rem;
+    transition: border 0.2s, box-shadow 0.2s;
+}
+.admin-edit-form textarea:focus,
+.admin-edit-form input[type='text']:focus {
+    border-color: #1976d2;
+    outline: none;
+    box-shadow: 0 0 0 2px #90caf9;
+}
+.admin-edit-form input[type='file'] {
+    margin-bottom: 0.7rem;
+}
+.admin-edit-form button[type='submit'] {
+    background: linear-gradient(90deg, #1976d2 0%, #42a5f5 100%);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.6rem 1.3rem;
+    font-size: 1.08rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 0.7rem;
+    transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 2px 8px rgba(25,118,210,0.08);
+}
+.admin-edit-form button[type='submit']:hover,
+.admin-edit-form button[type='submit']:focus {
+    background: linear-gradient(90deg, #1565c0 0%, #1976d2 100%);
+    transform: translateY(-2px) scale(1.04);
+}
+.admin-edit-form img {
+    max-width: 120px;
+    max-height: 120px;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 2px 8px rgba(25,118,210,0.08);
+}
+
+/* Profile Page Styles */
+.profile-container {
+    max-width: 700px;
+    margin: 2.5rem auto;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(25,118,210,0.13);
+    padding: 2.5rem 2rem 2rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+.profile-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+.profile-header h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #1a237e;
+    margin-bottom: 0.3rem;
+}
+.profile-header p {
+    color: #1976d2;
+    font-size: 1.08rem;
+    margin-bottom: 0.2rem;
+}
+.profile-grid {
+    display: flex;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.profile-section {
+    background: #f8fafc;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(25,118,210,0.07);
+    padding: 1.5rem 1.2rem 1.2rem 1.2rem;
+    margin-bottom: 1.2rem;
+    flex: 1 1 320px;
+    min-width: 300px;
+}
+.danger-section {
+    background: #fff0f0;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(229,57,53,0.07);
+    padding: 1.5rem 1.2rem 1.2rem 1.2rem;
+    margin-bottom: 1.2rem;
+    flex: 1 1 320px;
+    min-width: 300px;
+}
+.profile-form input[type='text'],
+.profile-form input[type='email'],
+.profile-form input[type='password'] {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border: 1.5px solid #cfd8dc;
+    border-radius: 7px;
+    font-size: 1.05rem;
+    margin-bottom: 0.7rem;
+    transition: border 0.2s, box-shadow 0.2s;
+}
+.profile-form input:focus {
+    border-color: #1976d2;
+    outline: none;
+    box-shadow: 0 0 0 2px #90caf9;
+}
+.profile-form button[type='submit'] {
+    background: linear-gradient(90deg, #1976d2 0%, #42a5f5 100%);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.6rem 1.3rem;
+    font-size: 1.08rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 0.7rem;
+    transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 2px 8px rgba(25,118,210,0.08);
+    width: 100%;
+}
+.profile-form button[type='submit']:hover,
+.profile-form button[type='submit']:focus {
+    background: linear-gradient(90deg, #1565c0 0%, #1976d2 100%);
+    transform: translateY(-2px) scale(1.04);
+}
+.danger-section button[type='submit'] {
+    background: #e53935;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.6rem 1.3rem;
+    font-size: 1.08rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 0.7rem;
+    transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 2px 8px rgba(229,57,53,0.08);
+    width: 100%;
+}
+.danger-section button[type='submit']:hover,
+.danger-section button[type='submit']:focus {
+    background: #b71c1c;
+    transform: translateY(-2px) scale(1.04);
+}
+@media (max-width: 900px) {
+    .profile-container {
+        padding: 1.1rem 0.3rem 1rem 0.3rem;
+        max-width: 99vw;
+    }
+    .profile-header h2 {
+        font-size: 1.3rem;
+    }
+    .profile-grid {
+        flex-direction: column;
+        gap: 1.2rem;
+    }
 } 

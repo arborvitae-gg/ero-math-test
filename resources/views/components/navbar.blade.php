@@ -23,9 +23,11 @@
             @else
                 @if (Auth::user()->role === 'user')
                     <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">Dashboard</a>
+                    <a href="{{ route('profile.edit') }}" class="{{ request()->routeIs('profile.edit') ? 'active' : '' }}">Profile</a>
                 @elseif (Auth::user()->role === 'admin')
                     <a href="{{ route('admin.quizzes.index') }}" class="{{ request()->routeIs('admin.quizzes.*') ? 'active' : '' }}">Quizzes</a>
                     <a href="{{ route('admin.users.index') }}" class="{{ request()->routeIs('admin.users.*') ? 'active' : '' }}">Users</a>
+                    <a href="{{ route('profile.edit') }}" class="{{ request()->routeIs('profile.edit') ? 'active' : '' }}">Profile</a>
                     <!-- Add more admin links as needed -->
                 @endif
                 <form method="POST" action="{{ route('logout') }}" class="d-inline">

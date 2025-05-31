@@ -30,9 +30,15 @@ class Question extends Model
      */
     public function getQuestionImageUrlAttribute(): ?string
     {
-        return $this->question_image
-            ? env('SUPABASE_ENDPOINT')."/object/public/".env('SUPABASE_BUCKET')."/{$this->question_image}"
-            : null;
+        if (empty($this->question_image)) {
+            return null;
+        }
+
+        $endpoint = rtrim(env('SUPABASE_ENDPOINT'), '/');
+        $bucket = env('SUPABASE_BUCKET');
+        $path = ltrim($this->question_image, '/');
+
+        return "{$endpoint}/object/public/{$bucket}/{$path}";
     }
 
     /**

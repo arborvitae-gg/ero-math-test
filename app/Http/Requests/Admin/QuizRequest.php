@@ -62,6 +62,12 @@ class QuizRequest extends FormRequest
     {
         $data = parent::validated($key, $default);
         $data['is_posted'] = $this->has('is_posted');
+        // Combine timer fields if present
+        $data['timer'] = (
+            (int) $this->input('timer_h', 0) * 3600 +
+            (int) $this->input('timer_m', 0) * 60 +
+            (int) $this->input('timer_s', 0)
+        );
         return $data;
     }
 }

@@ -1,6 +1,6 @@
 @props(['question' => null, 'action', 'method', 'quiz' => null])
 
-<form method="POST" action="{{ $action }}" enctype="multipart/form-data">
+<form method="POST" action="{{ $action }}" enctype="multipart/form-data" class="admin-edit-form">
     @csrf
 
     @if ($method === 'PATCH')
@@ -27,6 +27,10 @@
 
         @if (!empty($question?->question_image_url))
             <img src="{{ $question->question_image_url }}" alt="Preview">
+            <label>
+                <input type="checkbox" name="remove_question_image" value="1">
+                Remove image
+            </label>
         @endif
     </div>
 
@@ -44,6 +48,10 @@
 
         @if (!empty($firstChoice?->choice_image_url))
             <img src="{{ $firstChoice->choice_image_url }}" alt="Preview">
+            <label>
+                <input type="checkbox" name="choices[0][remove_choice_image]" value="1">
+                Remove image
+            </label>
         @endif
     </div>
 
@@ -64,6 +72,10 @@
 
             @if (!empty($choice?->choice_image_url))
                 <img src="{{ $choice->choice_image_url }}" alt="Preview">
+                <label>
+                    <input type="checkbox" name="choices[{{ $i }}][remove_choice_image]" value="1">
+                    Remove image
+                </label>
             @endif
         </div>
     @endfor

@@ -1,20 +1,24 @@
 {{-- resources/views/components/quiz-results-details.blade.php --}}
 <div x-data="{ order: 'admin' }">
     {{-- User info and score --}}
-    <div class="quiz-results-meta">
+    <div class="quiz-results-meta-row">
         @if (!isset($hideUser) || !$hideUser)
-            <h3>User: </h3>
-            <p>{{ $quizUser->user->first_name . ' ' . $quizUser->user->last_name }}</p>
+            <div class="quiz-results-meta-col">
+                <div class="quiz-results-meta-label">User:</div>
+                <div class="quiz-results-meta-value">{{ $quizUser->user->first_name . ' ' . $quizUser->user->last_name }}</div>
+            </div>
         @endif
-
-        <h3>Category: </h3>
-        <p>{{ $quizUser->category->name }}</p>
-
-        <h3>Score:</h3>
-        <div class="quiz-results-score">
-            {{ $quizUser->attempts->where('is_correct', true)->count() }}
-            /
-            {{ $quizUser->attempts->count() }}
+        <div class="quiz-results-meta-col">
+            <div class="quiz-results-meta-label">Category:</div>
+            <div class="quiz-results-meta-value">{{ $quizUser->category->name }}</div>
+        </div>
+        <div class="quiz-results-meta-col">
+            <div class="quiz-results-meta-label">Score:</div>
+            <div class="quiz-results-meta-value quiz-results-score-row">
+                {{ $quizUser->attempts->where('is_correct', true)->count() }}
+                /
+                {{ $quizUser->attempts->count() }}
+            </div>
         </div>
     </div>
 
