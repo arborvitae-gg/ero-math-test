@@ -11,12 +11,22 @@
     </title>
 
     {{-- Styles / Scripts --}}
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite([
+        'resources/css/app.css',
+        'resources/css/navbar.css',
+        'resources/js/app.js'
+    ])
+
+    <style>
+        body {
+            padding-top: 80px; /* Add padding to prevent navbar overlap */
+        }
+    </style>
 </head>
 
 <body>
     <div>
-        @include('layouts.navigation')
+        <x-navbar />
 
         {{-- Page Heading --}}
         @isset($header)
@@ -32,6 +42,8 @@
             {{ $slot }}
         </main>
     </div>
+
+    @stack('scripts')
 </body>
 
 </html>
