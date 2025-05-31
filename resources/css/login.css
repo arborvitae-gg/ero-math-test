@@ -1,0 +1,128 @@
+.login-links {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.login-links a {
+    color: blue;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.login-links a:hover {
+    text-decoration: underline;
+}
+
+.login-container {
+    max-width: 400px;
+    margin: 2rem auto;
+}
+
+.login-header {
+    margin-bottom: 20px;
+}
+
+.login-header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.login-header p {
+    margin: 5px 0 0;
+    color: #666;
+}
+
+form div {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.remember-me input[type="checkbox"] {
+    margin: 0;
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 8px;
+    background: #4a90e2;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.login-footer {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.login-footer a {
+    color: blue;
+    text-decoration: none;
+}
+
+.login-footer a:hover {
+    text-decoration: underline;
+}
+
+.login-footer p {
+    margin-top: 10px;
+}
+
+/* Alert styles */
+.alert {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    font-size: 0.875rem;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+/* Error message styles */
+.text-sm {
+    font-size: 0.875rem;
+}
+
+.text-red-600 {
+    color: #dc3545;
+}
+
+.space-y-1 > * + * {
+    margin-top: 0.25rem;
+}
+
+ul.text-red-600 {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .login-container {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+} 
