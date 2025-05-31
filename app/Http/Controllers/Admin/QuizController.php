@@ -62,13 +62,6 @@ class QuizController
     public function store(QuizRequest $request)
     {
         try {
-            $request->merge([
-                'timer' => (
-                    (int) $request->input('timer_h', 0) * 3600 +
-                    (int) $request->input('timer_m', 0) * 60 +
-                    (int) $request->input('timer_s', 0)
-                )
-            ]);
             $this->service->store($request->validated());
             return redirect()->route('admin.quizzes.index')->with('status', 'Quiz created!');
         }
@@ -91,13 +84,6 @@ class QuizController
     public function update(QuizRequest $request, Quiz $quiz)
     {
         try {
-            $request->merge([
-                'timer' => (
-                    (int) $request->input('timer_h', 0) * 3600 +
-                    (int) $request->input('timer_m', 0) * 60 +
-                    (int) $request->input('timer_s', 0)
-                )
-            ]);
             $this->service->update($quiz, $request->validated());
             return redirect()->route('admin.quizzes.index')->with('status', 'Quiz updated!');
         }

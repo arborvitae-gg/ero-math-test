@@ -34,3 +34,5 @@ function sortTable(n) {
         }
     }
 }
+// Attach the sortTable function to the global window object
+window.sortTable = sortTable;

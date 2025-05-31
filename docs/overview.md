@@ -22,22 +22,42 @@ This web application is designed for online math quiz competitions. It supports 
 
 ## Process Flow
 
-1. **Registration & Login**
+### For Admins
 
-    - Users register their details via the registration form.
-    - Users verify their accocunt by clicking the link sent to their registered email.
-    - After account verification, users are authenticated and redirected to their dashboard.
+1. **Authentication**
+
+    - Admin accounts are seeded directly to the database.
+    - Admins verify their account via email.
+    - After verification, admins log in and access the admin dashboard.
+    - Edit account details of default admin account such as name, email, and password.
 
 2. **Quiz Lifecycle**
 
-    - Admins create quizzes, add questions (with images and choices), and post quizzes when ready.
+    - Create quizzes, add/edit/delete questions, and post quizzes when ready.
     - Once posted, quizzes are locked for editing.
+
+3. **User Management**
+
+    - Monitor registered users and delete users if needed.
+
+4. **Results Review**
+
+    - View all users' quiz attempts and see which answers were correct/incorrect.
+
+### For Users
+
+1. **Authentication**
+
+    - Users register their details via the registration form.
+    - Users verify their account by clicking the link sent to their registered email.
+    - After account verification, users are authenticated and redirected to their dashboard.
+
+2. **Quiz Participation**
+
     - Users see available quizzes based on their grade/category.
-    - Users start a quiz, answer questions in random order, and submit when done(or when timer runs out).
-    - Each answer is saved per question; skipped questions are recorded.
+    - Users start a quiz, answer questions in random order, and submit when done (or when timer runs out).
 
 3. **Scoring & Results**
 
     - Scores are calculated automatically upon submission.
-    - Admins can review all users' quiz attempts and see which answers were correct/incorrect.
     - Users can view results and see which answers were correct/incorrect.
