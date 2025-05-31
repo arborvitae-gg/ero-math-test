@@ -1,9 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-/* Import your component styles */
-@import 'navbar.css';
-@import 'login.css';
-
 /* Reset and base styles */
 * {
     margin: 0;
