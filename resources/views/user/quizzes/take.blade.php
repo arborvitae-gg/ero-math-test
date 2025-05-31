@@ -1,33 +1,20 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2>{{ $quizUser->quiz->title }}</h2>
+        {{-- Removed extra title --}}
     </x-slot>
 
     <div x-data="quizHandler()" class="quiz-container">
-
-        <div class="progress-bar">
-            <div class="progress-fill"></div>
-        </div>
-
-        <h3>
-            Question {{ $quizUser->current_question }} of {{ count($quizUser->question_order) }}
-        </h3>
-
-        @if ($quizDuration !== null)
-            <div class="timer-container">
-                <span id="quiz-timer" class="quiz-timer"></span>
-            </div>
-        @endif
-
+        {{-- Removed progress bar, question number, and timer above the card --}}
         <div class="question-container">
             {{-- partials/answer-form.blade.php --}}
             @include('user.quizzes.partials.answer-form', [
                 'quizUser' => $quizUser,
                 'question' => $question,
                 'choices' => $choices,
+                'quizDuration' => $quizDuration,
+                'remainingTime' => $remainingTime ?? null,
             ])
         </div>
-
         @if ($quizDuration !== null)
             <form id="auto-submit-form" action="{{ route('user.quizzes.attempts.submit', [$quiz, $quizUser]) }}"
                 method="POST">

@@ -1,8 +1,7 @@
 {{-- resources/views/components/quiz-results-details.blade.php --}}
 <div x-data="{ order: 'admin' }">
-
     {{-- User info and score --}}
-    <div>
+    <div class="quiz-results-meta">
         @if (!isset($hideUser) || !$hideUser)
             <h3>User: </h3>
             <p>{{ $quizUser->user->first_name . ' ' . $quizUser->user->last_name }}</p>
@@ -12,34 +11,19 @@
         <p>{{ $quizUser->category->name }}</p>
 
         <h3>Score:</h3>
-        <p>
+        <div class="quiz-results-score">
             {{ $quizUser->attempts->where('is_correct', true)->count() }}
             /
             {{ $quizUser->attempts->count() }}
-        </p>
-
-        <h3>Quiz Duration:</h3>
-        <p>
-            @if ($quizUser->quiz && $quizUser->quiz->timer)
-                @php
-                    $seconds = $quizUser->quiz->timer;
-                    $hours = floor($seconds / 3600);
-                    $minutes = floor(($seconds % 3600) / 60);
-                    $secs = $seconds % 60;
-                @endphp
-                {{ $hours > 0 ? $hours . 'h ' : '' }}{{ $minutes > 0 ? $minutes . 'm ' : '' }}{{ $secs }}s
-            @else
-                No Timer
-            @endif
-        </p>
-
+        </div>
+        
         <h3>Attempt Duration:</h3>
-        <p>
+        <div class="quiz-results-score">
             <x-duration-display :start="$quizUser->started_at" :end="$quizUser->completed_at" />
-        </p>
+        </div>
     </div>
 
-    <div>
+    <div class="quiz-results-order-toggle">
         <button type="button" @click="order = 'admin'" :class="order === 'admin' ? 'active' : ''">Default Order
         </button>
         <button type="button" @click="order = 'user'" :class="order === 'user' ? 'active' : ''">User's Randomized
