@@ -12,6 +12,7 @@
     @vite([
         'resources/css/app.css',
         'resources/css/dashboard.css',
+        'resources/css/admin.css',
         'resources/js/app.js',
     ])
 

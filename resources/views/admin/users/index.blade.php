@@ -1,13 +1,13 @@
 <x-app-layout>
 
     <x-slot name="header">
-        <h2>
+        <h2 class="dashboard-title">
             {{ __('Registered Users') }}
         </h2>
     </x-slot>
 
     <div>
-        <table id="users-table">
+        <table class="admin-table" id="users-table">
             <thead>
                 <tr>
                     <th onclick="sortTable(0)">First Name</th>
@@ -36,7 +36,7 @@
                                 onsubmit="return confirm('Are you sure you want to delete this user (Quiz scores/data included)? This action cannot be undone.');">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Delete</button>
+                                <button type="submit" class="admin-action-btn danger">Delete</button>
                             </form>
                         </td>
                     </tr>

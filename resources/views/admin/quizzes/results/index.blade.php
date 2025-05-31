@@ -1,19 +1,47 @@
+{{-- Remove the default header slot title --}}
+{{-- <x-slot name="header">
+    <h2>{{ $quiz->title }} {{ __(' Results') }}</h2>
+</x-slot> --}}
+
 <x-app-layout>
     <x-slot name="header">
-        <h2>{{ $quiz->title }} {{ __(' Results') }}</h2>
+        <div class="results-header-center">
+            <h2>{{ $quiz->title }} {{ __(' Results') }}</h2>
+        </div>
     </x-slot>
 
-    {{-- Back Button --}}
-    <div>
-        <a href="{{ route('admin.quizzes.index') }}">
-            &larr; Back to Quizzes</a> {{-- &larr: back arrow --}}
+    <div class="results-back-link-container">
+        <a href="{{ route('admin.quizzes.index') }}" class="results-back-link">&larr; Back to Quizzes</a>
     </div>
 
-    <div>
-        <table>
-            <div>
-                <thead>
+    <div class="results-table-container">
+        {{-- Remove the results-title from inside the container --}}
+        {{-- <h2 class="results-title">{{ $quiz->title }} <span>Results</span></h2> --}}
+        <table class="results-table">
+            <thead>
+                <tr>
+                    <th>User Name</th>
+                    <th>Category</th>
+                    <th>Score</th>
+                    <th>Total Questions</th>
+                    <th></th> {{-- Empty header for action links --}}
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($quizUsers as $quizUser)
                     <tr>
+<<<<<<< HEAD
+                        <td>{{ $quizUser->user->first_name . ' ' . $quizUser->user->last_name }}</td>
+                        <td>{{ $quizUser->category->name }}</td>
+                        <td>{{ $quizUser->total_score }}</td>
+                        <td>{{ $quiz->questions->where('category_id', $quizUser->category_id)->count() }}</td>
+                        <td>
+                            <a href="{{ route('admin.quizzes.results.show', [$quiz, $quizUser]) }}" class="results-view-link">View Results</a>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+=======
                         <th>User Name</th>
                         <th>Category</th>
                         <th>Score</th>
@@ -48,6 +76,7 @@
                     @endforeach
                 </tbody>
             </div>
+>>>>>>> 76ba17ce2df6128e2015938789bc33271dca9fb6
         </table>
     </div>
 </x-app-layout>

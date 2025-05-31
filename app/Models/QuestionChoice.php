@@ -30,9 +30,15 @@ class QuestionChoice extends Model
      */
     public function getChoiceImageUrlAttribute(): ?string
     {
-        return $this->choice_image
-            ? env('SUPABASE_ENDPOINT')."/object/public/".env('SUPABASE_BUCKET')."/{$this->choice_image}"
-            : null;
+        if (empty($this->choice_image)) {
+            return null;
+        }
+
+        $endpoint = rtrim(env('SUPABASE_ENDPOINT'), '/');
+        $bucket = env('SUPABASE_BUCKET');
+        $path = ltrim($this->choice_image, '/');
+
+        return "{$endpoint}/object/public/{$bucket}/{$path}";
     }
 
     /**
